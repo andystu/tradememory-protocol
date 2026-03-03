@@ -65,10 +65,28 @@ def validate(db_path: str):
     results.append(('MR-001', mr001_match['pattern_id'] if mr001_match else '-', status, notes))
 
     # --- MR-002: MR lot sizing too small at high ATR ---
-    # This requires ATR data not in DB. Mark as PARTIAL if MR analysis exists.
-    status = 'PARTIAL' if mr_patterns else 'NOT_FOUND'
-    notes = 'Lot size/ATR analysis not available in trade_records (needs external data)'
-    results.append(('MR-002', '-', status, notes))
+    mr002_match = None
+    for p in mr_patterns:
+        if p['pattern_id'] == 'AUTO-MR-003':
+            mr002_match = p
+            break
+
+    if mr002_match:
+        m = mr002_match['metrics']
+        shrinkage = m.get('shrinkage_pct', 0)
+        if shrinkage > 30:
+            status = 'CONFIRMED'
+            notes = (
+                f"lot shrinkage {shrinkage:.0f}%: "
+                f"recent avg {m['recent_avg_lot']:.3f} vs earlier avg {m['earlier_avg_lot']:.3f}"
+            )
+        else:
+            status = 'PARTIAL'
+            notes = f"lot shrinkage only {shrinkage:.0f}% (threshold 30%)"
+    else:
+        status = 'PARTIAL' if mr_patterns else 'NOT_FOUND'
+        notes = 'No lot_size shrinkage pattern detected'
+    results.append(('MR-002', mr002_match['pattern_id'] if mr002_match else '-', status, notes))
 
     # --- FX-001: IM is only profitable strategy on forex (EURUSD) ---
     sym_patterns = by_type.get('symbol_fit', [])
@@ -105,17 +123,28 @@ def validate(db_path: str):
             break
 
     if fx002_match:
-        symbols = fx002_match['metrics'].get('symbols', {})
+        m = fx002_match['metrics']
+        symbols = m.get('symbols', {})
         xauusd = symbols.get('XAUUSD', {})
-        # Check if XAUUSD RR is higher than other symbols
-        other_rrs = [s['rr'] for sym, s in symbols.items() if sym != 'XAUUSD' and 'rr' in s]
         xauusd_rr = xauusd.get('rr', 0)
-        if xauusd_rr > 0 and other_rrs and xauusd_rr > max(other_rrs):
+
+        # Single-symbol specialization: VB only trades XAUUSD
+        if m.get('single_symbol') and m.get('pnl_advantage', 0) >= 50:
             status = 'CONFIRMED'
-            notes = f"XAUUSD RR={xauusd_rr:.2f} > forex RR={max(other_rrs):.2f}"
+            notes = (
+                f"VB {m['best_symbol']}-only PnL {xauusd.get('pnl_pct', 0):+.1f}% "
+                f"(RR {xauusd_rr:.2f}) vs non-{m['best_symbol']} avg "
+                f"PnL {m['other_avg_pnl_pct']:+.1f}% (RR {m['other_avg_rr']:.2f})"
+            )
+        # Multi-symbol comparison (original logic)
         elif xauusd_rr > 0:
-            status = 'PARTIAL'
-            notes = f"XAUUSD RR={xauusd_rr:.2f}, comparison incomplete"
+            other_rrs = [s['rr'] for sym, s in symbols.items() if sym != 'XAUUSD' and 'rr' in s]
+            if other_rrs and xauusd_rr > max(other_rrs):
+                status = 'CONFIRMED'
+                notes = f"XAUUSD RR={xauusd_rr:.2f} > forex RR={max(other_rrs):.2f}"
+            else:
+                status = 'PARTIAL'
+                notes = f"XAUUSD RR={xauusd_rr:.2f}, comparison incomplete"
         else:
             status = 'PARTIAL'
             notes = 'VB symbol fit found but RR data incomplete'

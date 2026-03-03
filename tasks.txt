@@ -1,0 +1,22 @@
+# TradeMemory ROADMAP Phase 2-5 Tasks
+# 每個任務獨立 session，自足執行
+
+在 C:/Users/johns/projects/mnemox-ai.github.io/ 目錄下，建立 tradememory/index.html landing page。Hero section：AI Trading Memory for MT5/Forex Traders。功能展示：3-Layer Memory、AI Reflection、Pattern Discovery、Daily Reports。加 Claude Desktop 整合說明。風格參考現有 index.html 和 check/index.html。完成後 git add tradememory/ && git commit -m "feat: add TradeMemory landing page" && git push。然後到 C:/Users/johns/projects/tradememory-protocol/ 更新 ROADMAP.md 把 Task 2.1 標記 ✅，commit -m "docs: mark Task 2.1 complete" && git push。
+
+在 C:/Users/johns/projects/mnemox-ai.github.io/ 目錄下，在 tradememory/index.html 加入 Pricing section（或獨立頁面）。三方案：Trader $29/月、Pro $79/月、Fund $299/月。Credit 制 pay-as-you-go。Coming Soon 標記。早鳥 email 收集表單。完成後 git commit -m "feat: add pricing page" && git push。然後到 C:/Users/johns/projects/tradememory-protocol/ 更新 ROADMAP.md 把 Task 2.2 標記 ✅，commit && push。
+
+在 C:/Users/johns/projects/tradememory-protocol/ 目錄下，建立 marketing/forex-factory-post.md。標題、內容、截圖說明。重點：First AI trading memory for MT5。語調：交易者對交易者。完成後跑 python -m pytest tests/ -v 確認沒壞，git commit -m "docs: add Forex Factory promotional content" && git push，更新 ROADMAP.md Task 3.1 ✅。
+
+在 C:/Users/johns/projects/tradememory-protocol/ 目錄下，建立 marketing/reddit-post.md 和 marketing/mql5-post.md。每個平台語調不同。完成後跑 pytest，git commit -m "docs: add Reddit and MQL5 promotional content" && git push，更新 ROADMAP.md Task 3.2 ✅。
+
+在 C:/Users/johns/projects/tradememory-protocol/ 目錄下，建立 marketing/demo-script.md。2-3 分鐘影片腳本。場景：打開 Claude Desktop → 問交易績效 → 跑 reflection → 收到報告。完成後跑 pytest，git commit -m "docs: add demo video script" && git push，更新 ROADMAP.md Task 3.3 ✅。
+
+在 C:/Users/johns/projects/tradememory-protocol/ 目錄下，建立 docs/hosted-api-spec.md。REST API 端點定義、API Key 認證、Rate limiting、定價邏輯（credit 制 + 月費制）。完成後跑 pytest，git commit -m "docs: add hosted API specification" && git push，更新 ROADMAP.md Task 4.1 ✅。
+
+在 C:/Users/johns/projects/tradememory-protocol/ 目錄下，建立 hosted/server.py。FastAPI 實作基本端點：store_trade、recall_trades、get_performance。API key 認證。SQLite 儲存。完成後跑 pytest，git commit -m "feat: add hosted API server (MVP)" && git push，更新 ROADMAP.md Task 4.2 ✅。
+
+在 C:/Users/johns/projects/tradememory-protocol/ 目錄下，建立 Dockerfile、docker-compose.yml、部署文件。Health check endpoint。目標域名 mcp.mnemox.ai。完成後跑 pytest，git commit -m "feat: add deployment configuration" && git push，更新 ROADMAP.md Task 4.3 ✅。
+
+在 mnemox-ai org 建立新 repo agent-payment-rails（用 gh repo create mnemox-ai/agent-payment-rails --public --description "Stripe for AI Agents - Payment rails for autonomous AI agent transactions"）。建立 README.md 包含願景、定位、與 MeshCore 差異。git commit -m "feat: initial repo with vision document" && git push。然後到 C:/Users/johns/projects/tradememory-protocol/ 更新 ROADMAP.md Task 5.1 ✅，commit && push。
+
+在 C:/Users/johns/projects/agent-payment-rails/ 目錄下（先 clone 如果不存在），建立 docs/mvp-spec.md。Stripe integration plan、Agent wallet 概念、Fiat on/off-ramp 流程。git commit -m "docs: add MVP specification" && git push。然後到 C:/Users/johns/projects/tradememory-protocol/ 更新 ROADMAP.md Task 5.2 ✅，commit && push。
