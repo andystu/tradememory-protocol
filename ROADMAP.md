@@ -109,10 +109,11 @@
 
 ## Phase 5：AI Agent Payment Rails 卡位（本月，P2）
 
-### Task 5.1：建立 agent-payment-rails repo ❌
+### Task 5.1：建立 agent-payment-rails repo ✅
 - 在 mnemox-ai org 建立新 repo
 - README：願景、定位（Stripe for AI Agents）、與 MeshCore 差異
-- Commit: `feat: initial repo with vision document`
+- Repo: https://github.com/mnemox-ai/agent-payment-rails
+- Commit: `feat: initial repo with vision document` → `f87eafc`
 
 ### Task 5.2：撰寫 MVP Spec ❌
 - `docs/mvp-spec.md`
@@ -131,4 +132,4 @@
 | Phase 2：Landing Page | ✅ 完成 | 2026-03-03 |
 | Phase 3：推廣素材 | ✅ 完成 | 2026-03-03 |
 | Phase 4：Hosted API | 🔄 進行中 | - |
-| Phase 5：Payment Rails | ❌ 未開始 | - |
+| Phase 5：Payment Rails | 🔄 進行中 | - |
