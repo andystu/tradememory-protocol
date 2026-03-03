@@ -59,7 +59,7 @@
 
 ## Phase 3：社群推廣素材（本週）
 
-### Task 3.1：撰寫 Forex Factory 推廣帖 ❌
+### Task 3.1：撰寫 Forex Factory 推廣帖 ✅
 - 在 repo 建立 `marketing/forex-factory-post.md`
 - 標題、內容、截圖說明
 - 重點：「First AI trading memory for MT5」
@@ -128,6 +128,6 @@
 |-------|------|----------|
 | Phase 1：OpenClaw Skill | ✅ 完成 | 2026-03-03 |
 | Phase 2：Landing Page | ✅ 完成 | 2026-03-03 |
-| Phase 3：推廣素材 | ❌ 未開始 | - |
+| Phase 3：推廣素材 | 🔄 進行中 | - |
 | Phase 4：Hosted API | ❌ 未開始 | - |
 | Phase 5：Payment Rails | ❌ 未開始 | - |
