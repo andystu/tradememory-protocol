@@ -7,6 +7,33 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+_No unreleased changes._
+
+---
+
+## [0.3.1] - 2026-03-03
+
+### Added
+- `scripts/generate_screenshots.py` — generates demo output for documentation
+- `ROADMAP.md` — 5-phase development roadmap
+- OpenClaw Skill (`.skills/tradememory/SKILL.md`) with env var declarations and security section
+- Hosted API server (`hosted/server.py`) with account isolation and API key auth
+- Marketing materials (`marketing/`) for Forex Factory, Reddit, MQL5
+
+### Changed
+- Repository reorganized: scripts, docs, and deploy configs moved to proper subdirectories
+- All path references updated across 25+ files
+- README architecture diagram replaced with Mermaid (GitHub-native rendering)
+- Test count unified across all documentation (203 tests)
+
+### Fixed
+- ClawHub security scan "Suspicious" marking — env vars now declared in Skill frontmatter
+- `test_hosted_server.py` import errors — added `pytest.importorskip("fastapi")`
+
+---
+
+## [0.3.0] - 2026-03-01
+
 ### Added
 - **L3 Strategy Adjustments** — Rule-based strategy tuning from L2 patterns
   - `strategy_adjustments` table in SQLite with proposed/approved/applied/rejected lifecycle
@@ -14,7 +41,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
   - `generate_l3_adjustments()` in ReflectionEngine — reads L2 patterns, outputs proposed adjustments
   - 3 CRUD methods in Database: `insert_adjustment`, `query_adjustments`, `update_adjustment_status`
   - 3 REST API endpoints: `POST /reflect/generate_adjustments`, `GET /adjustments/query`, `POST /adjustments/update_status`
-  - 21 new tests (CRUD, 5 rules, edge cases, integration) — total 181 tests passing
+  - 21 new tests (CRUD, 5 rules, edge cases, integration)
   - `demo.py` Step 6: production L1→L2→L3 pipeline
 - GitHub Actions CI — Python 3.10/3.11/3.12 matrix testing on push/PR
 - `scripts/record_demo.py` — Rich-formatted demo for terminal recording
