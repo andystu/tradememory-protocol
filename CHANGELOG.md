@@ -11,6 +11,38 @@ _No unreleased changes._
 
 ---
 
+## [0.4.0] - 2026-03-05
+
+### Added
+- **Outcome-Weighted Memory (OWM)** — cognitive science-based recall system for AI trading agents
+  - 5 memory types: Episodic trade events, Semantic strategy rules, Procedural behavioral patterns, Affective confidence/risk state, Prospective conditional plans
+  - Core recall formula: `Score(m,C) = Q(m) * Sim(m,C) * Rec(m) * Conf(m) * Aff(m)`
+  - Based on ACT-R (Anderson 2007), Kelly Criterion (Kelly 1956), Bayesian updating, and Tulving's memory taxonomy
+- 6 new MCP tools (10 total):
+  - `remember_trade` — store trade with full OWM episodic encoding
+  - `recall_memories` — outcome-weighted recall with score breakdown
+  - `get_behavioral_analysis` — procedural memory behavioral bias detection
+  - `get_agent_state` — affective state (confidence, risk appetite, drawdown)
+  - `create_trading_plan` — prospective memory conditional plans
+  - `check_active_plans` — trigger condition matching against current context
+- Kelly-from-memory position sizing with fractional Kelly and risk appetite adjustment
+- `docs/OWM_FRAMEWORK.md` — 1,875-line theoretical specification
+- OWM data migration utility (`owm/migration.py`)
+- 5 new OWM database tables (episodic, semantic, procedural, affective, prospective)
+- 7 new REST API endpoints under `/owm/` prefix
+- 196 new tests (399 total)
+
+### Changed
+- `recall_similar_trades` MCP tool now auto-upgrades to OWM formula when episodic data exists (falls back to original logic otherwise)
+- REST API server expanded with 7 new OWM endpoints under `/owm/` prefix
+
+### Migration
+- Zero breaking changes. All 4 original MCP tools work identically.
+- New OWM tools are additive — use them when ready.
+- Run `migration.py` to convert existing trade data to episodic format (optional).
+
+---
+
 ## [0.3.1] - 2026-03-03
 
 ### Added
