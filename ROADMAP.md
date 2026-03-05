@@ -124,6 +124,24 @@
 
 ---
 
+## Phase 6：OWM Architecture（Outcome-Weighted Memory） ✅
+
+### Task 6.1：OWM 理論框架 ✅
+- `docs/OWM_FRAMEWORK.md`（1,875 行完整規格）
+- 5 記憶類型定義（Episodic / Semantic / Procedural / Affective / Prospective）+ 核心公式推導 + 邊界條件 + 收斂性證明
+- 金融驗證（ACT-R + Kelly + Bayesian + Prospect Theory + HMM，20+ 參考文獻）
+- Commit: `ba10b5a`
+
+### Task 6.2：OWM 實作 ✅
+- 5 個 OWM 模組（`src/tradememory/owm/`：context.py / recall.py / kelly.py / migration.py / __init__.py）
+- db.py 擴充（5 張新表 + CRUD 方法）
+- mcp_server.py 擴充（4 原有 tool 升級 + 6 新 tool = 10 total）
+- server.py 擴充（7 個新 REST endpoint）
+- 196 新 tests（399 total, 0 failures）
+- Commit: `ba10b5a`
+
+---
+
 ## 進度追蹤
 
 | Phase | 狀態 | 完成日期 |
@@ -133,3 +151,4 @@
 | Phase 3：推廣素材 | ✅ 完成 | 2026-03-03 |
 | Phase 4：Hosted API | ✅ 完成 | 2026-03-03 |
 | Phase 5：Payment Rails | ✅ 完成 | 2026-03-03 |
+| Phase 6：OWM Architecture | ✅ 完成 | 2026-03-05 |
