@@ -93,4 +93,6 @@ def context_similarity(c1: ContextVector, c2: ContextVector) -> float:
         similarity = math.exp(-0.5 * ratio * ratio)
         score += weight * similarity
 
-    return score / total_weight if total_weight > 0 else 0.0
+    # When no fields overlap, return 0.5 (neutral) instead of 0.0 (exclusion).
+    # This prevents killing recall score when context data is sparse.
+    return score / total_weight if total_weight > 0 else 0.5

@@ -901,10 +901,21 @@ async def owm_recall(req: RecallMemoriesRequest):
         symbol_upper = req.symbol.upper()
         memory_types = req.memory_types or ["episodic", "semantic"]
 
+        # Parse session hint from market_context text
+        _mc = (req.market_context or "").lower()
+        _session = None
+        if "london" in _mc:
+            _session = "london"
+        elif "asian" in _mc or "asia" in _mc:
+            _session = "asian"
+        elif "newyork" in _mc or "new york" in _mc:
+            _session = "newyork"
+
         query_context = ContextVector(
             symbol=symbol_upper,
             regime=req.context_regime,
             atr_d1=req.context_atr_d1,
+            session=_session,
         )
 
         candidates: List[Dict[str, Any]] = []

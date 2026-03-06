@@ -10,7 +10,7 @@ setlocal
 
 set PYTHON=C:\Users\johns\AppData\Local\Python312\python.exe
 set PROJECT_DIR=C:\Users\johns\projects\tradememory-protocol
-set SCRIPT=%PROJECT_DIR%\mt5_sync.py
+set SCRIPT=%PROJECT_DIR%\scripts\mt5_sync.py
 set LOG_DIR=%PROJECT_DIR%\logs
 set RESTART_DELAY=30
 

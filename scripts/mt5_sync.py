@@ -301,10 +301,16 @@ def sync_trade_to_memory(position: Dict[str, Any]) -> bool:
     else:
         session = "newyork"
 
-    market_context = {
+    market_context_text = (
+        f"{symbol} {direction} entry at {entry_price:.2f} during {session} session. "
+        f"Strategy: {strategy}. Hold duration: {hold_duration} minutes."
+    )
+
+    market_context_dict = {
+        "description": market_context_text,
         "price": entry_price,
         "session": session,
-        "magic_number": magic
+        "magic_number": magic,
     }
 
     # Record decision + outcome
@@ -319,7 +325,7 @@ def sync_trade_to_memory(position: Dict[str, Any]) -> bool:
                 "strategy": strategy,
                 "confidence": 0.5,  # Default - MT5 doesn't store this
                 "reasoning": f"Auto-synced from MT5 (magic={magic})",
-                "market_context": market_context,
+                "market_context": market_context_dict,
                 "references": []
             },
             timeout=10

@@ -113,10 +113,11 @@ class TestPartialMatch:
 # --- None handling ---
 
 class TestNoneHandling:
-    def test_all_none_returns_zero(self):
+    def test_all_none_returns_neutral(self):
+        """When no fields overlap, return 0.5 (neutral) to avoid killing recall scores."""
         c1 = ContextVector()
         c2 = ContextVector()
-        assert context_similarity(c1, c2) == 0.0
+        assert context_similarity(c1, c2) == 0.5
 
     def test_one_side_none_categorical_skipped(self):
         c1 = _make_context(regime=None)

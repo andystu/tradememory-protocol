@@ -298,7 +298,16 @@ async def recall_similar_trades(
     # Check if episodic memory has data — use OWM if available
     episodic_check = db.query_episodic(strategy=strategy_name, limit=1)
     if episodic_check:
-        query_context = ContextVector(symbol=symbol_upper)
+        # Parse session hint from market_context text
+        _mc = (market_context or "").lower()
+        _session = None
+        if "london" in _mc:
+            _session = "london"
+        elif "asian" in _mc or "asia" in _mc:
+            _session = "asian"
+        elif "newyork" in _mc or "new york" in _mc:
+            _session = "newyork"
+        query_context = ContextVector(symbol=symbol_upper, session=_session)
         all_episodic = db.query_episodic(strategy=strategy_name, limit=limit * 5)
 
         candidates = []
@@ -673,10 +682,21 @@ async def recall_memories(
     if memory_types is None:
         memory_types = ["episodic", "semantic"]
 
+    # Parse session hint from market_context text
+    _mc = (market_context or "").lower()
+    _session = None
+    if "london" in _mc:
+        _session = "london"
+    elif "asian" in _mc or "asia" in _mc:
+        _session = "asian"
+    elif "newyork" in _mc or "new york" in _mc:
+        _session = "newyork"
+
     query_context = ContextVector(
         symbol=symbol_upper,
         regime=context_regime,
         atr_d1=context_atr_d1,
+        session=_session,
     )
 
     candidates: List[Dict[str, Any]] = []
