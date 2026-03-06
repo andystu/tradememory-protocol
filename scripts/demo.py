@@ -23,11 +23,17 @@ if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-# Use local imports so demo works from repo root
-from src.tradememory.db import Database
-from src.tradememory.journal import TradeJournal
-from src.tradememory.reflection import ReflectionEngine
-from src.tradememory.state import StateManager
+# Try package imports first (pip install), fall back to local (repo root)
+try:
+    from tradememory.db import Database
+    from tradememory.journal import TradeJournal
+    from tradememory.reflection import ReflectionEngine
+    from tradememory.state import StateManager
+except ImportError:
+    from src.tradememory.db import Database
+    from src.tradememory.journal import TradeJournal
+    from src.tradememory.reflection import ReflectionEngine
+    from src.tradememory.state import StateManager
 
 
 # ─────────────────────────────────────────────────────

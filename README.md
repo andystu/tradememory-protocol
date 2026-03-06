@@ -64,8 +64,10 @@ graph LR
 No API key needed. Runs 30 simulated trades through the full pipeline:
 
 ```bash
-pip install tradememory-protocol
-python -c "from tradememory.demo import run; run()" 2>/dev/null || python scripts/demo.py
+git clone https://github.com/mnemox-ai/tradememory-protocol.git
+cd tradememory-protocol
+pip install -e .
+python scripts/demo.py
 ```
 
 <details>
