@@ -9,10 +9,9 @@ All imported trades have source="backtest" in their reasoning field.
 
 import os
 import re
-import json
-from datetime import datetime, timezone, timedelta
-from typing import List, Dict, Any, Optional, Tuple
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 def classify_session(hour: int) -> str:

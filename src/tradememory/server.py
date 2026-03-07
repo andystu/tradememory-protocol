@@ -3,28 +3,27 @@ TradeMemory MCP Server - FastAPI implementation.
 Implements MCP tools from Blueprint Section 3.1.
 """
 
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import Optional, List, Dict, Any
-
 import json
 import uuid
 from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, List, Optional
 
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+from .adaptive_risk import AdaptiveRisk
 from .db import Database
 from .journal import TradeJournal
-from .state import StateManager
-from .reflection import ReflectionEngine
+from .models import SessionState, TradeDirection, TradeProposal
 from .mt5_connector import MT5Connector
-from .adaptive_risk import AdaptiveRisk
-from .models import SessionState, TradeProposal, TradeDirection
 from .owm import ContextVector, outcome_weighted_recall
 from .owm.migration import (
-    migrate_trades_to_episodic,
-    migrate_patterns_to_semantic,
     initialize_affective,
+    migrate_patterns_to_semantic,
+    migrate_trades_to_episodic,
 )
-
+from .reflection import ReflectionEngine
+from .state import StateManager
 
 app = FastAPI(
     title="TradeMemory Protocol",
@@ -105,13 +104,13 @@ async def trade_record_decision(req: RecordDecisionRequest):
             market_context=req.market_context,
             references=req.references
         )
-        
+
         return {
             "success": True,
             "trade_id": trade.id,
             "timestamp": trade.timestamp.isoformat()
         }
-    
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -134,12 +133,12 @@ async def trade_record_outcome(req: RecordOutcomeRequest):
             execution_quality=req.execution_quality,
             lessons=req.lessons
         )
-        
+
         return {
             "success": success,
             "trade_id": req.trade_id
         }
-    
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -156,13 +155,13 @@ async def trade_query_history(req: QueryHistoryRequest):
             symbol=req.symbol,
             limit=req.limit
         )
-        
+
         return {
             "success": True,
             "count": len(trades),
             "trades": [t.model_dump() for t in trades]
         }
-    
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -175,13 +174,13 @@ async def trade_get_active():
     """
     try:
         active_trades = journal.get_active_trades()
-        
+
         return {
             "success": True,
             "count": len(active_trades),
             "trades": [t.model_dump() for t in active_trades]
         }
-    
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -194,12 +193,12 @@ async def state_load(req: LoadStateRequest):
     """
     try:
         state = state_manager.load_state(req.agent_id)
-        
+
         return {
             "success": True,
             "state": state.model_dump()
         }
-    
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -214,12 +213,12 @@ async def state_save(req: SaveStateRequest):
         # Convert dict to SessionState model
         state = SessionState(**req.state)
         success = state_manager.save_state(state)
-        
+
         return {
             "success": success,
             "agent_id": state.agent_id
         }
-    
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -229,25 +228,25 @@ async def reflect_run_daily(date: Optional[str] = None):
     """
     MCP Tool: reflect.run_daily
     Generate daily reflection summary.
-    
+
     Args:
         date: Optional YYYY-MM-DD string (default: today)
     """
     try:
         from datetime import date as date_type
-        
+
         target_date = None
         if date:
             target_date = date_type.fromisoformat(date)
-        
+
         summary = reflection_engine.generate_daily_summary(target_date=target_date)
-        
+
         return {
             "success": True,
             "date": (target_date or date_type.today()).isoformat(),
             "summary": summary
         }
-    
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -314,19 +313,19 @@ async def mt5_sync(agent_id: str = "ng-gold-agent"):
     """
     MCP Tool: mt5.sync
     Sync MT5 demo trades to TradeJournal.
-    
+
     Args:
         agent_id: Agent identifier for state tracking
     """
     try:
         stats = mt5_connector.sync_trades(agent_id=agent_id)
-        
+
         return {
             "success": True,
             "agent_id": agent_id,
             "stats": stats
         }
-    
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -352,12 +351,12 @@ async def mt5_connect(req: MT5ConnectRequest):
             server=req.server,
             path=req.path
         )
-        
+
         return {
             "success": success,
             "message": "Connected to MT5" if success else "Connection failed"
         }
-    
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -1234,7 +1233,7 @@ async def owm_migrate():
 def main():
     """Entry point for `tradememory` CLI command."""
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)  # nosec B104 — server deployment
 
 
 if __name__ == "__main__":

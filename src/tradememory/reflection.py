@@ -3,14 +3,14 @@ ReflectionEngine - AI-powered pattern discovery and learning.
 Implements Blueprint Section 2.1 ReflectionEngine functionality.
 """
 
-from typing import Callable, List, Dict, Any, Optional
-from datetime import date, datetime, timedelta, timezone
-from collections import defaultdict
 import json
+from collections import defaultdict
+from datetime import date, datetime, timedelta, timezone
+from typing import Any, Callable, Dict, List, Optional
 
-from .models import TradeRecord
-from .journal import TradeJournal
 from .db import Database
+from .journal import TradeJournal
+from .models import TradeRecord
 
 
 class ReflectionEngine:
@@ -18,16 +18,16 @@ class ReflectionEngine:
     ReflectionEngine analyzes trade patterns and generates insights.
     Supports daily, weekly, and monthly reflection cycles.
     """
-    
+
     def __init__(self, journal: Optional[TradeJournal] = None):
         """
         Initialize ReflectionEngine.
-        
+
         Args:
             journal: TradeJournal instance (creates new if None)
         """
         self.journal = journal or TradeJournal()
-    
+
     def generate_daily_summary(
         self,
         target_date: Optional[date] = None,
@@ -35,38 +35,38 @@ class ReflectionEngine:
     ) -> str:
         """
         Generate daily trading summary with AI reflection.
-        
+
         Args:
             target_date: Date to analyze (default: today)
             llm_provider: Optional LLM function (model, prompt) -> response
                          If None, uses rule-based summary
-        
+
         Returns:
             Formatted daily summary string
         """
         if target_date is None:
             target_date = date.today()
-        
+
         # Get today's trades
         trades = self._get_trades_for_date(target_date)
-        
+
         if len(trades) == 0:
             return self._format_no_trades_summary(target_date)
-        
+
         # Calculate performance metrics
         metrics = self._calculate_daily_metrics(trades)
-        
+
         # Generate summary (LLM or rule-based)
         if llm_provider:
             return self._generate_llm_summary(target_date, trades, metrics, llm_provider)
         else:
             return self._generate_rule_based_summary(target_date, trades, metrics)
-    
+
     def _get_trades_for_date(self, target_date: date) -> List[TradeRecord]:
         """Get all trades for a specific date (UTC timezone)"""
         # Query all recent trades
         all_trades = self.journal.query_history(limit=1000)
-        
+
         # Filter for target date (compare date strings to handle timezone)
         target_str = target_date.isoformat()
         date_trades = []
@@ -76,29 +76,29 @@ class ReflectionEngine:
                 trade_date_str = trade.timestamp[:10]  # YYYY-MM-DD
             else:
                 trade_date_str = trade.timestamp.date().isoformat()
-            
+
             if trade_date_str == target_str:
                 date_trades.append(trade)
-        
+
         return date_trades
-    
+
     def _calculate_daily_metrics(self, trades: List[TradeRecord]) -> Dict[str, Any]:
         """Calculate performance metrics for a set of trades"""
         total = len(trades)
         winners = sum(1 for t in trades if t.pnl and t.pnl > 0)
         losers = sum(1 for t in trades if t.pnl and t.pnl < 0)
         breakeven = total - winners - losers
-        
+
         total_pnl = sum(t.pnl for t in trades if t.pnl is not None)
         win_rate = (winners / total * 100) if total > 0 else 0.0
-        
+
         # Average R-multiple
         r_values = [t.pnl_r for t in trades if t.pnl_r is not None]
         avg_r = sum(r_values) / len(r_values) if r_values else 0.0
-        
+
         # Average confidence
         avg_confidence = sum(t.confidence for t in trades) / total if total > 0 else 0.0
-        
+
         return {
             'total': total,
             'winners': winners,
@@ -109,7 +109,7 @@ class ReflectionEngine:
             'avg_r': avg_r,
             'avg_confidence': avg_confidence
         }
-    
+
     def _format_no_trades_summary(self, target_date: date) -> str:
         """Format summary when no trades occurred"""
         return f"""=== DAILY SUMMARY: {target_date.isoformat()} ===
@@ -119,7 +119,7 @@ No trades today.
 
 STATUS: Waiting for market opportunities.
 """
-    
+
     def _generate_rule_based_summary(
         self,
         target_date: date,
@@ -127,7 +127,7 @@ STATUS: Waiting for market opportunities.
         metrics: Dict[str, Any]
     ) -> str:
         """Generate summary using rule-based logic (no LLM)"""
-        
+
         summary = f"""=== DAILY SUMMARY: {target_date.isoformat()} ===
 
 PERFORMANCE:
@@ -135,43 +135,43 @@ Trades: {metrics['total']} | Winners: {metrics['winners']} | Losers: {metrics['l
 Net P&L: ${metrics['total_pnl']:.2f} | Win Rate: {metrics['win_rate']:.1f}% | Avg R: {metrics['avg_r']:.2f}
 
 """
-        
+
         # Add data sufficiency warning
         if metrics['total'] < 3:
             summary += "STATUS: Insufficient data for pattern analysis.\n\n"
-        
+
         # Key observations (rule-based)
         observations = []
-        
+
         if metrics['avg_confidence'] > 0.8:
             observations.append(f"High average confidence ({metrics['avg_confidence']:.2f}) - agent is selective.")
-        
+
         if metrics['win_rate'] > 60:
             observations.append(f"Strong win rate ({metrics['win_rate']:.1f}%) - edge appears present.")
         elif metrics['win_rate'] < 40:
             observations.append(f"Low win rate ({metrics['win_rate']:.1f}%) - review entry criteria.")
-        
+
         if metrics['avg_r'] < 0:
             observations.append(f"Negative avg R ({metrics['avg_r']:.2f}) - risk management issue.")
-        
+
         if observations:
             summary += "KEY OBSERVATIONS:\n"
             for obs in observations[:3]:  # Max 3
                 summary += f"- {obs}\n"
             summary += "\n"
-        
+
         # Mistakes (identify losing trades with high confidence)
         mistakes = []
         for trade in trades:
             if trade.pnl and trade.pnl < 0 and trade.confidence > 0.75:
                 mistakes.append(f"{trade.id}: High confidence ({trade.confidence:.2f}) but lost ${abs(trade.pnl):.2f}")
-        
+
         if mistakes:
             summary += "MISTAKES:\n"
             for mistake in mistakes[:2]:  # Max 2
                 summary += f"- {mistake}\n"
             summary += "\n"
-        
+
         # Tomorrow advice
         summary += "TOMORROW:\n"
         if metrics['win_rate'] < 50:
@@ -180,9 +180,9 @@ Net P&L: ${metrics['total_pnl']:.2f} | Win Rate: {metrics['win_rate']:.1f}% | Av
             summary += "- Focus on improving R-multiple - trail stops more aggressively.\n"
         if not observations:
             summary += "- Continue monitoring. More data needed.\n"
-        
+
         return summary
-    
+
     def _generate_llm_summary(
         self,
         target_date: date,
@@ -192,21 +192,21 @@ Net P&L: ${metrics['total_pnl']:.2f} | Win Rate: {metrics['win_rate']:.1f}% | Av
     ) -> str:
         """
         Generate summary using LLM.
-        
+
         Args:
             target_date: Date being analyzed
             trades: Trade records
             metrics: Calculated metrics
             llm_provider: Function (model, prompt) -> response_text
         """
-        
+
         # Prepare trades JSON
         trades_json = json.dumps(
             [t.model_dump() for t in trades],
             indent=2,
             default=str
         )
-        
+
         # Build prompt using CIO template
         prompt = f"""你是一個交易反思引擎。分析以下今日交易紀錄，產出結構化的每日摘要。
 
@@ -235,11 +235,11 @@ TOMORROW:
 - 如果今天沒有交易，只寫 "No trades today."
 - 如果交易太少（<3筆），標註 "Insufficient data for pattern analysis."
 """
-        
+
         # Call LLM
         try:
             response = llm_provider("claude-sonnet-4-5", prompt)
-            
+
             # Validate output format (DEC-010: prevent garbage in L2 memory)
             if self._validate_llm_output(response, target_date):
                 return response
@@ -247,12 +247,12 @@ TOMORROW:
                 # Malformed output → fallback to rule-based
                 return self._generate_rule_based_summary(target_date, trades, metrics) + \
                        "\n(LLM output failed validation, using rule-based fallback)\n"
-        
+
         except Exception as e:
             # Fallback to rule-based if LLM fails
             return self._generate_rule_based_summary(target_date, trades, metrics) + \
                    f"\n(LLM failed: {str(e)}, using rule-based fallback)\n"
-    
+
     def _validate_llm_output(self, output: str, target_date: date) -> bool:
         """
         Validate LLM output matches expected template structure.
@@ -1320,20 +1320,9 @@ NEXT MONTH:
                 if not non_solo_entries:
                     continue
 
-                # Also get multi-symbol strategies' data on the SAME symbol
-                same_sym_entries = other_sym_data.get(solo_sym, [])
-                avg_same_rr = (
-                    round(sum(e['rr'] for e in same_sym_entries) / len(same_sym_entries), 2)
-                    if same_sym_entries else 0
-                )
                 avg_non_solo_rr = round(
                     sum(e['rr'] for e in non_solo_entries) / len(non_solo_entries), 2
                 )
-
-                # Specialization signal: solo profitable on its symbol,
-                # and the solo symbol's RR (across all strategies) is meaningfully
-                # different from non-solo symbols' RR
-                rr_vs_other = round(solo['rr'] / avg_non_solo_rr, 1) if avg_non_solo_rr > 0 else 0
 
                 # Also check if solo strategy is significantly more profitable
                 # than other strategies on non-solo symbols

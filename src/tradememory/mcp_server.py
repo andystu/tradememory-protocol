@@ -6,9 +6,9 @@ Runs alongside the existing FastAPI server (separate entry point).
 """
 
 import json
+import uuid
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
-import uuid
 
 from fastmcp import FastMCP
 

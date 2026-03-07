@@ -6,16 +6,18 @@ Pure rule-based (no LLM dependency). Reads TradeJournal history,
 calculates performance metrics, outputs dynamic risk constraints.
 """
 
-from datetime import datetime, timezone, timedelta
-from typing import Optional, List, Dict, Any
+from datetime import datetime, timedelta, timezone
+from typing import Dict, List, Optional
 
-from .models import (
-    TradeRecord, RiskStatus, RiskConstraints,
-    TradeProposal, TradeCheckResult,
-)
 from .journal import TradeJournal
+from .models import (
+    RiskConstraints,
+    RiskStatus,
+    TradeCheckResult,
+    TradeProposal,
+    TradeRecord,
+)
 from .state import StateManager
-
 
 # Default safe constraints for new agents or insufficient data
 _SAFE_DEFAULTS = RiskConstraints(

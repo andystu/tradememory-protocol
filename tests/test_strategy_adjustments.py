@@ -334,7 +334,7 @@ class TestL3Integration:
 
         Needs n > 50 per strategy to reach confidence >= 0.7 threshold.
         """
-        from tests.test_patterns import _insert_backtest_trade
+        from test_patterns import _insert_backtest_trade
 
         # Seed 60 IM trades (profitable) and 60 MR trades (unprofitable)
         # so strategy_ranking patterns get confidence >= 0.7

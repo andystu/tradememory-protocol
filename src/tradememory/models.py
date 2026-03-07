@@ -4,9 +4,10 @@ Based on Blueprint Section 5: Trade Journal Data Schema
 """
 
 from datetime import datetime
-from typing import Optional, List, Dict, Any
-from pydantic import BaseModel, ConfigDict, Field
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class TradeDirection(str, Enum):
@@ -38,7 +39,7 @@ class TradeRecord(BaseModel):
     Complete trade record with decision context and outcome.
     Matches Blueprint Section 5 schema exactly.
     """
-    
+
     # Core identification
     id: str = Field(..., description="Unique trade ID (T-YYYY-NNNN)")
     timestamp: datetime = Field(..., description="Decision timestamp (UTC)")
@@ -47,7 +48,7 @@ class TradeRecord(BaseModel):
     lot_size: float
     strategy: str = Field(..., description="Strategy tag (VolBreakout, Pullback, etc.)")
     confidence: float = Field(..., ge=0.0, le=1.0, description="Agent confidence score")
-    
+
     # Decision context
     reasoning: str = Field(..., description="Natural language explanation of WHY")
     market_context: MarketContext
@@ -55,7 +56,7 @@ class TradeRecord(BaseModel):
         default_factory=list,
         description="References to past trades that informed decision"
     )
-    
+
     # Outcome (filled after trade closes)
     exit_timestamp: Optional[datetime] = None
     exit_price: Optional[float] = None
@@ -67,12 +68,12 @@ class TradeRecord(BaseModel):
     execution_quality: Optional[float] = Field(
         default=None, ge=0.0, le=1.0, description="0.0 - 1.0 score"
     )
-    
+
     # Post-trade reflection (filled by ReflectionEngine)
     lessons: Optional[str] = None
     tags: List[str] = Field(default_factory=list, description="Auto-generated pattern tags")
     grade: Optional[TradeGrade] = None  # Quality of decision, not result
-    
+
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "id": "T-2026-0001",
