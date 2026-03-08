@@ -46,6 +46,11 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
         action="store_true",
         help="Parse CSV + compute indicators only, no LLM calls",
     )
+    parser.add_argument(
+        "--use-memory",
+        action="store_true",
+        help="Enable memory recall from past trades before each LLM decision",
+    )
     return parser.parse_args(argv)
 
 
@@ -66,6 +71,9 @@ def load_config(args: argparse.Namespace) -> ReplayConfig:
         config_dict["llm_model"] = args.model
     if hasattr(args, "max_decisions") and args.max_decisions:
         config_dict["max_decisions"] = args.max_decisions
+
+    if hasattr(args, "use_memory") and args.use_memory:
+        config_dict["use_memory_recall"] = True
 
     if "data_path" not in config_dict:
         print("Error: --data or config.data_path is required", file=sys.stderr)

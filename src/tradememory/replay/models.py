@@ -4,7 +4,30 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional, List
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
+
+
+VALID_STRATEGIES = ["VolBreakout", "IntradayMomentum", "PullbackEntry", "NONE"]
+
+# Map common LLM abbreviations/variations to canonical names
+_STRATEGY_ALIASES: dict[str, str] = {
+    "VB": "VolBreakout",
+    "vb": "VolBreakout",
+    "volbreakout": "VolBreakout",
+    "vol_breakout": "VolBreakout",
+    "IM": "IntradayMomentum",
+    "im": "IntradayMomentum",
+    "intradaymomentum": "IntradayMomentum",
+    "intraday_momentum": "IntradayMomentum",
+    "PB": "PullbackEntry",
+    "pb": "PullbackEntry",
+    "pullbackentry": "PullbackEntry",
+    "pullback_entry": "PullbackEntry",
+    "NONE": "NONE",
+    "none": "NONE",
+    "None": "NONE",
+    "null": "NONE",
+}
 
 
 class Bar(BaseModel):
@@ -62,6 +85,34 @@ class AgentDecision(BaseModel):
         None,
         description="VolBreakout, IntradayMomentum, PullbackEntry, or null for HOLD",
     )
+
+    @field_validator("strategy_used", mode="before")
+    @classmethod
+    def normalize_strategy(cls, v: Optional[str]) -> Optional[str]:
+        if v is None:
+            return None
+        v_stripped = v.strip()
+        # Direct match
+        if v_stripped in VALID_STRATEGIES:
+            return v_stripped
+        # Alias lookup
+        if v_stripped in _STRATEGY_ALIASES:
+            return _STRATEGY_ALIASES[v_stripped]
+        # Multi-strategy string: pick the first valid one
+        for sep in [",", "/", " and ", "&"]:
+            if sep in v_stripped:
+                first = v_stripped.split(sep)[0].strip()
+                if first in VALID_STRATEGIES:
+                    return first
+                if first in _STRATEGY_ALIASES:
+                    return _STRATEGY_ALIASES[first]
+        # Case-insensitive fallback
+        lower = v_stripped.lower()
+        if lower in _STRATEGY_ALIASES:
+            return _STRATEGY_ALIASES[lower]
+        # Unknown strategy — return as-is (don't crash)
+        return v_stripped
+
     entry_price: Optional[float] = None
     stop_loss: Optional[float] = None
     take_profit: Optional[float] = None
@@ -119,6 +170,9 @@ class ReplayConfig(BaseModel):
     # Storage
     store_to_memory: bool = True
     db_path: str = "data/replay.db"
+
+    # Memory recall
+    use_memory_recall: bool = False
 
     # Resumability
     resume_from_bar: int = 0

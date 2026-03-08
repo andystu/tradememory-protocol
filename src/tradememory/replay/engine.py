@@ -6,12 +6,12 @@ Load CSV → sliding_window → compute indicators → build prompt → call LLM
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from src.tradememory.replay.data_loader import parse_mt5_csv, sliding_window
-from src.tradememory.replay.indicators import compute_all_indicators
+from src.tradememory.replay.indicators import compute_all_indicators, precompute_d1_atr_series
 from src.tradememory.replay.llm_client import LLMClient
 from src.tradememory.replay.models import (
     AgentDecision,
@@ -39,7 +39,9 @@ class ReplayEngine:
         )
         self.decisions: List[Dict[str, Any]] = []
         self.total_bars = 0
+        self._d1_atr_lookup: Dict[date, float] = {}
         self._checkpoint_path = Path(config.data_path).with_suffix(".checkpoint.json")
+        self._memory_recalls_count = 0
 
     def run(self, dry_run: bool = False) -> Dict[str, Any]:
         """Main replay loop.
@@ -55,6 +57,9 @@ class ReplayEngine:
 
         if not bars:
             return self._build_summary()
+
+        # Pre-compute D1 ATR from ALL bars once — avoids needing 1440 M15 bars in window
+        self._d1_atr_lookup = precompute_d1_atr_series(bars, period=14)
 
         # Initialize LLM client only if not dry run
         llm: Optional[LLMClient] = None
@@ -91,8 +96,9 @@ class ReplayEngine:
 
             last_decision_idx = bar_idx
 
-            # Compute indicators
-            indicators = compute_all_indicators(window)
+            # Compute indicators with pre-computed D1 ATR
+            d1_atr = self._lookup_d1_atr(current_bar.timestamp)
+            indicators = compute_all_indicators(window, precomputed_atr_d1=d1_atr)
 
             if dry_run:
                 self.decisions.append(
@@ -105,6 +111,25 @@ class ReplayEngine:
                     }
                 )
                 continue
+
+            # Memory recall (before LLM call)
+            memory_context: Optional[str] = None
+            if self.config.use_memory_recall:
+                from src.tradememory.replay.memory_recall import build_memory_context
+
+                session = self._classify_session(current_bar.timestamp)
+                pos = self.tracker.current_position
+                strategy = pos.strategy if pos else None
+                regime = self._classify_regime(pos) if pos else None
+                memory_context = build_memory_context(
+                    db_path=self.config.db_path,
+                    strategy=strategy,
+                    regime=regime,
+                    session=session,
+                    atr_d1=d1_atr or 0.0,
+                )
+                if memory_context:
+                    self._memory_recalls_count += 1
 
             # Build prompt
             recent_trades = [
@@ -123,6 +148,7 @@ class ReplayEngine:
                 open_position=self.tracker.current_position,
                 recent_trades=recent_trades or None,
                 equity=self.tracker.equity,
+                memory_context=memory_context or None,
             )
 
             # Call LLM
@@ -204,12 +230,11 @@ class ReplayEngine:
                 (position.exit_time - position.entry_time).total_seconds()
             )
 
-        # Compute ATR from context bars if available
-        atr_d1 = 0.0
+        # D1 ATR from pre-computed lookup; H1 ATR from context bars
+        atr_d1 = self._lookup_d1_atr(position.entry_time) or 0.0
         atr_h1 = 0.0
         if context_bars:
             ind = compute_all_indicators(context_bars)
-            atr_d1 = ind.atr_d1 or 0.0
             atr_h1 = ind.atr_h1 or 0.0
 
         data = {
@@ -266,6 +291,15 @@ class ReplayEngine:
             return "range_bound"
         return "unknown"
 
+    def _lookup_d1_atr(self, dt: datetime) -> Optional[float]:
+        """Look up the most recent D1 ATR for a given timestamp."""
+        target_date = dt.date()
+        for offset in range(8):  # handles weekends/holidays
+            d = target_date - timedelta(days=offset)
+            if d in self._d1_atr_lookup:
+                return self._d1_atr_lookup[d]
+        return None
+
     def _log_jsonl(self, entry: Dict[str, Any]) -> None:
         """Append a log entry to the JSONL file."""
         if not self.config.log_path:
@@ -308,6 +342,7 @@ class ReplayEngine:
             "profit_factor": profit_factor,
             "tokens": llm.total_tokens_used if llm else 0,
             "cost": llm.total_cost_usd if llm else 0.0,
+            "memory_recalls_count": self._memory_recalls_count,
         }
 
 

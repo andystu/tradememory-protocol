@@ -3,7 +3,8 @@
 All functions accept lists of Bar and return None when insufficient data.
 """
 
-from typing import List, Optional, Tuple
+from datetime import date, timedelta
+from typing import Dict, List, Optional, Tuple
 
 from src.tradememory.replay.models import Bar, IndicatorSnapshot
 
@@ -151,7 +152,69 @@ def aggregate_to_d1(m15_bars: List[Bar]) -> List[Bar]:
     return result
 
 
-def compute_all_indicators(bars: List[Bar]) -> IndicatorSnapshot:
+def aggregate_to_d1_by_date(m15_bars: List[Bar]) -> List[Bar]:
+    """Group M15 bars into D1 bars by calendar date.
+
+    More robust than fixed 96-bar chunks — handles weekends and partial days.
+    """
+    from collections import OrderedDict
+
+    groups: OrderedDict[date, List[Bar]] = OrderedDict()
+    for bar in m15_bars:
+        d = bar.timestamp.date()
+        if d not in groups:
+            groups[d] = []
+        groups[d].append(bar)
+
+    result: List[Bar] = []
+    for d, bars in groups.items():
+        result.append(
+            Bar(
+                timestamp=bars[0].timestamp,
+                open=bars[0].open,
+                high=max(b.high for b in bars),
+                low=min(b.low for b in bars),
+                close=bars[-1].close,
+                tick_volume=sum(b.tick_volume for b in bars),
+                spread=max(b.spread for b in bars),
+            )
+        )
+    return result
+
+
+def precompute_d1_atr_series(
+    m15_bars: List[Bar], period: int = 14
+) -> Dict[date, float]:
+    """Pre-compute D1 ATR for all dates using Wilder's smoothing.
+
+    Aggregates ALL M15 bars by calendar date, then computes ATR incrementally.
+    Returns {date: atr} for each date where sufficient history exists.
+    """
+    d1_bars = aggregate_to_d1_by_date(m15_bars)
+
+    if len(d1_bars) < period + 1:
+        return {}
+
+    # Compute all true ranges
+    trs: List[float] = []
+    for i in range(1, len(d1_bars)):
+        trs.append(_true_range(d1_bars[i], d1_bars[i - 1]))
+
+    result: Dict[date, float] = {}
+
+    # Seed: simple average of first `period` TRs
+    atr = sum(trs[:period]) / period
+    result[d1_bars[period].timestamp.date()] = atr
+
+    # Wilder's smoothing for the rest
+    for j in range(period, len(trs)):
+        atr = (atr * (period - 1) + trs[j]) / period
+        result[d1_bars[j + 1].timestamp.date()] = atr
+
+    return result
+
+
+def compute_all_indicators(bars: List[Bar], precomputed_atr_d1: Optional[float] = None) -> IndicatorSnapshot:
     """Compute multi-TF indicators from M15 bars.
 
     ATR is computed on M15, H1 (aggregated), and D1 (aggregated).
@@ -167,9 +230,12 @@ def compute_all_indicators(bars: List[Bar]) -> IndicatorSnapshot:
     h1_bars = aggregate_to_h1(bars)
     atr_h1 = compute_atr(h1_bars, period=14)
 
-    # D1 ATR
-    d1_bars = aggregate_to_d1(bars)
-    atr_d1 = compute_atr(d1_bars, period=14)
+    # D1 ATR: use pre-computed value if available, else fall back to window aggregation
+    if precomputed_atr_d1 is not None:
+        atr_d1 = precomputed_atr_d1
+    else:
+        d1_bars = aggregate_to_d1(bars)
+        atr_d1 = compute_atr(d1_bars, period=14)
 
     return IndicatorSnapshot(
         atr_d1=atr_d1,

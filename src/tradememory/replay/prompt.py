@@ -63,6 +63,7 @@ IMPORTANT: All 3 strategies are BUY-ONLY by default. Do NOT enter SHORT/SELL pos
 - SL buffer = 0.25 × ATR(14, M5), applied below the structure low for all strategies.
 - If no strategy conditions are met, output HOLD with confidence = 0.
 - If you have an open position, decide HOLD (keep it) or CLOSE (exit at market).
+- strategy_used must be EXACTLY one of: VolBreakout, IntradayMomentum, PullbackEntry, NONE. Never combine multiple strategies. Never use abbreviations like VB, IM, PB.
 - Output JSON with: decision, strategy_used, entry_price, stop_loss, take_profit, confidence, reasoning_trace."""
 
 
@@ -93,6 +94,7 @@ def build_user_prompt(
     recent_trades: Optional[List[Dict]] = None,
     equity: float = 10000.0,
     asia_range: Optional[float] = None,
+    memory_context: Optional[str] = None,
 ) -> str:
     """Return ~1000 token user prompt with market state for LLM decision.
 
@@ -162,6 +164,15 @@ def build_user_prompt(
 
     # Equity
     parts.append(f"\n## Account\nEquity: ${equity:,.2f} | Risk per trade: 0.25%")
+
+    # Past similar trades from memory recall
+    if memory_context:
+        section = memory_context.replace(
+            "## Similar Past Trades", "## Past Similar Trades"
+        )
+        if not section.startswith("## Past Similar Trades"):
+            section = "## Past Similar Trades\n" + section
+        parts.append(section)
 
     parts.append("\nWhat is your trading decision? Respond with JSON.")
 
