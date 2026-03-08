@@ -31,13 +31,21 @@ def _make_indicators() -> IndicatorSnapshot:
 
 
 class TestSystemPrompt:
-    def test_contains_strategy_names(self):
+    def test_generic_prompt_structure(self):
+        """Generic system prompt should contain decision types and JSON instruction."""
         prompt = build_system_prompt()
-        assert "VolBreakout" in prompt
-        assert "IntradayMomentum" in prompt
-        assert "PullbackEntry" in prompt
         assert "BUY" in prompt
-        assert "0.25%" in prompt
+        assert "SELL" in prompt
+        assert "HOLD" in prompt
+        assert "CLOSE" in prompt
+        assert "JSON" in prompt
+
+    def test_does_not_contain_proprietary_strategies(self):
+        """Generic prompt should NOT contain NG_Gold strategy names."""
+        prompt = build_system_prompt()
+        assert "VolBreakout" not in prompt
+        assert "IntradayMomentum" not in prompt
+        assert "PullbackEntry" not in prompt
 
 
 class TestUserPrompt:

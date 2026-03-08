@@ -1,8 +1,8 @@
-"""LLM prompt builder aligned with NG_Gold EA logic.
+"""LLM prompt builder for the Replay Engine.
 
-Builds system and user prompts that encode the exact strategy rules
-from the NG_Gold MQL5 Expert Advisors (VolBreakout, IntradayMomentum,
-PullbackEntry) so an LLM agent can replicate EA decision-making.
+Provides a generic system prompt and a user prompt formatter.
+Override the system prompt via ReplayConfig.system_prompt to inject
+your own strategy rules (e.g. from a private strategy package).
 """
 
 from datetime import datetime
@@ -12,59 +12,29 @@ from .models import Bar, IndicatorSnapshot, Position
 
 
 def build_system_prompt() -> str:
-    """Return ~600 token system prompt defining 3 XAUUSD strategies.
+    """Return a generic trading agent system prompt.
 
-    All parameters match NG_Gold EA defaults. Server time = FXTM GMT+2.
+    This is a minimal placeholder. For real strategy rules, set
+    ReplayConfig.system_prompt to your own strategy-specific prompt.
+
+    Example override::
+
+        from tradememory.replay.models import ReplayConfig
+
+        config = ReplayConfig(
+            data_path="data/prices.csv",
+            system_prompt=MY_STRATEGY_PROMPT,  # your custom rules
+        )
     """
-    return """You are a XAUUSD trading agent. You execute exactly 3 strategies on M15 bars.
-Server time: FXTM GMT+2 (winter) / GMT+3 (summer DST). Risk: 0.25% equity per trade.
-IMPORTANT: All 3 strategies are BUY-ONLY by default. Do NOT enter SHORT/SELL positions.
+    return """You are a trading agent analyzing OHLCV price data on M15 bars.
+Your job is to decide: BUY, SELL, HOLD, or CLOSE based on your strategy rules.
 
-## Strategy 1: VolBreakout (VB)
-- Asia session: 00:00–07:00 server time. Record asia_high and asia_low.
-- At 07:00, read ATR(14, D1). Compute asia_range = asia_high − asia_low.
-- SKIP today if asia_range < 0.3 × ATR(D1) (range too narrow).
-- Entry window: 07:00–14:00 (London session).
-- BUY trigger: current close > asia_high + 0.15 × ATR(D1) (breakout buffer).
-- SL = asia_low − 0.25 × ATR(14, M5) (SL buffer below Asia low).
-- TP = entry + asia_range × 3.5 (RR = 3.5 based on asia_range, NOT on risk).
-- One trade per day. If position still open at 21:00, force close.
-
-## Strategy 2: IntradayMomentum (IM)
-- Check ONCE at exactly 10:00 server time. No other entry times.
-- Compute from 00:00–10:00 window:
-  day_open = Open of 00:00 H1 bar.
-  close_10h = current close at 10:00.
-  high_0010 = highest high of all H1 bars from 00:00 to 10:00.
-  low_0010 = lowest low of all H1 bars from 00:00 to 10:00.
-- day_move = close_10h − day_open. day_range = high_0010 − low_0010.
-- direction_ratio = |day_move| / day_range (must > 0.55).
-- momentum_ratio = |day_move| / ATR(14, D1) (must > 0.3).
-- BUY ONLY when: direction_ratio > 0.55 AND momentum_ratio > 0.3 AND day_move > 0.
-- SELL is DISABLED. If day_move < 0, output HOLD regardless of ratios.
-- SL = low_0010 − 0.25 × ATR(14, M5). risk = entry − SL.
-- TP = entry + 2.5 × risk.
-
-## Strategy 3: PullbackEntry (PB)
-- FSM states: IDLE → BREAKOUT → PULLBACK_READY → DONE.
-- At 07:00, compute asia range from H1 bars (00:00–07:00). asia_range = asia_high − asia_low.
-- SKIP today (→ DONE) if asia_range < 0.35 × ATR(14, D1).
-- BREAKOUT: price > asia_high → start tracking swing_high (highest price after breakout).
-- Retrace confirm: price drops below swing_high − 0.3 × ATR(D1) → enter PULLBACK_READY.
-- pullback_level = swing_high − 0.6 × (swing_high − asia_high).
-- BUY when price ≤ pullback_level.
-- SL = asia_low − 0.25 × ATR(14, M5). risk = entry − SL.
-- TP = entry + 2.0 × risk.
-- Entry window: 07:00–16:00. After 16:00 → DONE (no entry, force close if open).
-
-## Common Rules
-- ALL strategies are BUY-ONLY. Never enter SELL positions.
-- Max 1 position at a time across all strategies.
-- SL buffer = 0.25 × ATR(14, M5), applied below the structure low for all strategies.
-- If no strategy conditions are met, output HOLD with confidence = 0.
+## Decision Rules
+- If no clear setup exists, output HOLD with confidence = 0.
 - If you have an open position, decide HOLD (keep it) or CLOSE (exit at market).
-- strategy_used must be EXACTLY one of: VolBreakout, IntradayMomentum, PullbackEntry, NONE. Never combine multiple strategies. Never use abbreviations like VB, IM, PB.
-- Output JSON with: decision, strategy_used, entry_price, stop_loss, take_profit, confidence, reasoning_trace."""
+- Max 1 position at a time.
+- Output JSON with: decision, strategy_used, entry_price, stop_loss, take_profit,
+  confidence, market_observation, reasoning_trace."""
 
 
 def format_bars_table(bars: List[Bar], max_rows: int = 20) -> str:

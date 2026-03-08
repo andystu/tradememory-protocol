@@ -385,6 +385,64 @@ class TestEODClose:
             assert engine.tracker.current_position is None
 
 
+class TestPrecomputedD1ATR:
+    def test_dry_run_uses_precomputed_d1_atr(self):
+        """D1 ATR should be available even with small window if enough total bars."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            csv_path = os.path.join(tmpdir, "test.csv")
+            # 20 days of data (20 * 96 = 1920 M15 bars) — enough for D1 ATR(14)
+            bars = _make_bars(20 * 96, base_price=2300.0, trend=0.5)
+            _write_csv(bars, csv_path)
+
+            config = ReplayConfig(
+                data_path=csv_path,
+                window_size=96,  # only 1 day window — normally can't compute D1 ATR
+                decision_interval=96,
+                store_to_memory=False,
+            )
+            engine = ReplayEngine(config)
+            engine.run(dry_run=True)
+
+            # Pre-computed D1 ATR lookup should be populated
+            assert len(engine._d1_atr_lookup) > 0
+
+            # Later decisions should have non-None atr_d1
+            later_decisions = [
+                d for d in engine.decisions
+                if d["indicators"]["atr_d1"] is not None
+            ]
+            assert len(later_decisions) > 0
+
+    def test_d1_atr_lookup_helper(self):
+        """_lookup_d1_atr should find the most recent available date."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            csv_path = os.path.join(tmpdir, "test.csv")
+            bars = _make_bars(120)
+            _write_csv(bars, csv_path)
+
+            config = ReplayConfig(
+                data_path=csv_path,
+                window_size=96,
+                store_to_memory=False,
+            )
+            engine = ReplayEngine(config)
+            # Manually populate lookup
+            from datetime import date
+            engine._d1_atr_lookup = {
+                date(2025, 1, 3): 15.0,
+                date(2025, 1, 5): 18.0,
+            }
+
+            # Exact match
+            assert engine._lookup_d1_atr(datetime(2025, 1, 5, 12, 0)) == 18.0
+            # Falls back to Jan 5 (Jan 6 not in lookup)
+            assert engine._lookup_d1_atr(datetime(2025, 1, 6, 12, 0)) == 18.0
+            # Falls back to Jan 3 (before Jan 5)
+            assert engine._lookup_d1_atr(datetime(2025, 1, 4, 12, 0)) == 15.0
+            # No data available
+            assert engine._lookup_d1_atr(datetime(2024, 12, 1, 12, 0)) is None
+
+
 class TestSummaryFormat:
     def test_summary_has_all_fields(self):
         """_build_summary() should return all required fields."""
@@ -411,6 +469,7 @@ class TestSummaryFormat:
                 "profit_factor",
                 "tokens",
                 "cost",
+                "memory_recalls_count",
             }
             assert set(summary.keys()) == expected_keys
 

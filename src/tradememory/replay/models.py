@@ -1,4 +1,4 @@
-"""Pydantic models for the XAUUSD LLM Trading Agent Replay Engine."""
+"""Pydantic models for the LLM Trading Agent Replay Engine."""
 
 from datetime import datetime
 from enum import Enum
@@ -173,6 +173,10 @@ class ReplayConfig(BaseModel):
 
     # Memory recall
     use_memory_recall: bool = False
+
+    # Pluggable strategy prompt — override the built-in generic prompt
+    # with your own strategy rules (e.g. from trade-dreaming package)
+    system_prompt: Optional[str] = None
 
     # Resumability
     resume_from_bar: int = 0

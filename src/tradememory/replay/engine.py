@@ -73,7 +73,7 @@ class ReplayEngine:
 
             db = Database(self.config.db_path)
 
-        system_prompt = build_system_prompt()
+        system_prompt = self.config.system_prompt or build_system_prompt()
         last_decision_idx: Optional[int] = None
         decision_count = 0
 
