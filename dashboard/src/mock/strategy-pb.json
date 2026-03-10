@@ -1,0 +1,38 @@
+{
+  "name": "Pullback",
+  "total_trades": 13,
+  "win_rate": 0.538,
+  "profit_factor": 1.45,
+  "avg_pnl_r": 0.52,
+  "avg_hold_seconds": 4200,
+  "best_session": "London",
+  "worst_session": "NY",
+  "baseline_pf": 1.45,
+  "baseline_wr": 0.52,
+  "trades": [
+    { "id": "pb-001", "date": "2026-02-12", "side": "BUY", "pnl": 95.30, "pnl_r": 1.24, "session": "London", "hold_seconds": 4500 },
+    { "id": "pb-002", "date": "2026-02-15", "side": "BUY", "pnl": -55.40, "pnl_r": -0.72, "session": "NY", "hold_seconds": 2700 },
+    { "id": "pb-003", "date": "2026-02-18", "side": "BUY", "pnl": 110.80, "pnl_r": 1.44, "session": "London", "hold_seconds": 5100 },
+    { "id": "pb-004", "date": "2026-02-20", "side": "BUY", "pnl": 72.50, "pnl_r": 0.94, "session": "London", "hold_seconds": 3900 },
+    { "id": "pb-005", "date": "2026-02-23", "side": "BUY", "pnl": -80.20, "pnl_r": -1.04, "session": "NY", "hold_seconds": 1800 },
+    { "id": "pb-006", "date": "2026-02-26", "side": "BUY", "pnl": 88.60, "pnl_r": 1.15, "session": "London", "hold_seconds": 4200 },
+    { "id": "pb-007", "date": "2026-02-28", "side": "BUY", "pnl": -42.10, "pnl_r": -0.55, "session": "Asia", "hold_seconds": 3000 },
+    { "id": "pb-008", "date": "2026-03-02", "side": "BUY", "pnl": 125.40, "pnl_r": 1.63, "session": "London", "hold_seconds": 5400 },
+    { "id": "pb-009", "date": "2026-03-04", "side": "BUY", "pnl": -68.30, "pnl_r": -0.89, "session": "NY", "hold_seconds": 2400 },
+    { "id": "pb-010", "date": "2026-03-06", "side": "BUY", "pnl": 82.70, "pnl_r": 1.07, "session": "London", "hold_seconds": 4800 },
+    { "id": "pb-011", "date": "2026-03-07", "side": "BUY", "pnl": -35.90, "pnl_r": -0.47, "session": "Asia", "hold_seconds": 2100 },
+    { "id": "pb-012", "date": "2026-03-09", "side": "BUY", "pnl": 105.60, "pnl_r": 1.37, "session": "London", "hold_seconds": 4500 },
+    { "id": "pb-013", "date": "2026-03-10", "side": "BUY", "pnl": 68.20, "pnl_r": 0.89, "session": "London", "hold_seconds": 3600 }
+  ],
+  "session_heatmap": [
+    { "session": "Asia", "day": "Fri", "trades": 1, "avg_pnl": -42.10 },
+    { "session": "Asia", "day": "Sat", "trades": 1, "avg_pnl": -35.90 },
+    { "session": "London", "day": "Mon", "trades": 2, "avg_pnl": 93.15 },
+    { "session": "London", "day": "Tue", "trades": 2, "avg_pnl": 91.70 },
+    { "session": "London", "day": "Wed", "trades": 2, "avg_pnl": 103.10 },
+    { "session": "London", "day": "Thu", "trades": 2, "avg_pnl": 86.90 },
+    { "session": "NY", "day": "Mon", "trades": 1, "avg_pnl": -55.40 },
+    { "session": "NY", "day": "Wed", "trades": 1, "avg_pnl": -80.20 },
+    { "session": "NY", "day": "Thu", "trades": 1, "avg_pnl": -68.30 }
+  ]
+}

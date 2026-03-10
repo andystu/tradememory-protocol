@@ -1,9 +1,22 @@
-import './App.css'
+import { Routes, Route } from 'react-router-dom';
+import Nav from './components/layout/Nav';
+import OverviewPage from './pages/OverviewPage';
+import IntelligencePage from './pages/IntelligencePage';
+import StrategiesPage from './pages/StrategiesPage';
+import ReflectionsPage from './pages/ReflectionsPage';
+import DreamsPage from './pages/DreamsPage';
 
-function App() {
+export default function App() {
   return (
-    <h1>Mnemox Trading Intelligence</h1>
-  )
+    <>
+      <Nav />
+      <Routes>
+        <Route path="/" element={<OverviewPage />} />
+        <Route path="/intelligence" element={<IntelligencePage />} />
+        <Route path="/strategies" element={<StrategiesPage />} />
+        <Route path="/reflections" element={<ReflectionsPage />} />
+        <Route path="/dreams" element={<DreamsPage />} />
+      </Routes>
+    </>
+  );
 }
-
-export default App

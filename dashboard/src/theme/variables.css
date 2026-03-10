@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Backgrounds */
+  --bg: #04060b;
+  --bg-card: #0b1120;
+  --bg-card-hover: #0f1628;
+
+  /* Accent colors */
+  --cyan: #00e5ff;
+  --accent: #00b4ff;
+  --green: #00ff88;
+  --red: #ff3366;
+  --amber: #ffaa00;
+
+  /* Text */
+  --text: #e0e0e8;
+  --text-dim: #6a6a80;
+
+  /* Borders */
+  --border: #1a1a28;
+  --border-bright: #2a2a40;
+
+  /* Typography */
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}

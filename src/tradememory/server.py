@@ -4,12 +4,16 @@ Implements MCP tools from Blueprint Section 3.1.
 """
 
 import json
+import logging
 import uuid
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from .adaptive_risk import AdaptiveRisk
@@ -1012,7 +1016,7 @@ async def owm_recall(req: RecallMemoriesRequest):
                 entry["sample_size"] = sm.data.get("sample_size")
             results.append(entry)
 
-        return {
+        response = {
             "query_symbol": symbol_upper,
             "query_context": req.market_context,
             "query_regime": req.context_regime,
@@ -1021,6 +1025,50 @@ async def owm_recall(req: RecallMemoriesRequest):
             "affective_state": affective_state,
             "memories": results,
         }
+
+        # Log recall event to PostgreSQL for Intelligence page (side effect)
+        try:
+            from .database import get_async_session
+            from sqlalchemy import text as sa_text
+            import asyncio
+
+            if results:
+                components_list = [r.get("components", {}) for r in results]
+                avg_total = sum(r.get("score", 0) for r in results) / len(results)
+                avg_q = sum(c.get("Q", 0) for c in components_list) / len(components_list)
+                avg_sim = sum(c.get("Sim", 0) for c in components_list) / len(components_list)
+                avg_rec = sum(c.get("Rec", 0) for c in components_list) / len(components_list)
+                avg_conf = sum(c.get("Conf", 0) for c in components_list) / len(components_list)
+                avg_aff = sum(c.get("Aff", 0) for c in components_list) / len(components_list)
+                neg_count = sum(1 for r in results if (r.get("pnl_r") or 0) < 0)
+                negative_ratio = neg_count / len(results)
+
+                async with get_async_session() as session:
+                    await session.execute(sa_text("""
+                        INSERT INTO recall_events
+                        (timestamp, query_symbol, query_context, query_regime,
+                         result_count, avg_total, avg_q, avg_sim, avg_rec, avg_conf, avg_aff,
+                         negative_ratio)
+                        VALUES (NOW(), :symbol, :context, :regime,
+                                :result_count, :avg_total, :avg_q, :avg_sim, :avg_rec, :avg_conf, :avg_aff,
+                                :negative_ratio)
+                    """), {
+                        "symbol": symbol_upper,
+                        "context": req.market_context,
+                        "regime": req.context_regime,
+                        "result_count": len(results),
+                        "avg_total": avg_total,
+                        "avg_q": avg_q,
+                        "avg_sim": avg_sim,
+                        "avg_rec": avg_rec,
+                        "avg_conf": avg_conf,
+                        "avg_aff": avg_aff,
+                        "negative_ratio": negative_ratio,
+                    })
+        except Exception:
+            pass  # PG unavailable — silently skip, recall still works
+
+        return response
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -1247,6 +1295,34 @@ async def owm_migrate():
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+# --- Dashboard static file serving ---
+_logger = logging.getLogger(__name__)
+_dashboard_dist = Path(__file__).parent.parent.parent / "dashboard" / "dist"
+
+# API prefixes that must NOT be caught by the SPA catch-all
+_API_PREFIXES = (
+    "dashboard/", "trade/", "state/", "reflect/", "mt5/", "risk/",
+    "patterns/", "adjustments/", "owm/", "health",
+)
+
+if _dashboard_dist.exists():
+    _assets_dir = _dashboard_dist / "assets"
+    if _assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=str(_assets_dir)), name="dashboard-assets")
+    _logger.info("Dashboard static files mounted from %s", _dashboard_dist)
+
+    @app.get("/{full_path:path}")
+    async def _serve_spa(full_path: str):
+        """Catch-all: serve SPA index.html for client-side routing."""
+        if full_path.startswith(_API_PREFIXES):
+            raise HTTPException(status_code=404, detail="Not found")
+        # Serve static files (e.g. vite.svg) if they exist on disk
+        static_file = _dashboard_dist / full_path
+        if full_path and static_file.exists() and static_file.is_file():
+            return FileResponse(str(static_file))
+        return FileResponse(str(_dashboard_dist / "index.html"))
 
 
 def main():

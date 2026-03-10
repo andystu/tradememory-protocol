@@ -1,0 +1,139 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.metricRow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .metricRow {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .metricRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.chartSection {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+}
+
+.chartTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  margin: 0 0 16px;
+}
+
+.chartContainer {
+  width: 100%;
+  height: 320px;
+}
+
+@media (max-width: 640px) {
+  .chartContainer {
+    height: 200px;
+  }
+
+  .chartSection {
+    padding: 16px;
+  }
+}
+
+/* Skeleton loading */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-card) 25%,
+    var(--border) 50%,
+    var(--bg-card) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeletonCard {
+  composes: skeleton;
+  height: 100px;
+}
+
+.skeletonChart {
+  composes: skeleton;
+  height: 320px;
+}
+
+/* Error state */
+.errorCard {
+  background: var(--bg-card);
+  border: 1px solid var(--red);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  width: 100%;
+}
+
+.errorMessage {
+  color: var(--red);
+  margin: 0 0 16px;
+  font-size: 0.875rem;
+}
+
+.retryButton {
+  background: transparent;
+  border: 1px solid var(--cyan);
+  color: var(--cyan);
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  transition: background 0.2s ease;
+}
+
+.retryButton:hover {
+  background: rgba(0, 229, 255, 0.1);
+}
+
+/* Empty state */
+.emptyState {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 48px 32px;
+  text-align: center;
+  width: 100%;
+}
+
+.emptyTitle {
+  color: var(--text);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.emptySubtitle {
+  color: var(--text-dim);
+  font-size: 0.875rem;
+  margin: 0;
+}

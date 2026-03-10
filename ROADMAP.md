@@ -142,6 +142,78 @@
 
 ---
 
+## Phase 7：Trading Intelligence Dashboard ✅
+
+全端 dashboard，視覺化 OWM 記憶系統、交易績效、策略分析。
+
+### Task 7.1：Docker + PostgreSQL + Alembic ✅
+- PostgreSQL 容器（docker-compose.yml）+ SQLAlchemy 2.0 async
+- Alembic migration（recall_events 表）
+- database.py + db_models.py（JSONB, TIMESTAMPTZ）
+
+### Task 7.2：Scaffold Vite + React + TypeScript ✅
+- dashboard/ 目錄結構（api/components/pages/theme/mock/hooks/utils）
+- vite.config.ts + proxy 設定 + react-router-dom
+
+### Task 7.3：Mnemox Design System ✅
+- CSS variable design tokens（dark mode only）
+- PageShell + Sidebar + Nav 佈局組件
+- CSS Module，無 inline style，無固定 px 寬度
+
+### Task 7.4：Core Dashboard API ✅
+- 分層架構：dashboard_api.py → services/dashboard.py → repositories/trade.py
+- Pydantic response models（dashboard_models.py）
+- CORS middleware + 自定義例外
+
+### Task 7.5：Time Series + Memory Growth API ✅
+- /dashboard/equity-curve、/dashboard/rolling-metrics、/dashboard/memory-growth
+- SQLAlchemy ORM 查詢 + Service 層計算邏輯
+
+### Task 7.6：Intelligence + Strategy API ✅
+- /dashboard/intelligence/*（OWM score trend、confidence calibration、resonance）
+- /dashboard/strategies/{name}（heatmap、adjustment timeline）
+
+### Task 7.7：Reflections + Beliefs + Dreams API ✅
+- /dashboard/reflections、/dashboard/beliefs、/dashboard/dreams
+- Markdown 解析 + Bayesian confidence 計算
+
+### Task 7.8：Mock Data + API Layer ✅
+- SWR hooks（useOverview, useEquityCurve 等）
+- VITE_USE_MOCK=true 切換 mock/API
+- TypeScript types 對應後端 Pydantic models
+
+### Task 7.9：Overview Page ✅
+- MetricCard 組件 + EquityCurveChart（.tsx + .web.tsx 分離）
+- Loading skeleton + Error state + Empty state
+
+### Task 7.10：Intelligence Page ✅
+- MemoryGrowth、OWMScoreTrend、ConfidenceCalibration、ResonanceGauge
+- BayesianBeliefs card + responsive 2-column grid
+
+### Task 7.11：Strategies Page ✅
+- Tab 切換（VolBreakout/IntradayMomentum/Pullback）
+- StrategyHeatmap + AdjustmentTimeline + monospace 數字
+
+### Task 7.12：Reflections + Dreams Pages ✅
+- ReflectionCard + DreamComparison chart
+- react-markdown 渲染 + 引導文字 empty state
+
+### Task 7.13：Responsive + Loading + Error States ✅
+- 三斷點（640/1024/1025+）+ mobile hamburger menu
+- Skeleton shimmer animation + Error retry 按鈕
+
+### Task 7.14：Animations + Tooltips + CSV Export ✅
+- IntersectionObserver scroll-reveal + CSS transitions
+- ChartTooltip + CSV export utility function
+
+### Task 7.15：Build Integration + Static Serving ✅
+- Vite build → dashboard/dist/
+- FastAPI static file mount（/assets + SPA catch-all）
+- catch-all 排除所有 API prefix
+- 576 tests passing，向後相容
+
+---
+
 ## 進度追蹤
 
 | Phase | 狀態 | 完成日期 |
@@ -152,3 +224,4 @@
 | Phase 4：Hosted API | ✅ 完成 | 2026-03-03 |
 | Phase 5：Payment Rails | ✅ 完成 | 2026-03-03 |
 | Phase 6：OWM Architecture | ✅ 完成 | 2026-03-05 |
+| Phase 7：Trading Intelligence Dashboard | ✅ 完成 | 2026-03-11 |

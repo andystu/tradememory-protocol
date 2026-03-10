@@ -1,0 +1,97 @@
+.heatmap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: auto repeat(5, 1fr);
+  gap: 4px;
+}
+
+.cornerCell {
+  /* empty top-left corner */
+}
+
+.headerCell {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  text-align: center;
+  padding: 4px 0 8px;
+}
+
+.rowLabel {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  padding-right: 12px;
+  white-space: nowrap;
+}
+
+.cell {
+  position: relative;
+  border-radius: 6px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  transition: opacity 0.2s ease;
+}
+
+.cell:hover {
+  opacity: 0.85;
+}
+
+.cellEmpty {
+  background: var(--border);
+  opacity: 0.3;
+}
+
+.cellValue {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-card);
+  border: 1px solid var(--cyan);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: var(--text);
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.tooltipRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tooltipLabel {
+  color: var(--text-dim);
+}
+
+.tooltipValue {
+  font-family: var(--font-mono);
+  font-weight: 500;
+}

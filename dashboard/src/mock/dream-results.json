@@ -1,0 +1,38 @@
+[
+  {
+    "id": "dream-001",
+    "timestamp": "2026-03-08T22:00:00Z",
+    "condition": "no_memory",
+    "trades": 12,
+    "pf": 2.42,
+    "pnl": 176.0,
+    "wr": 0.583,
+    "has_memory": false,
+    "memory_type": null,
+    "resonance_detected": false
+  },
+  {
+    "id": "dream-002",
+    "timestamp": "2026-03-08T22:15:00Z",
+    "condition": "naive_recall",
+    "trades": 12,
+    "pf": 0.94,
+    "pnl": -28.0,
+    "wr": 0.417,
+    "has_memory": true,
+    "memory_type": "naive_recall",
+    "resonance_detected": true
+  },
+  {
+    "id": "dream-003",
+    "timestamp": "2026-03-08T22:30:00Z",
+    "condition": "hybrid_recall",
+    "trades": 12,
+    "pf": 999.0,
+    "pnl": 29.0,
+    "wr": 0.500,
+    "has_memory": true,
+    "memory_type": "hybrid_recall",
+    "resonance_detected": false
+  }
+]

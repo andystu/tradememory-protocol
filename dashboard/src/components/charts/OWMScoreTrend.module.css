@@ -1,0 +1,40 @@
+.toggleRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+}
+
+.toggle input[type="checkbox"] {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--border-bright);
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.toggle input[type="checkbox"]:checked {
+  background: var(--toggle-color, var(--cyan));
+  border-color: var(--toggle-color, var(--cyan));
+}
+
+.toggleLabel {
+  transition: color 0.2s ease;
+}
+
+.toggle:hover .toggleLabel {
+  color: var(--text);
+}

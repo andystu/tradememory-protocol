@@ -1,0 +1,51 @@
+.sidebar {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.section {
+  margin-bottom: 24px;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  margin: 0 0 12px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: var(--text);
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.checkboxLabel input[type='checkbox'] {
+  accent-color: var(--cyan);
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: var(--text);
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.radioLabel input[type='radio'] {
+  accent-color: var(--cyan);
+}

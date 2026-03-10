@@ -1,0 +1,66 @@
+[
+  {
+    "date": "2026-03-10",
+    "type": "daily_review",
+    "grade": "A",
+    "strategy": "IntradayMomentum",
+    "summary": "Strong momentum day. IM caught the NY session breakout perfectly. Entry at 0.55×ATR threshold triggered clean, rode trend for +2.67R. Memory recall correctly identified similar setups from Feb 24.",
+    "full_path": "daily_reviews/2026-03-10_daily.md"
+  },
+  {
+    "date": "2026-03-09",
+    "type": "daily_review",
+    "grade": "A",
+    "strategy": "VolBreakout",
+    "summary": "VB London breakout textbook execution. Range compression during Asia (ATR < 0.35×D1) set up high-probability breakout. +1.90R with clean SL placement below range. Two strategy coordination worked well.",
+    "full_path": "daily_reviews/2026-03-09_daily.md"
+  },
+  {
+    "date": "2026-03-08",
+    "type": "daily_review",
+    "grade": "B",
+    "strategy": "IntradayMomentum",
+    "summary": "IM NY entry was good (+2.67R) but early partial exit left money on table. Momentum continued another 45 pips after exit. Need to review trailing stop logic for strong trend days.",
+    "full_path": "daily_reviews/2026-03-08_daily.md"
+  },
+  {
+    "date": "2026-03-07",
+    "type": "daily_review",
+    "grade": "B",
+    "strategy": null,
+    "summary": "Mixed day across strategies. VB Asia entry was premature (-0.92R), but IM recovery trade was solid. Net positive but could improve entry timing during low-volatility sessions.",
+    "full_path": "daily_reviews/2026-03-07_daily.md"
+  },
+  {
+    "date": "2026-03-06",
+    "type": "daily_review",
+    "grade": "C",
+    "strategy": "Pullback",
+    "summary": "PB London entry was technically correct but market reversed immediately after entry. Stopped out at -0.47R. Regime was transitioning from trending to ranging — memory should have flagged this.",
+    "full_path": "daily_reviews/2026-03-06_daily.md"
+  },
+  {
+    "date": "2026-03-05",
+    "type": "daily_review",
+    "grade": "A",
+    "strategy": "IntradayMomentum",
+    "summary": "Best day of the week. IM NY session caught strong momentum move (+2.47R). OWM recall confidence was 0.78 — correctly identified this as a high-probability pattern from similar Feb setups.",
+    "full_path": "daily_reviews/2026-03-05_daily.md"
+  },
+  {
+    "date": "2026-03-04",
+    "type": "daily_review",
+    "grade": "B",
+    "strategy": "VolBreakout",
+    "summary": "VB London was clean (+1.15R). PB Asia entry questionable — spread gate almost blocked it. Consider tightening Asia session criteria. Overall positive day with good risk management.",
+    "full_path": "daily_reviews/2026-03-04_daily.md"
+  },
+  {
+    "date": "2026-03-03",
+    "type": "daily_review",
+    "grade": "D",
+    "strategy": "IntradayMomentum",
+    "summary": "Worst day this month. IM London entry against trend (-0.85R), followed by PB NY loss (-1.04R from previous day's setup). Two consecutive losses exposed correlation risk between strategies in ranging market.",
+    "full_path": "daily_reviews/2026-03-03_daily.md"
+  }
+]

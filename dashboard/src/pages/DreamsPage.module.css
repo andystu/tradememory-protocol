@@ -1,0 +1,238 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Chart section */
+.section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+}
+
+.sectionTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  margin: 0 0 16px;
+}
+
+.chartContainer {
+  width: 100%;
+  height: 320px;
+}
+
+@media (max-width: 640px) {
+  .chartContainer {
+    height: 200px;
+  }
+
+  .section {
+    padding: 16px;
+  }
+}
+
+.resonanceNote {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin: 16px 0 0;
+  padding: 12px;
+  border-left: 3px solid var(--red);
+  background: rgba(255, 51, 102, 0.04);
+  border-radius: 0 6px 6px 0;
+}
+
+.resonanceBadge {
+  display: inline-block;
+  background: var(--red);
+  color: var(--bg);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* Dream sessions table */
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.dreamTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.dreamTable th {
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dreamTable td {
+  padding: 10px 12px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+.dreamTable tr:hover td {
+  background: var(--bg-card-hover);
+}
+
+.pnlPos {
+  color: var(--green);
+}
+
+.pnlNeg {
+  color: var(--red);
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dotRed {
+  background: var(--red);
+  box-shadow: 0 0 6px rgba(255, 51, 102, 0.5);
+}
+
+.dotGreen {
+  background: var(--green);
+  box-shadow: 0 0 6px rgba(0, 255, 136, 0.5);
+}
+
+.conditionNoMem {
+  color: var(--text-dim);
+}
+
+.conditionNaive {
+  color: var(--red);
+}
+
+.conditionHybrid {
+  color: var(--green);
+}
+
+/* Skeleton loading */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-card) 25%,
+    var(--border) 50%,
+    var(--bg-card) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 12px;
+}
+
+.skeletonChart {
+  composes: skeleton;
+  height: 320px;
+}
+
+.skeletonTable {
+  composes: skeleton;
+  height: 200px;
+}
+
+/* Error state */
+.errorCard {
+  background: var(--bg-card);
+  border: 1px solid var(--red);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  width: 100%;
+}
+
+.errorMessage {
+  color: var(--red);
+  margin: 0 0 16px;
+  font-size: 0.875rem;
+}
+
+.retryButton {
+  background: transparent;
+  border: 1px solid var(--cyan);
+  color: var(--cyan);
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  transition: background 0.2s ease;
+}
+
+.retryButton:hover {
+  background: rgba(0, 229, 255, 0.1);
+}
+
+/* Empty state */
+.emptyState {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 48px 32px;
+  text-align: center;
+  width: 100%;
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.emptyTitle {
+  color: var(--text);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.emptySubtitle {
+  color: var(--text-dim);
+  font-size: 0.875rem;
+  margin: 0 0 16px;
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.emptyLink {
+  color: var(--cyan);
+  font-size: 0.8125rem;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.emptyLink:hover {
+  border-bottom-color: var(--cyan);
+}

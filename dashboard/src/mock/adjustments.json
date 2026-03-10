@@ -1,0 +1,57 @@
+[
+  {
+    "id": "adj-001",
+    "timestamp": "2026-03-09T18:30:00Z",
+    "adjustment_type": "parameter_tune",
+    "parameter": "IM_MomentumThreshold",
+    "old_value": "0.60",
+    "new_value": "0.55",
+    "reason": "Batch backtest (n=10,169) showed 0.55 threshold captures 12% more valid entries with only 3% increase in false signals. PF improved from 1.65 to 1.78.",
+    "status": "applied",
+    "strategy": "IntradayMomentum"
+  },
+  {
+    "id": "adj-002",
+    "timestamp": "2026-03-07T10:15:00Z",
+    "adjustment_type": "parameter_tune",
+    "parameter": "VB_BreakoutBuffer",
+    "old_value": "0.10",
+    "new_value": "0.15",
+    "reason": "ATR(D1) at $180 makes 0.10× buffer too tight (18 pts). 0.15× gives 27 pts, reduces false breakout entries by 22% based on last 30 trades.",
+    "status": "applied",
+    "strategy": "VolBreakout"
+  },
+  {
+    "id": "adj-003",
+    "timestamp": "2026-03-05T14:00:00Z",
+    "adjustment_type": "regime_filter",
+    "parameter": "PB_AsiaRangeATRMult",
+    "old_value": "0.40",
+    "new_value": "0.35",
+    "reason": "Asia range > 0.40×ATR(D1) filtered out 4 valid PB setups in Feb. Lowering to 0.35 recovers these while maintaining false signal rate below 15%.",
+    "status": "applied",
+    "strategy": "Pullback"
+  },
+  {
+    "id": "adj-004",
+    "timestamp": "2026-03-03T09:45:00Z",
+    "adjustment_type": "risk_adjustment",
+    "parameter": "FixedRiskPercent",
+    "old_value": "0.50",
+    "new_value": "0.25",
+    "reason": "Max drawdown hit 4.55% on March 3 ranging market losses. Reducing risk per trade from 0.50% to 0.25% for capital preservation during regime transition.",
+    "status": "applied",
+    "strategy": null
+  },
+  {
+    "id": "adj-005",
+    "timestamp": "2026-03-01T16:20:00Z",
+    "adjustment_type": "parameter_tune",
+    "parameter": "VB_RewardRiskRatio",
+    "old_value": "1.50",
+    "new_value": "3.50",
+    "reason": "Original RR 1.5 was a code bug (intended 3.5). Corrected to match design spec. Backtest confirms RR 3.5 is optimal for VB in trending gold market (PF 1.17 → 1.85).",
+    "status": "applied",
+    "strategy": "VolBreakout"
+  }
+]

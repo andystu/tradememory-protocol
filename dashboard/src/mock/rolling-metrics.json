@@ -1,0 +1,22 @@
+[
+  { "date": "2026-02-14", "rolling_pf": 1.12, "rolling_wr": 0.50, "rolling_avg_r": 0.35, "window_size": 10 },
+  { "date": "2026-02-16", "rolling_pf": 1.18, "rolling_wr": 0.52, "rolling_avg_r": 0.42, "window_size": 10 },
+  { "date": "2026-02-18", "rolling_pf": 1.25, "rolling_wr": 0.53, "rolling_avg_r": 0.48, "window_size": 10 },
+  { "date": "2026-02-20", "rolling_pf": 1.20, "rolling_wr": 0.51, "rolling_avg_r": 0.40, "window_size": 10 },
+  { "date": "2026-02-22", "rolling_pf": 1.32, "rolling_wr": 0.55, "rolling_avg_r": 0.52, "window_size": 10 },
+  { "date": "2026-02-24", "rolling_pf": 1.28, "rolling_wr": 0.54, "rolling_avg_r": 0.45, "window_size": 10 },
+  { "date": "2026-02-26", "rolling_pf": 1.38, "rolling_wr": 0.56, "rolling_avg_r": 0.55, "window_size": 10 },
+  { "date": "2026-02-28", "rolling_pf": 1.42, "rolling_wr": 0.57, "rolling_avg_r": 0.58, "window_size": 10 },
+  { "date": "2026-03-01", "rolling_pf": 1.35, "rolling_wr": 0.55, "rolling_avg_r": 0.50, "window_size": 10 },
+  { "date": "2026-03-02", "rolling_pf": 1.45, "rolling_wr": 0.58, "rolling_avg_r": 0.60, "window_size": 10 },
+  { "date": "2026-03-03", "rolling_pf": 1.40, "rolling_wr": 0.56, "rolling_avg_r": 0.55, "window_size": 10 },
+  { "date": "2026-03-04", "rolling_pf": 1.50, "rolling_wr": 0.58, "rolling_avg_r": 0.62, "window_size": 10 },
+  { "date": "2026-03-05", "rolling_pf": 1.55, "rolling_wr": 0.59, "rolling_avg_r": 0.65, "window_size": 10 },
+  { "date": "2026-03-06", "rolling_pf": 1.52, "rolling_wr": 0.58, "rolling_avg_r": 0.60, "window_size": 10 },
+  { "date": "2026-03-07", "rolling_pf": 1.58, "rolling_wr": 0.60, "rolling_avg_r": 0.68, "window_size": 10 },
+  { "date": "2026-03-08", "rolling_pf": 1.62, "rolling_wr": 0.58, "rolling_avg_r": 0.70, "window_size": 10 },
+  { "date": "2026-03-09", "rolling_pf": 1.65, "rolling_wr": 0.60, "rolling_avg_r": 0.72, "window_size": 10 },
+  { "date": "2026-03-10", "rolling_pf": 1.68, "rolling_wr": 0.61, "rolling_avg_r": 0.75, "window_size": 10 },
+  { "date": "2026-03-11", "rolling_pf": 1.70, "rolling_wr": 0.58, "rolling_avg_r": 0.73, "window_size": 10 },
+  { "date": "2026-03-12", "rolling_pf": 1.72, "rolling_wr": 0.60, "rolling_avg_r": 0.78, "window_size": 10 }
+]

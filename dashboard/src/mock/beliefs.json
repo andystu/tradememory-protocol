@@ -1,0 +1,68 @@
+[
+  {
+    "id": "belief-001",
+    "proposition": "London session breakouts have higher win rate than Asia session",
+    "alpha": 22,
+    "beta": 8,
+    "confidence": 0.733,
+    "strategy": "VolBreakout",
+    "regime": "trending_up",
+    "sample_size": 30,
+    "trend": "strengthening"
+  },
+  {
+    "id": "belief-002",
+    "proposition": "IntradayMomentum performs best during NY overlap hours",
+    "alpha": 18,
+    "beta": 6,
+    "confidence": 0.750,
+    "strategy": "IntradayMomentum",
+    "regime": null,
+    "sample_size": 24,
+    "trend": "stable"
+  },
+  {
+    "id": "belief-003",
+    "proposition": "Pullback entries in ranging markets yield negative expectancy",
+    "alpha": 5,
+    "beta": 12,
+    "confidence": 0.294,
+    "strategy": "Pullback",
+    "regime": "ranging",
+    "sample_size": 17,
+    "trend": "weakening"
+  },
+  {
+    "id": "belief-004",
+    "proposition": "OWM recall with confidence > 0.7 correlates with positive trades",
+    "alpha": 14,
+    "beta": 4,
+    "confidence": 0.778,
+    "strategy": null,
+    "regime": null,
+    "sample_size": 18,
+    "trend": "strengthening"
+  },
+  {
+    "id": "belief-005",
+    "proposition": "BUY-only strategies outperform BOTH-direction in gold bull market",
+    "alpha": 25,
+    "beta": 3,
+    "confidence": 0.893,
+    "strategy": null,
+    "regime": "trending_up",
+    "sample_size": 28,
+    "trend": "strong"
+  },
+  {
+    "id": "belief-006",
+    "proposition": "High ATR days (> 2×avg) reduce VB false breakout rate",
+    "alpha": 8,
+    "beta": 10,
+    "confidence": 0.444,
+    "strategy": "VolBreakout",
+    "regime": "volatile",
+    "sample_size": 18,
+    "trend": "uncertain"
+  }
+]

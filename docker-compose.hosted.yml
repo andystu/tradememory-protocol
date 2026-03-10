@@ -1,0 +1,37 @@
+services:
+  tradememory-api:
+    build: .
+    container_name: tradememory-api
+    expose:
+      - "8080"
+    environment:
+      - TM_HOSTED_DB=/app/data/hosted.db
+      - TM_API_KEYS=${TM_API_KEYS:-}
+    volumes:
+      - tradememory-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/api/v1/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: tradememory-caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      tradememory-api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  tradememory-data:
+  caddy-data:
+  caddy-config:
