@@ -22,7 +22,7 @@ def upgrade() -> None:
         sa.Column(
             "id",
             UUID(as_uuid=True),
-            primary_key=True,
+            nullable=False,
             server_default=sa.text("gen_random_uuid()"),
         ),
         sa.Column(
@@ -44,6 +44,8 @@ def upgrade() -> None:
         sa.Column("avg_aff", sa.Float(), nullable=True),
         sa.Column("negative_ratio", sa.Float(), nullable=True),
         sa.Column("query_context_json", JSONB(), nullable=True),
+        # Composite PK: TimescaleDB requires partition column in PK
+        sa.PrimaryKeyConstraint("id", "timestamp"),
     )
 
     # Convert to TimescaleDB hypertable for efficient time-series queries

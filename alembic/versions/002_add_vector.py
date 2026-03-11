@@ -18,14 +18,9 @@ depends_on = None
 def upgrade() -> None:
     op.execute("CREATE EXTENSION IF NOT EXISTS vector")
     # VECTOR(384) for sentence-transformers all-MiniLM-L6-v2 output dim
-    op.add_column(
-        "episodic_memory",
-        sa.Column("embedding", sa.LargeBinary(), nullable=True, comment="VECTOR(384)"),
-    )
-    # Note: actual pgvector VECTOR type will be used via raw SQL
-    # because SQLAlchemy doesn't have native pgvector type yet.
+    # Use raw SQL since SQLAlchemy doesn't have native pgvector type
     op.execute(
-        "ALTER TABLE episodic_memory ALTER COLUMN embedding TYPE vector(384) USING embedding::vector(384)"
+        "ALTER TABLE episodic_memory ADD COLUMN IF NOT EXISTS embedding vector(384)"
     )
 
 
