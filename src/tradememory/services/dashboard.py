@@ -456,10 +456,12 @@ class DashboardService:
         trade_list = [
             {
                 "id": t.id,
+                "date": (t.timestamp.strftime("%Y-%m-%d") if hasattr(t.timestamp, "strftime") else str(t.timestamp)[:10]) if t.timestamp else None,
                 "timestamp": t.timestamp,
+                "side": getattr(t, "direction", "unknown").upper() if getattr(t, "direction", None) else "UNKNOWN",
                 "pnl": t.pnl,
-                "pnl_r": t.pnl_r,
-                "hold_duration": t.hold_duration,
+                "pnl_r": t.pnl_r if t.pnl_r is not None else 0.0,
+                "hold_seconds": t.hold_duration,
                 "session": t.context_session,
             }
             for t in trades

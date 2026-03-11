@@ -86,7 +86,7 @@ export function useConfidenceCal(): SWRResult<CalibrationPoint[]> {
   if (USE_MOCK) {
     return useMock<CalibrationPoint[]>(() => import('../mock/confidence-cal.json'));
   }
-  const result = useSWR<CalibrationPoint[]>('/dashboard/confidence-calibration', fetcher);
+  const result = useSWR<CalibrationPoint[]>('/dashboard/confidence-cal', fetcher);
   return { data: result.data, error: result.error, isLoading: result.isLoading, mutate: () => { result.mutate(); } };
 }
 
