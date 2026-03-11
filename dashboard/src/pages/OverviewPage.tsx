@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import PageShell from '../components/layout/PageShell';
 import MetricCard from '../components/cards/MetricCard';
 import Skeleton from '../components/ui/Skeleton';
@@ -31,6 +32,7 @@ function RevealDiv({ children, className }: { children: React.ReactNode; classNa
 }
 
 export default function OverviewPage() {
+  const { t } = useTranslation();
   const overview = useOverview();
   const equity = useEquityCurve();
   const rolling = useRollingMetrics();
@@ -59,7 +61,7 @@ export default function OverviewPage() {
     return (
       <PageShell>
         <ErrorState
-          message="Failed to load overview data"
+          message={t('common.error')}
           onRetry={() => {
             overview.mutate();
             equity.mutate();
@@ -75,7 +77,7 @@ export default function OverviewPage() {
       <PageShell>
         <EmptyState
           icon="&#128200;"
-          title="No trades yet"
+          title={t('common.empty')}
           description="Store trades via MCP tools or REST API to see your overview dashboard."
         />
       </PageShell>
@@ -92,31 +94,31 @@ export default function OverviewPage() {
         {/* Metric Cards */}
         <RevealDiv className={styles.metricRow}>
           <MetricCard
-            title="Total P&L"
+            title={t('overview.totalPnl')}
             value={formatPnl(d.total_pnl)}
             trend={d.total_pnl >= 0 ? 'up' : 'down'}
-            trendValue={`${d.total_trades} trades`}
+            trendValue={`${d.total_trades} ${t('overview.trades')}`}
           />
           <MetricCard
-            title="Win Rate"
+            title={t('overview.winRate')}
             value={formatPct(d.win_rate)}
             trend={d.win_rate >= 0.5 ? 'up' : 'down'}
             trendValue={`${Math.round(d.win_rate * d.total_trades)}W / ${d.total_trades - Math.round(d.win_rate * d.total_trades)}L`}
           />
           <MetricCard
-            title="Profit Factor"
+            title={t('overview.profitFactor')}
             value={d.profit_factor.toFixed(2)}
             trend={d.profit_factor >= 1.5 ? 'up' : d.profit_factor >= 1.0 ? 'neutral' : 'down'}
-            trendValue={d.profit_factor >= 1.5 ? 'Strong' : d.profit_factor >= 1.0 ? 'Marginal' : 'Losing'}
+            trendValue={d.profit_factor >= 1.5 ? t('overview.strong') : d.profit_factor >= 1.0 ? 'Marginal' : 'Losing'}
           />
           <MetricCard
-            title="Max Drawdown"
+            title={t('overview.maxDrawdown')}
             value={formatPct(d.max_drawdown_pct)}
             trend={d.max_drawdown_pct <= 0.05 ? 'up' : d.max_drawdown_pct <= 0.1 ? 'neutral' : 'down'}
-            trendValue={`Equity: $${d.current_equity.toLocaleString('en-US', { minimumFractionDigits: 2 })}`}
+            trendValue={`${t('overview.equity')}: $${d.current_equity.toLocaleString('en-US', { minimumFractionDigits: 2 })}`}
           />
           <MetricCard
-            title="Memories"
+            title={t('overview.memories')}
             value={d.memory_count}
             subtitle={`Avg confidence: ${formatPct(d.avg_confidence)}`}
           />
@@ -126,7 +128,7 @@ export default function OverviewPage() {
         {equity.data && equity.data.length > 0 && (
           <RevealDiv className={styles.chartSection}>
             <div className="sectionHeader">
-              <p className={styles.chartTitle}>Equity Curve</p>
+              <p className={styles.chartTitle}>{t('overview.equityCurve')}</p>
               <button
                 className="csvExportBtn"
                 onClick={() => {
@@ -134,7 +136,7 @@ export default function OverviewPage() {
                   downloadCSV(equity.data as unknown as Record<string, unknown>[], `equity-curve-${today}.csv`);
                 }}
               >
-                Export CSV
+                {t('overview.exportCsv')}
               </button>
             </div>
             <div className={styles.chartContainer}>
@@ -146,7 +148,7 @@ export default function OverviewPage() {
         {/* Rolling Metrics */}
         {rolling.data && rolling.data.length > 0 && (
           <RevealDiv className={styles.chartSection}>
-            <p className={styles.chartTitle}>Rolling Metrics (10-trade window)</p>
+            <p className={styles.chartTitle}>{t('overview.rollingMetrics')}</p>
             <div className={styles.chartContainer}>
               <RollingMetricsChart data={rolling.data} />
             </div>

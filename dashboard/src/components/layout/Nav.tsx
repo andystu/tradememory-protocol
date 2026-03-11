@@ -1,17 +1,24 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import styles from './Nav.module.css';
 
-const navItems = [
-  { to: '/', label: 'Overview' },
-  { to: '/intelligence', label: 'Intelligence' },
-  { to: '/strategies', label: 'Strategies' },
-  { to: '/reflections', label: 'Reflections' },
-  { to: '/dreams', label: 'Dreams' },
-];
+const NAV_KEYS = [
+  { to: '/', key: 'nav.overview' },
+  { to: '/intelligence', key: 'nav.intelligence' },
+  { to: '/strategies', key: 'nav.strategies' },
+  { to: '/reflections', key: 'nav.reflections' },
+  { to: '/dreams', key: 'nav.dreams' },
+] as const;
 
 export default function Nav() {
+  const { t, i18n } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleLang = () => {
+    const next = i18n.language === 'zh-TW' ? 'en' : 'zh-TW';
+    i18n.changeLanguage(next);
+  };
 
   return (
     <nav className={`${styles.nav} glassmorphism`}>
@@ -26,7 +33,7 @@ export default function Nav() {
         <span className={`${styles.hamburgerLine} ${isMenuOpen ? styles.hamburgerOpen : ''}`} />
       </button>
       <div className={`${styles.links} ${isMenuOpen ? styles.linksOpen : ''}`}>
-        {navItems.map(({ to, label }) => (
+        {NAV_KEYS.map(({ to, key }) => (
           <NavLink
             key={to}
             to={to}
@@ -36,9 +43,12 @@ export default function Nav() {
             }
             onClick={() => setIsMenuOpen(false)}
           >
-            {label}
+            {t(key)}
           </NavLink>
         ))}
+        <button className={styles.langToggle} onClick={toggleLang}>
+          {i18n.language === 'zh-TW' ? 'EN' : '\u4E2D'}
+        </button>
       </div>
     </nav>
   );

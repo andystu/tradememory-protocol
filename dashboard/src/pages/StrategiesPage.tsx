@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import PageShell from '../components/layout/PageShell';
 import MetricCard from '../components/cards/MetricCard';
 import Skeleton from '../components/ui/Skeleton';
@@ -27,13 +28,13 @@ function formatPct(value: number): string {
   return `${(value * 100).toFixed(1)}%`;
 }
 
-function formatDelta(current: number, baseline: number, isPercent: boolean): { text: string; trend: 'up' | 'down' | 'neutral' } {
+function formatDelta(current: number, baseline: number, isPercent: boolean, vsLabel: string): { text: string; trend: 'up' | 'down' | 'neutral' } {
   const delta = current - baseline;
-  if (Math.abs(delta) < 0.001) return { text: '= baseline', trend: 'neutral' };
+  if (Math.abs(delta) < 0.001) return { text: `= baseline`, trend: 'neutral' };
   const formatted = isPercent
     ? `${delta > 0 ? '+' : ''}${(delta * 100).toFixed(1)}pp`
     : `${delta > 0 ? '+' : ''}${delta.toFixed(2)}`;
-  return { text: `${formatted} vs baseline`, trend: delta > 0 ? 'up' : 'down' };
+  return { text: `${formatted} ${vsLabel}`, trend: delta > 0 ? 'up' : 'down' };
 }
 
 function formatDuration(seconds: number): string {
@@ -58,6 +59,7 @@ function RevealDiv({ children, className }: { children: React.ReactNode; classNa
 }
 
 export default function StrategiesPage() {
+  const { t } = useTranslation();
   const [selected, setSelected] = useState<StrategyName>('VolBreakout');
   const [visibleRows, setVisibleRows] = useState(PAGE_SIZE);
 
@@ -94,7 +96,7 @@ export default function StrategiesPage() {
         <div className={`${styles.page} pageFadeIn`}>
           <TabBar selected={selected} onSelect={(s) => { setSelected(s); setVisibleRows(PAGE_SIZE); }} />
           <ErrorState
-            message={`Failed to load ${selected} data`}
+            message={t('common.error')}
             onRetry={() => { strategy.mutate(); adjustments.mutate(); }}
           />
         </div>
@@ -109,7 +111,7 @@ export default function StrategiesPage() {
           <TabBar selected={selected} onSelect={(s) => { setSelected(s); setVisibleRows(PAGE_SIZE); }} />
           <EmptyState
             icon="&#128640;"
-            title="No strategy data"
+            title={t('common.empty')}
             description="Store trades with a strategy tag to see performance breakdowns."
           />
         </div>
@@ -119,8 +121,8 @@ export default function StrategiesPage() {
 
   const d = strategy.data;
   const baseline = BASELINES[selected];
-  const wrDelta = formatDelta(d.win_rate, baseline.wr, true);
-  const pfDelta = formatDelta(d.profit_factor, baseline.pf, false);
+  const wrDelta = formatDelta(d.win_rate, baseline.wr, true, t('strategies.vsBaseline'));
+  const pfDelta = formatDelta(d.profit_factor, baseline.pf, false, t('strategies.vsBaseline'));
 
   // Filter adjustments for selected strategy
   const strategyAdjustments = (adjustments.data || []).filter(
@@ -144,50 +146,50 @@ export default function StrategiesPage() {
         {/* KPI Comparison */}
         <RevealDiv className={styles.metricRow}>
           <MetricCard
-            title="Win Rate"
+            title={t('strategies.winRate')}
             value={formatPct(d.win_rate)}
             trend={wrDelta.trend}
             trendValue={wrDelta.text}
           />
           <MetricCard
-            title="Profit Factor"
+            title={t('strategies.profitFactor')}
             value={d.profit_factor.toFixed(2)}
             trend={pfDelta.trend}
             trendValue={pfDelta.text}
           />
           <MetricCard
-            title="Avg R-Multiple"
+            title={t('strategies.avgRMultiple')}
             value={d.avg_pnl_r.toFixed(2)}
             trend={d.avg_pnl_r >= 0.5 ? 'up' : d.avg_pnl_r >= 0 ? 'neutral' : 'down'}
-            trendValue={d.avg_pnl_r >= 0.5 ? 'Strong edge' : d.avg_pnl_r >= 0 ? 'Marginal' : 'Negative'}
+            trendValue={d.avg_pnl_r >= 0.5 ? t('strategies.strongEdge') : d.avg_pnl_r >= 0 ? 'Marginal' : t('intelligence.negative')}
           />
           <MetricCard
-            title="Total Trades"
+            title={t('strategies.totalTrades')}
             value={d.total_trades}
-            subtitle={`Best: ${d.best_session} · Worst: ${d.worst_session}`}
+            subtitle={`${t('common.best')}: ${d.best_session} · ${t('common.worst')}: ${d.worst_session}`}
           />
         </RevealDiv>
 
         {/* Heatmap + Timeline */}
         <div className={styles.twoCol}>
           <RevealDiv className={styles.section}>
-            <p className={styles.sectionTitle}>Session × Day Heatmap</p>
+            <p className={styles.sectionTitle}>{t('strategies.sessionDayHeatmap')}</p>
             {d.session_heatmap.length > 0 ? (
               <StrategyHeatmap data={d.session_heatmap as { session: string; day: string; trades: number; avg_pnl: number }[]} />
             ) : (
-              <EmptyState icon="&#128200;" title="No session data" description="Trade data will populate the heatmap." />
+              <EmptyState icon="&#128200;" title={t('common.empty')} description="Trade data will populate the heatmap." />
             )}
           </RevealDiv>
           <RevealDiv className={styles.section}>
-            <p className={styles.sectionTitle}>Adjustment Timeline</p>
+            <p className={styles.sectionTitle}>{t('strategies.adjustmentTimeline')}</p>
             {adjustments.isLoading ? (
               <Skeleton variant="chart" />
             ) : adjustments.error ? (
-              <ErrorState message="Failed to load adjustments" onRetry={() => adjustments.mutate()} />
+              <ErrorState message={t('common.error')} onRetry={() => adjustments.mutate()} />
             ) : strategyAdjustments.length > 0 ? (
               <AdjustmentTimeline adjustments={strategyAdjustments} />
             ) : (
-              <EmptyState icon="&#128295;" title="No adjustments" description="Parameter changes will appear here." />
+              <EmptyState icon="&#128295;" title={t('common.empty')} description="Parameter changes will appear here." />
             )}
           </RevealDiv>
         </div>
@@ -195,7 +197,7 @@ export default function StrategiesPage() {
         {/* Trade List */}
         <RevealDiv className={styles.section}>
           <div className="sectionHeader">
-            <p className={styles.sectionTitle}>Recent Trades</p>
+            <p className={styles.sectionTitle}>{t('strategies.recentTrades')}</p>
             {trades.length > 0 && (
               <button
                 className="csvExportBtn"
@@ -204,7 +206,7 @@ export default function StrategiesPage() {
                   downloadCSV(trades as Record<string, unknown>[], `trades-${selected}-${today}.csv`);
                 }}
               >
-                Export CSV
+                {t('overview.exportCsv')}
               </button>
             )}
           </div>
@@ -212,17 +214,17 @@ export default function StrategiesPage() {
             <table className={styles.tradeTable}>
               <thead>
                 <tr>
-                  <th>Date</th>
-                  <th>Direction</th>
-                  <th>Session</th>
-                  <th>P&L</th>
-                  <th>R-Mult</th>
-                  <th>Duration</th>
+                  <th>{t('strategies.date')}</th>
+                  <th>{t('strategies.direction')}</th>
+                  <th>{t('strategies.session')}</th>
+                  <th>{t('strategies.pnl')}</th>
+                  <th>{t('strategies.rMult')}</th>
+                  <th>{t('strategies.duration')}</th>
                 </tr>
               </thead>
               <tbody>
-                {visibleTrades.map((t) => {
-                  const trade = t as Record<string, unknown>;
+                {visibleTrades.map((tr) => {
+                  const trade = tr as Record<string, unknown>;
                   const pnl = trade.pnl as number;
                   const pnlR = trade.pnl_r as number;
                   const side = trade.side as string;

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Markdown from 'react-markdown';
 import type { ReflectionSummary } from '../../api/types';
 import styles from './ReflectionCard.module.css';
@@ -16,6 +17,7 @@ interface ReflectionCardProps {
 }
 
 export default function ReflectionCard({ reflection }: ReflectionCardProps) {
+  const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
 
   const gradeClass = reflection.grade ? GRADE_CLASS[reflection.grade] ?? '' : '';
@@ -49,7 +51,7 @@ export default function ReflectionCard({ reflection }: ReflectionCardProps) {
       </div>
 
       {!expanded && reflection.summary.length > 160 && (
-        <p className={styles.expandHint}>Click to expand</p>
+        <p className={styles.expandHint}>{t('reflections.clickToExpand')}</p>
       )}
     </div>
   );

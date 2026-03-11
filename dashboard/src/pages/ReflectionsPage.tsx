@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import PageShell from '../components/layout/PageShell';
 import Skeleton from '../components/ui/Skeleton';
 import ErrorState from '../components/ui/ErrorState';
@@ -13,12 +14,6 @@ import styles from './ReflectionsPage.module.css';
 const DATE_RANGES = ['7d', '30d', '90d', 'All'] as const;
 type DateRange = (typeof DATE_RANGES)[number];
 
-const TYPE_TABS = [
-  { key: 'daily', label: 'Daily', enabled: true },
-  { key: 'weekly', label: 'Weekly', enabled: false },
-  { key: 'monthly', label: 'Monthly', enabled: false },
-] as const;
-
 function RevealDiv({ children, className }: { children: React.ReactNode; className?: string }) {
   const { ref, isVisible } = useScrollReveal();
   return (
@@ -29,9 +24,16 @@ function RevealDiv({ children, className }: { children: React.ReactNode; classNa
 }
 
 export default function ReflectionsPage() {
+  const { t } = useTranslation();
   const [dateRange, setDateRange] = useState<DateRange>('All');
   const [typeTab, setTypeTab] = useState('daily');
   const [fetchedAt] = useState(() => new Date());
+
+  const TYPE_TABS = [
+    { key: 'daily', label: t('reflections.daily'), enabled: true },
+    { key: 'weekly', label: t('reflections.weekly'), enabled: false },
+    { key: 'monthly', label: t('reflections.monthly'), enabled: false },
+  ] as const;
 
   const params: Record<string, string> = {};
   if (dateRange !== 'All') {
@@ -57,7 +59,7 @@ export default function ReflectionsPage() {
                 className={`${styles.dateBtn} ${dateRange === range ? styles.dateBtnActive : ''}`}
                 onClick={() => setDateRange(range)}
               >
-                {range}
+                {range === 'All' ? t('reflections.all') : range}
               </button>
             ))}
           </div>
@@ -93,7 +95,7 @@ export default function ReflectionsPage() {
                 downloadCSV(exportData, `reflections-${today}.csv`);
               }}
             >
-              Export CSV
+              {t('overview.exportCsv')}
             </button>
           )}
         </div>
@@ -109,7 +111,7 @@ export default function ReflectionsPage() {
 
         {error && !isLoading && (
           <ErrorState
-            message="Failed to load reflections"
+            message={t('common.error')}
             onRetry={() => mutate()}
           />
         )}
@@ -117,8 +119,8 @@ export default function ReflectionsPage() {
         {!isLoading && !error && (!data || data.length === 0) && (
           <EmptyState
             icon="&#128221;"
-            title="No reflections yet"
-            description="Run daily_review.py to generate AI-powered trade reviews."
+            title={t('reflections.title')}
+            description={t('reflections.noReflections')}
           />
         )}
 

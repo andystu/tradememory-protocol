@@ -74,6 +74,24 @@
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
+.langToggle {
+  border: 1px solid var(--cyan);
+  background: transparent;
+  color: var(--text-dim);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  margin-left: 8px;
+}
+
+.langToggle:hover {
+  color: var(--cyan);
+  background: rgba(0, 229, 255, 0.08);
+}
+
 /* Mobile navigation */
 @media (max-width: 768px) {
   .nav {

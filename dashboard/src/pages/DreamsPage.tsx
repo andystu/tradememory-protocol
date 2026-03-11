@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import PageShell from '../components/layout/PageShell';
 import Skeleton from '../components/ui/Skeleton';
 import ErrorState from '../components/ui/ErrorState';
@@ -8,12 +9,6 @@ import { useDreamResults } from '../api/hooks';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { formatRelativeTime } from '../utils/formatRelativeTime';
 import styles from './DreamsPage.module.css';
-
-const CONDITION_LABELS: Record<string, string> = {
-  no_memory: 'No Memory',
-  naive_recall: 'Naive Recall',
-  hybrid_recall: 'Hybrid Recall',
-};
 
 const CONDITION_CLASS: Record<string, string> = {
   no_memory: styles.conditionNoMem,
@@ -27,7 +22,7 @@ function formatPnl(value: number): string {
 }
 
 function formatPf(value: number): string {
-  return value >= 999 ? '∞' : value.toFixed(2);
+  return value >= 999 ? '\u221E' : value.toFixed(2);
 }
 
 function RevealDiv({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -40,8 +35,15 @@ function RevealDiv({ children, className }: { children: React.ReactNode; classNa
 }
 
 export default function DreamsPage() {
+  const { t } = useTranslation();
   const { data, error, isLoading, mutate } = useDreamResults();
   const [fetchedAt] = useState(() => new Date());
+
+  const CONDITION_LABELS: Record<string, string> = {
+    no_memory: t('dreams.noMemory'),
+    naive_recall: t('dreams.naiveRecall'),
+    hybrid_recall: t('dreams.hybridRecall'),
+  };
 
   if (isLoading) {
     return (
@@ -57,7 +59,7 @@ export default function DreamsPage() {
   if (error) {
     return (
       <PageShell>
-        <ErrorState message="Failed to load dream results" onRetry={() => mutate()} />
+        <ErrorState message={t('common.error')} onRetry={() => mutate()} />
       </PageShell>
     );
   }
@@ -67,8 +69,8 @@ export default function DreamsPage() {
       <PageShell>
         <EmptyState
           icon="&#128173;"
-          title="Trade Dreaming — Phase 2"
-          description="A/B testing with 2000 hybrid recall trades is planned. This page will visualize the results."
+          title={t('common.empty')}
+          description={t('dreams.noDreams')}
         />
       </PageShell>
     );
@@ -81,12 +83,12 @@ export default function DreamsPage() {
 
         {/* Comparison Chart */}
         <RevealDiv className={styles.section}>
-          <p className={styles.sectionTitle}>Dream Comparison — Profit Factor by Condition</p>
+          <p className={styles.sectionTitle}>{t('dreams.dreamComparison')}</p>
           <div className={styles.chartContainer}>
             <DreamComparison data={data} />
           </div>
           <div className={styles.resonanceNote}>
-            <span className={styles.resonanceBadge}>RESONANCE</span>
+            <span className={styles.resonanceBadge}>{t('dreams.resonance').toUpperCase()}</span>
             Parametric-External Memory Resonance: naive recall can HURT agent performance.
             Hybrid recall with ensure_negative_balance mitigates this risk.
           </div>
@@ -94,18 +96,18 @@ export default function DreamsPage() {
 
         {/* Session Table */}
         <RevealDiv className={styles.section}>
-          <p className={styles.sectionTitle}>Dream Sessions</p>
+          <p className={styles.sectionTitle}>{t('dreams.dreamSessions')}</p>
           <div className={styles.tableWrap}>
             <table className={styles.dreamTable}>
               <thead>
                 <tr>
-                  <th>Date</th>
-                  <th>Condition</th>
-                  <th>Trades</th>
+                  <th>{t('strategies.date')}</th>
+                  <th>{t('dreams.condition')}</th>
+                  <th>{t('dreams.trades')}</th>
                   <th>PF</th>
-                  <th>P&amp;L</th>
+                  <th>{t('strategies.pnl')}</th>
                   <th>WR</th>
-                  <th>Resonance</th>
+                  <th>{t('dreams.resonance')}</th>
                 </tr>
               </thead>
               <tbody>

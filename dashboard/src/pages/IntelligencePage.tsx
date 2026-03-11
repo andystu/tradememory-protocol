@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import PageShell from '../components/layout/PageShell';
 import Skeleton from '../components/ui/Skeleton';
 import ErrorState from '../components/ui/ErrorState';
@@ -23,6 +24,7 @@ function RevealDiv({ children, className }: { children: React.ReactNode; classNa
 }
 
 export default function IntelligencePage() {
+  const { t } = useTranslation();
   const growth = useMemoryGrowth();
   const owm = useOWMScoreTrend();
   const cal = useConfidenceCal();
@@ -41,15 +43,15 @@ export default function IntelligencePage() {
 
         {/* Row 1: Memory Growth — full width */}
         <RevealDiv className={styles.section}>
-          <p className={styles.sectionTitle}>Memory Growth by Regime</p>
+          <p className={styles.sectionTitle}>{t('intelligence.memoryGrowth')}</p>
           {growth.isLoading && <Skeleton variant="chart" />}
           {growth.error && (
-            <ErrorState message="Failed to load memory growth" onRetry={growth.mutate} />
+            <ErrorState message={t('common.error')} onRetry={growth.mutate} />
           )}
           {!growth.isLoading && !growth.error && (!growth.data || growth.data.length === 0) && (
             <EmptyState
               icon="&#129504;"
-              title="No memory data yet"
+              title={t('common.empty')}
               description="Store trades via MCP tools to see memory growth across regimes."
             />
           )}
@@ -61,15 +63,15 @@ export default function IntelligencePage() {
         {/* Row 2: OWM Score Trend + Confidence Calibration */}
         <div className={styles.grid}>
           <RevealDiv className={styles.section}>
-            <p className={styles.sectionTitle}>OWM Score Trend</p>
+            <p className={styles.sectionTitle}>{t('intelligence.owmScoreTrend')}</p>
             {owm.isLoading && <Skeleton variant="chart" />}
             {owm.error && (
-              <ErrorState message="Failed to load OWM scores" onRetry={owm.mutate} />
+              <ErrorState message={t('common.error')} onRetry={owm.mutate} />
             )}
             {!owm.isLoading && !owm.error && (!owm.data || owm.data.length === 0) && (
               <EmptyState
                 icon="&#128202;"
-                title="No OWM recall data"
+                title={t('common.empty')}
                 description="Use the recall MCP tool to generate score history."
               />
             )}
@@ -79,15 +81,15 @@ export default function IntelligencePage() {
           </RevealDiv>
 
           <RevealDiv className={styles.section}>
-            <p className={styles.sectionTitle}>Confidence Calibration</p>
+            <p className={styles.sectionTitle}>{t('intelligence.confidenceCalibration')}</p>
             {cal.isLoading && <Skeleton variant="chart" />}
             {cal.error && (
-              <ErrorState message="Failed to load calibration data" onRetry={cal.mutate} />
+              <ErrorState message={t('common.error')} onRetry={cal.mutate} />
             )}
             {!cal.isLoading && !cal.error && (!cal.data || cal.data.length === 0) && (
               <EmptyState
                 icon="&#127919;"
-                title="No calibration data"
+                title={t('common.empty')}
                 description="Trades with entry_confidence and R-multiple will appear here."
               />
             )}
@@ -100,15 +102,15 @@ export default function IntelligencePage() {
         {/* Row 3: Resonance Gauge + Bayesian Beliefs */}
         <div className={styles.grid}>
           <RevealDiv className={styles.section}>
-            <p className={styles.sectionTitle}>Resonance Risk</p>
+            <p className={styles.sectionTitle}>{t('intelligence.resonanceRisk')}</p>
             {cal.isLoading && <Skeleton variant="card" />}
             {cal.error && (
-              <ErrorState message="Failed to load resonance data" onRetry={cal.mutate} />
+              <ErrorState message={t('common.error')} onRetry={cal.mutate} />
             )}
             {!cal.isLoading && !cal.error && (!cal.data || cal.data.length === 0) && (
               <EmptyState
                 icon="&#128308;"
-                title="No resonance data"
+                title={t('common.empty')}
                 description="Needs calibration data to calculate resonance risk."
               />
             )}
@@ -118,15 +120,15 @@ export default function IntelligencePage() {
           </RevealDiv>
 
           <RevealDiv className={styles.section}>
-            <p className={styles.sectionTitle}>Bayesian Beliefs</p>
+            <p className={styles.sectionTitle}>{t('intelligence.bayesianBeliefs')}</p>
             {beliefs.isLoading && <Skeleton variant="chart" />}
             {beliefs.error && (
-              <ErrorState message="Failed to load beliefs" onRetry={beliefs.mutate} />
+              <ErrorState message={t('common.error')} onRetry={beliefs.mutate} />
             )}
             {!beliefs.isLoading && !beliefs.error && (!beliefs.data || beliefs.data.length === 0) && (
               <EmptyState
                 icon="&#129504;"
-                title="No beliefs formed yet"
+                title={t('common.empty')}
                 description="Beliefs are generated from pattern discovery in L2 memory layer."
               />
             )}
