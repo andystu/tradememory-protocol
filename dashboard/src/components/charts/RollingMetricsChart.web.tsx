@@ -26,6 +26,11 @@ export default function RollingMetricsChartWeb({ data }: RollingMetricsWebProps)
         <CartesianGrid strokeDasharray="3 3" stroke="rgba(26, 26, 40, 0.5)" />
         <XAxis
           dataKey="date"
+          angle={-35}
+          textAnchor="end"
+          height={60}
+          interval="preserveStartEnd"
+          tickFormatter={(v: string) => v.slice(5)}
           tick={{ fill: '#6a6a80', fontSize: 11, fontFamily: "'JetBrains Mono', monospace" }}
           tickLine={{ stroke: '#1a1a28' }}
           axisLine={{ stroke: '#1a1a28' }}
