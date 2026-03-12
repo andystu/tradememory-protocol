@@ -1,0 +1,933 @@
+"""
+MT5 Sync v3 — FastAPI + background MT5 poller
+
+Architecture:
+  - FastAPI on port 9001 (GET /health, /open-positions, /recent-trades)
+  - MT5Poller runs in daemon thread, polls every SYNC_INTERVAL (default 60s)
+  - SQLite for state: open_positions, sync_state, sync_log
+  - Closed trades → TradeMemory API (record_decision + record_outcome)
+
+啟動: python scripts/mt5_sync_v3.py
+  or: uvicorn scripts.mt5_sync_v3:app --port 9001
+"""
+
+import os
+import sys
+import time
+import logging
+import sqlite3
+import threading
+import requests
+from datetime import datetime, timezone
+from contextlib import contextmanager
+from typing import Any, Optional, Tuple
+
+from dotenv import load_dotenv
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+
+# Add scripts/ to path for trade_advisor
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from trade_advisor import advise_on_open, send_discord_alert, recall_similar, get_behavioral
+
+# ---------------------------------------------------------------------------
+# Logging
+# ---------------------------------------------------------------------------
+
+os.makedirs("logs", exist_ok=True)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler("logs/mt5_sync_v3.log", encoding="utf-8"),
+        logging.StreamHandler(sys.stdout),
+    ],
+)
+log = logging.getLogger("mt5_sync_v3")
+
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
+# ---------------------------------------------------------------------------
+# Config (.env)
+# ---------------------------------------------------------------------------
+
+load_dotenv()
+
+MT5_LOGIN = int(os.getenv("MT5_LOGIN", "0"))
+MT5_PASSWORD = os.getenv("MT5_PASSWORD", "")
+MT5_SERVER = os.getenv("MT5_SERVER", "")
+MT5_PATH = os.getenv("MT5_PATH", "")
+TRADEMEMORY_API = os.getenv("TRADEMEMORY_API", "http://localhost:8000")
+SYNC_INTERVAL = int(os.getenv("SYNC_INTERVAL", "60"))
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL", "")
+
+MAGIC_TO_STRATEGY = {
+    0: "Manual",
+    260111: "NG_Gold",
+    260112: "VolBreakout",
+    260113: "IntradayMomentum",
+    20260217: "Pullback",
+}
+
+MT5_API_TIMEOUT = 30
+MAX_CONSECUTIVE_ERRORS = 10
+LONG_WAIT_SECONDS = 300
+
+# ---------------------------------------------------------------------------
+# SQLite helpers
+# ---------------------------------------------------------------------------
+
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "mt5_sync_v3.db")
+
+
+def init_db():
+    with get_db() as conn:
+        conn.executescript("""
+            CREATE TABLE IF NOT EXISTS open_positions (
+                ticket      INTEGER PRIMARY KEY,
+                symbol      TEXT NOT NULL,
+                direction   TEXT NOT NULL,
+                entry_price REAL NOT NULL,
+                entry_time  TEXT NOT NULL,
+                strategy    TEXT NOT NULL,
+                magic       INTEGER NOT NULL,
+                lot_size    REAL NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS sync_state (
+                id                  INTEGER PRIMARY KEY CHECK (id = 1),
+                last_ticket         INTEGER NOT NULL DEFAULT 0,
+                last_heartbeat      TEXT NOT NULL,
+                consecutive_errors  INTEGER NOT NULL DEFAULT 0
+            );
+
+            CREATE TABLE IF NOT EXISTS sync_log (
+                id          INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp   TEXT NOT NULL,
+                event_type  TEXT NOT NULL,
+                message     TEXT NOT NULL
+            );
+
+            INSERT OR IGNORE INTO sync_state (id, last_ticket, last_heartbeat, consecutive_errors)
+            VALUES (1, 0, '', 0);
+        """)
+
+
+@contextmanager
+def get_db():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    try:
+        yield conn
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def _now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _log_event(conn: sqlite3.Connection, event_type: str, message: str):
+    conn.execute(
+        "INSERT INTO sync_log (timestamp, event_type, message) VALUES (?, ?, ?)",
+        (_now_iso(), event_type, message),
+    )
+
+
+# ---------------------------------------------------------------------------
+# Discord helper
+# ---------------------------------------------------------------------------
+
+def send_discord(message: str, color: int = 0x00FF00):
+    if not DISCORD_WEBHOOK_URL:
+        return
+    try:
+        payload = {
+            "embeds": [{
+                "title": "TradeMemory — MT5 Sync v3",
+                "description": message,
+                "color": color,
+                "timestamp": _now_iso(),
+            }]
+        }
+        requests.post(DISCORD_WEBHOOK_URL, json=payload, timeout=5)
+    except Exception:
+        pass
+
+
+# ---------------------------------------------------------------------------
+# MT5Poller — background thread that polls MT5 every SYNC_INTERVAL
+# ---------------------------------------------------------------------------
+
+class MT5Poller:
+    """Polls MT5 terminal in a daemon thread. Writes results to SQLite."""
+
+    def __init__(self):
+        self._mt5_alive = False
+        self._thread: Optional[threading.Thread] = None
+        self._stop_event = threading.Event()
+        self._was_disconnected = False  # throttle disconnect Discord notifications
+
+    @property
+    def mt5_alive(self) -> bool:
+        return self._mt5_alive
+
+    # --- MT5 connection (from mt5_sync.py) ---
+
+    def _mt5_api_call_with_timeout(self, func, timeout_seconds: int = MT5_API_TIMEOUT):
+        """Execute MT5 API call with threading-based timeout. Returns (result, timed_out)."""
+        result_container = {"value": None, "error": None}
+
+        def worker():
+            try:
+                result_container["value"] = func()
+            except Exception as e:
+                result_container["error"] = e
+
+        t = threading.Thread(target=worker, daemon=True)
+        t.start()
+        t.join(timeout=timeout_seconds)
+
+        if t.is_alive():
+            log.error(f"MT5 API call timed out after {timeout_seconds}s")
+            return None, True
+
+        if result_container["error"]:
+            raise result_container["error"]
+
+        return result_container["value"], False
+
+    def init_mt5(self) -> bool:
+        """Initialize MT5 connection.
+        
+        Strategy: first try parameterless init (attaches to running terminal),
+        then fall back to full credentials (launches new terminal).
+        """
+        try:
+            import MetaTrader5 as MT5
+
+            # Attempt 1: attach to already-running terminal (no credentials)
+            if MT5.initialize():
+                info = MT5.account_info()
+                if info:
+                    log.info(f"Connected (attach): {info.name} ({info.server}), Balance: ${info.balance:.2f}")
+                    self._mt5_alive = True
+                    return True
+
+            # Attempt 2: full credentials (launches terminal if needed)
+            log.info("Parameterless init failed, trying with credentials...")
+            init_kwargs = dict(
+                login=MT5_LOGIN,
+                password=MT5_PASSWORD,
+                server=MT5_SERVER,
+                timeout=30000,
+            )
+            if MT5_PATH:
+                init_kwargs["path"] = MT5_PATH
+
+            if not MT5.initialize(**init_kwargs):
+                log.error(f"MT5 initialize() failed: {MT5.last_error()}")
+                self._mt5_alive = False
+                return False
+
+            info = MT5.account_info()
+            log.info(f"Connected (credentials): {info.name} ({info.server}), Balance: ${info.balance:.2f}")
+            self._mt5_alive = True
+            return True
+
+        except ImportError:
+            log.error("MetaTrader5 package not installed. pip install MetaTrader5")
+            return False
+        except Exception as e:
+            log.error(f"MT5 init failed: {e}")
+            self._mt5_alive = False
+            return False
+
+    def is_mt5_alive(self) -> bool:
+        """Quick health check with 10s timeout."""
+        try:
+            import MetaTrader5 as MT5
+            result, timed_out = self._mt5_api_call_with_timeout(
+                lambda: MT5.account_info(), timeout_seconds=10
+            )
+            if timed_out:
+                log.warning("MT5 health check timed out")
+                self._mt5_alive = False
+                return False
+            alive = result is not None
+            self._mt5_alive = alive
+            return alive
+        except Exception:
+            self._mt5_alive = False
+            return False
+
+    def _reconnect(self):
+        """Shutdown + re-init MT5."""
+        try:
+            import MetaTrader5 as MT5
+            MT5.shutdown()
+        except Exception:
+            pass
+        return self.init_mt5()
+
+    # --- Open positions → SQLite ---
+
+    def _sync_open_positions(self):
+        """
+        Fetch positions_get(), upsert into open_positions table.
+        Detect new opens → sync_log + trade advisor.
+        Detect closes → remove from table + sync to TradeMemory.
+        """
+        import MetaTrader5 as MT5
+
+        positions, timed_out = self._mt5_api_call_with_timeout(
+            MT5.positions_get, timeout_seconds=10
+        )
+        if timed_out or positions is None:
+            positions = ()  # treat as empty on timeout (don't wipe DB)
+
+        mt5_tickets = {p.ticket for p in positions}
+
+        with get_db() as conn:
+            # Current DB tickets
+            db_rows = conn.execute("SELECT ticket FROM open_positions").fetchall()
+            db_tickets = {r["ticket"] for r in db_rows}
+
+            # --- New opens ---
+            new_tickets = mt5_tickets - db_tickets
+            for pos in positions:
+                if pos.ticket not in new_tickets:
+                    continue
+
+                strategy = MAGIC_TO_STRATEGY.get(pos.magic, f"Unknown_{pos.magic}")
+                direction = "long" if pos.type == 0 else "short"
+                entry_time = datetime.fromtimestamp(pos.time, tz=timezone.utc).isoformat()
+
+                conn.execute(
+                    "INSERT OR REPLACE INTO open_positions "
+                    "(ticket, symbol, direction, entry_price, entry_time, strategy, magic, lot_size) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    (pos.ticket, pos.symbol, direction, pos.price_open,
+                     entry_time, strategy, pos.magic, pos.volume),
+                )
+
+                _log_event(conn, "POSITION_OPEN",
+                           f"{strategy} {pos.symbol} {direction} {pos.volume} lots @ {pos.price_open:.2f}")
+
+                log.info(f"[OPEN] {strategy} {pos.symbol} {direction} @ {pos.price_open:.2f}")
+
+                # Trade advisor (non-blocking)
+                self._run_trade_advisor(pos, strategy, direction)
+
+            # --- Closed (in DB but not in MT5 anymore) ---
+            closed_tickets = db_tickets - mt5_tickets
+            for ticket in closed_tickets:
+                row = conn.execute(
+                    "SELECT * FROM open_positions WHERE ticket = ?", (ticket,)
+                ).fetchone()
+
+                if row:
+                    _log_event(conn, "POSITION_CLOSED",
+                               f"ticket={ticket} {row['strategy']} {row['symbol']} {row['direction']}")
+                    log.info(f"[CLOSED] ticket={ticket} {row['strategy']} {row['symbol']}")
+
+                conn.execute("DELETE FROM open_positions WHERE ticket = ?", (ticket,))
+
+            # Sync closed positions to TradeMemory (outside DB transaction)
+            closed_data = []
+            if closed_tickets:
+                for ticket in closed_tickets:
+                    closed_data.append(ticket)
+
+        # Sync closed trades to TradeMemory (after DB commit)
+        if closed_data:
+            self._sync_closed_trades_to_memory(closed_data)
+
+    def _run_trade_advisor(self, pos, strategy: str, direction: str):
+        """Send new-open Discord embed + run trade advisor warnings."""
+        try:
+            hour = datetime.now(timezone.utc).hour
+            if 0 <= hour < 8:
+                session = "asian"
+            elif 8 <= hour < 16:
+                session = "london"
+            else:
+                session = "newyork"
+
+            # --- Fetch recall + behavioral for Discord embed ---
+            recall_text = "No similar trades found"
+            behavioral_text = "N/A"
+
+            try:
+                memories = recall_similar(pos.symbol, strategy, session)
+                relevant = [m for m in memories if m.get("score", 0) >= 0.2]
+                if relevant:
+                    pnls = [m.get("pnl", 0) for m in relevant if m.get("pnl") is not None]
+                    if pnls:
+                        avg_pnl = sum(pnls) / len(pnls)
+                        win_rate = sum(1 for p in pnls if p > 0) / len(pnls)
+                        recall_text = f"{len(pnls)} similar: avg ${avg_pnl:+.0f}, WR {win_rate:.0%}"
+            except Exception as e:
+                log.warning(f"[ADVISOR] recall_similar failed: {e}")
+
+            try:
+                behavioral = get_behavioral()
+                if behavioral:
+                    disp = behavioral.get("disposition_ratio")
+                    if disp is not None:
+                        behavioral_text = f"Disposition ratio: {disp:.2f}"
+                    else:
+                        behavioral_text = "No patterns detected"
+            except Exception as e:
+                log.warning(f"[ADVISOR] get_behavioral failed: {e}")
+
+            # --- (1) New open Discord embed (always send) ---
+            send_discord(
+                f"\U0001f4ca **New Position**\n"
+                f"**{strategy}** {pos.symbol} {direction.upper()}\n"
+                f"Entry: {pos.price_open:.2f} | Lots: {pos.volume}\n"
+                f"Session: {session.capitalize()}\n"
+                f"\u2500\u2500\u2500\n"
+                f"\U0001f9e0 **Recall:** {recall_text}\n"
+                f"\U0001f4a1 **Behavioral:** {behavioral_text}",
+                color=0x2ECC71 if direction == "long" else 0xE74C3C,
+            )
+
+            # --- Trade advisor warning check ---
+            warning = advise_on_open(
+                symbol=pos.symbol,
+                direction=direction,
+                strategy=strategy,
+                entry_price=pos.price_open,
+                lot_size=pos.volume,
+                session=session,
+                ticket=pos.ticket,
+            )
+
+            if warning:
+                log.info(f"[ADVISOR] Warning for ticket {pos.ticket}")
+                send_discord_alert(warning)
+            else:
+                log.info(f"[ADVISOR] All clear for ticket {pos.ticket}")
+
+        except Exception as e:
+            log.error(f"[ADVISOR] Error for ticket {pos.ticket}: {e}")
+
+    # --- Closed trade sync (history-based, same as v2) ---
+
+    def _sync_closed_trades_to_memory(self, closed_tickets: list[int]):
+        """
+        For each closed ticket, look up in MT5 history_deals_get
+        and POST to TradeMemory record_decision + record_outcome.
+        """
+        import MetaTrader5 as MT5
+
+        from_date = datetime(2020, 1, 1, tzinfo=timezone.utc)
+        to_date = datetime.now(timezone.utc)
+
+        history, timed_out = self._mt5_api_call_with_timeout(
+            lambda: MT5.history_deals_get(from_date, to_date)
+        )
+        if timed_out or history is None:
+            log.error("Cannot fetch deal history for closed trade sync")
+            return
+
+        # Group deals by position_id
+        deal_map: dict[int, list] = {}
+        for deal in history:
+            pid = deal.position_id
+            if pid == 0:
+                continue
+            deal_map.setdefault(pid, []).append(deal)
+
+        with get_db() as conn:
+            for ticket in closed_tickets:
+                deals = deal_map.get(ticket)
+                if not deals:
+                    log.warning(f"No deal history found for closed ticket {ticket}")
+                    continue
+
+                deals_sorted = sorted(deals, key=lambda d: d.time)
+                has_entry = any(d.entry == 0 for d in deals_sorted)
+                has_exit = any(d.entry == 1 for d in deals_sorted)
+
+                if not (has_entry and has_exit):
+                    log.warning(f"Ticket {ticket} missing entry/exit deals, skip")
+                    continue
+
+                success = self._post_trade_to_memory(ticket, deals_sorted)
+
+                if success:
+                    # Update last_ticket
+                    conn.execute(
+                        "UPDATE sync_state SET last_ticket = MAX(last_ticket, ?) WHERE id = 1",
+                        (ticket,),
+                    )
+                    _log_event(conn, "TRADE_CLOSED",
+                               f"ticket={ticket} synced to TradeMemory")
+
+    def _post_trade_to_memory(self, ticket: int, deals: list) -> bool:
+        """POST record_decision + record_outcome to TradeMemory API."""
+        entry_deal = deals[0]
+        exit_deal = deals[-1]
+
+        trade_id = f"MT5-{ticket}"
+        symbol = entry_deal.symbol
+        lot_size = entry_deal.volume
+        direction = "long" if entry_deal.type == 0 else "short"
+        entry_price = entry_deal.price
+        exit_price = exit_deal.price
+        magic = entry_deal.magic
+        strategy = MAGIC_TO_STRATEGY.get(magic, f"Unknown_{magic}")
+        pnl = sum(d.profit for d in deals)
+        hold_duration = int((exit_deal.time - entry_deal.time) / 60)
+
+        # Session from entry time
+        hour = datetime.fromtimestamp(entry_deal.time, tz=timezone.utc).hour
+        if 0 <= hour < 8:
+            session = "asian"
+        elif 8 <= hour < 16:
+            session = "london"
+        else:
+            session = "newyork"
+
+        market_context = {
+            "description": (
+                f"{symbol} {direction} entry at {entry_price:.2f} during {session} session. "
+                f"Strategy: {strategy}. Hold: {hold_duration}min."
+            ),
+            "price": entry_price,
+            "session": session,
+            "magic_number": magic,
+        }
+
+        # --- (2) Close Discord embed (fire before TradeMemory API) ---
+        emoji = "\U0001f7e2" if pnl >= 0 else "\U0001f534"
+        send_discord(
+            f"{emoji} **Position Closed**\n"
+            f"**{strategy}** {symbol} {direction.upper()}\n"
+            f"Entry: {entry_price:.2f} \u2192 Exit: {exit_price:.2f}\n"
+            f"P&L: **${pnl:+.2f}** | Lots: {lot_size} | Hold: {hold_duration}min",
+            color=0x00FF00 if pnl >= 0 else 0xFF0000,
+        )
+
+        try:
+            # 1. record_decision
+            resp1 = requests.post(
+                f"{TRADEMEMORY_API}/trade/record_decision",
+                json={
+                    "trade_id": trade_id,
+                    "symbol": symbol,
+                    "direction": direction,
+                    "lot_size": lot_size,
+                    "strategy": strategy,
+                    "confidence": 0.5,
+                    "reasoning": f"Auto-synced from MT5 (magic={magic})",
+                    "market_context": market_context,
+                    "references": [],
+                },
+                timeout=10,
+            )
+            if resp1.status_code != 200:
+                log.error(f"record_decision failed for {trade_id}: {resp1.status_code}")
+                return False
+
+            # 2. record_outcome
+            resp2 = requests.post(
+                f"{TRADEMEMORY_API}/trade/record_outcome",
+                json={
+                    "trade_id": trade_id,
+                    "exit_price": exit_price,
+                    "pnl": pnl,
+                    "exit_reasoning": "Position closed",
+                    "hold_duration": hold_duration,
+                },
+                timeout=10,
+            )
+            if resp2.status_code != 200:
+                log.error(f"record_outcome failed for {trade_id}: {resp2.status_code}")
+                return False
+
+            log.info(
+                f"SYNC {trade_id}: {strategy} {symbol} {direction} "
+                f"{lot_size} lots, P&L: ${pnl:.2f}, Hold: {hold_duration}min"
+            )
+            return True
+
+        except requests.exceptions.RequestException as e:
+            log.error(f"Network error syncing {trade_id}: {e}")
+            return False
+        except Exception as e:
+            log.error(f"Unexpected error syncing {trade_id}: {e}")
+            return False
+
+    # --- Heartbeat ---
+
+    def _update_heartbeat(self, consecutive_errors: int):
+        with get_db() as conn:
+            conn.execute(
+                "UPDATE sync_state SET last_heartbeat = ?, consecutive_errors = ? WHERE id = 1",
+                (_now_iso(), consecutive_errors),
+            )
+
+    # --- Main poll loop (runs in daemon thread) ---
+
+    def _poll_loop(self):
+        """Main loop: init MT5, then poll every SYNC_INTERVAL."""
+        log.info("=" * 60)
+        log.info("MT5Poller starting...")
+        log.info(f"Account: {MT5_LOGIN} @ {MT5_SERVER}")
+        log.info(f"Interval: {SYNC_INTERVAL}s | API: {TRADEMEMORY_API}")
+        log.info("=" * 60)
+
+        # Check if already connected (pre-init from main thread)
+        connected = self._mt5_alive
+        if not connected:
+            for attempt in range(1, 6):
+                if self._stop_event.is_set():
+                    return
+                if self.init_mt5():
+                    connected = True
+                    break
+                wait = min(10 * attempt, 60)  # shorter waits: 10, 20, 30, 40, 60
+                log.warning(f"MT5 init attempt {attempt}/5 failed, retry in {wait}s")
+                self._stop_event.wait(wait)
+
+        if not connected:
+            log.error("Cannot connect to MT5 after 5 attempts. Poller stopped.")
+            send_discord(
+                "\u274c **MT5 Connection Failed**\n"
+                f"Cannot connect after 5 attempts.\n"
+                f"Account: {MT5_LOGIN} @ {MT5_SERVER}",
+                color=0xFF0000,
+            )
+            self._update_heartbeat(MAX_CONSECUTIVE_ERRORS)
+            return
+
+        send_discord(
+            f"\U0001f680 **MT5 Sync v3 Started**\n"
+            f"Account: {MT5_LOGIN} @ {MT5_SERVER}\n"
+            f"Interval: {SYNC_INTERVAL}s",
+            color=0x3498DB,
+        )
+
+        with get_db() as conn:
+            _log_event(conn, "POLLER_START", f"MT5 connected, polling every {SYNC_INTERVAL}s")
+
+        consecutive_errors = 0
+        heartbeat_counter = 0
+
+        while not self._stop_event.is_set():
+            try:
+                # Health check
+                if not self.is_mt5_alive():
+                    # (3) MT5 disconnect Discord (once, not every cycle)
+                    if not self._was_disconnected:
+                        self._was_disconnected = True
+                        send_discord(
+                            "\u26a0\ufe0f **MT5 Connection Lost**\n"
+                            f"Account: {MT5_LOGIN} @ {MT5_SERVER}\n"
+                            "Attempting reconnection...",
+                            color=0xFF0000,
+                        )
+
+                    log.warning("MT5 health check failed, reconnecting...")
+                    if self._reconnect():
+                        log.info("MT5 reconnected.")
+                        # (4) MT5 reconnect Discord
+                        self._was_disconnected = False
+                        send_discord(
+                            "\u2705 **MT5 Reconnected**\n"
+                            f"Account: {MT5_LOGIN} @ {MT5_SERVER}",
+                            color=0x2ECC71,
+                        )
+                    else:
+                        consecutive_errors += 1
+                        log.error(f"MT5 reconnect failed ({consecutive_errors})")
+                        self._update_heartbeat(consecutive_errors)
+                        self._backoff_wait(consecutive_errors)
+                        continue
+
+                # Core: sync open positions (detects opens + closes)
+                self._sync_open_positions()
+
+                consecutive_errors = 0
+                self._update_heartbeat(0)
+
+                # Heartbeat log every ~10 cycles
+                heartbeat_counter += 1
+                if heartbeat_counter >= 10:
+                    log.info(f"[HEARTBEAT] alive, mt5={self._mt5_alive}")
+                    heartbeat_counter = 0
+
+            except Exception as e:
+                consecutive_errors += 1
+                log.error(f"Poll cycle error ({consecutive_errors}): {e}", exc_info=True)
+                self._update_heartbeat(consecutive_errors)
+
+                if consecutive_errors >= 3:
+                    log.warning("3+ errors, attempting reconnect...")
+                    if self._reconnect():
+                        consecutive_errors = 0
+                        if self._was_disconnected:
+                            self._was_disconnected = False
+                            send_discord(
+                                "\u2705 **MT5 Reconnected**\n"
+                                f"Account: {MT5_LOGIN} @ {MT5_SERVER}",
+                                color=0x2ECC71,
+                            )
+
+            # Wait
+            if consecutive_errors >= MAX_CONSECUTIVE_ERRORS:
+                log.error(f"{MAX_CONSECUTIVE_ERRORS}+ errors, long wait {LONG_WAIT_SECONDS}s")
+                self._stop_event.wait(LONG_WAIT_SECONDS)
+                consecutive_errors = 0
+            elif consecutive_errors > 0:
+                self._backoff_wait(consecutive_errors)
+            else:
+                self._stop_event.wait(SYNC_INTERVAL)
+
+        log.info("MT5Poller stopped.")
+
+    def _backoff_wait(self, consecutive_errors: int):
+        sleep_time = min(SYNC_INTERVAL * (2 ** min(consecutive_errors, 4)), 600)
+        log.info(f"Backoff: {sleep_time}s (errors: {consecutive_errors})")
+        self._stop_event.wait(sleep_time)
+
+    # --- Thread control ---
+
+    def start(self):
+        if self._thread and self._thread.is_alive():
+            log.warning("MT5Poller already running")
+            return
+        self._stop_event.clear()
+        self._thread = threading.Thread(target=self._poll_loop, daemon=True, name="mt5-poller")
+        self._thread.start()
+        log.info("MT5Poller thread started")
+
+    def stop(self):
+        self._stop_event.set()
+        if self._thread:
+            self._thread.join(timeout=10)
+        log.info("MT5Poller thread stopped")
+
+
+# ---------------------------------------------------------------------------
+# FastAPI app
+# ---------------------------------------------------------------------------
+
+app = FastAPI(title="MT5 Sync v3", version="3.0.0")
+poller = MT5Poller()
+
+
+@app.on_event("startup")
+def startup():
+    init_db()
+    with get_db() as conn:
+        conn.execute(
+            "UPDATE sync_state SET last_heartbeat = ? WHERE id = 1",
+            (_now_iso(),),
+        )
+        _log_event(conn, "STARTUP", "mt5_sync_v3 started")
+    # Pre-init MT5 in main thread (MT5 API is not thread-safe for init)
+    if poller.init_mt5():
+        log.info("MT5 pre-initialized in main thread")
+    else:
+        log.warning("MT5 pre-init failed (will retry in poller)")
+    poller.start()
+
+
+@app.on_event("shutdown")
+def shutdown():
+    poller.stop()
+
+
+# --- GET /health ---
+
+@app.get("/health")
+def health() -> dict[str, Any]:
+    with get_db() as conn:
+        row = conn.execute("SELECT * FROM sync_state WHERE id = 1").fetchone()
+        pos_count = conn.execute("SELECT COUNT(*) FROM open_positions").fetchone()[0]
+
+    return {
+        "status": "running",
+        "last_sync": row["last_heartbeat"] if row else "",
+        "mt5_alive": poller.mt5_alive,
+        "open_positions": pos_count,
+        "consecutive_errors": row["consecutive_errors"] if row else 0,
+    }
+
+
+# --- GET / (Dashboard) ---
+
+@app.get("/", response_class=HTMLResponse)
+def dashboard():
+    with get_db() as conn:
+        state = conn.execute("SELECT * FROM sync_state WHERE id = 1").fetchone()
+        positions = conn.execute(
+            "SELECT * FROM open_positions ORDER BY entry_time DESC"
+        ).fetchall()
+        logs = conn.execute(
+            "SELECT * FROM sync_log ORDER BY id DESC LIMIT 5"
+        ).fetchall()
+
+    errors = state["consecutive_errors"] if state else 0
+    last_hb = state["last_heartbeat"] if state else ""
+    mt5_alive = poller.mt5_alive
+
+    if errors >= MAX_CONSECUTIVE_ERRORS:
+        status_text, status_color = "PAUSED", "#ff9800"
+    elif not mt5_alive or errors > 0:
+        status_text, status_color = "ERROR", "#ff4444"
+    else:
+        status_text, status_color = "RUNNING", "#00e676"
+
+    # Build positions rows
+    pos_rows = ""
+    if positions:
+        for p in positions:
+            pos_rows += (
+                f"<tr>"
+                f"<td>{p['symbol']}</td>"
+                f"<td class='dir-{p['direction']}'>{p['direction'].upper()}</td>"
+                f"<td>{p['entry_price']:.2f}</td>"
+                f"<td>{p['entry_time'][:19].replace('T',' ')}</td>"
+                f"<td>{p['strategy']}</td>"
+                f"</tr>"
+            )
+    else:
+        pos_rows = "<tr><td colspan='5' class='empty'>No open positions</td></tr>"
+
+    # Build log rows
+    log_rows = ""
+    if logs:
+        for entry in logs:
+            log_rows += (
+                f"<tr>"
+                f"<td>{entry['timestamp'][:19].replace('T',' ')}</td>"
+                f"<td><span class='badge'>{entry['event_type']}</span></td>"
+                f"<td>{entry['message']}</td>"
+                f"</tr>"
+            )
+    else:
+        log_rows = "<tr><td colspan='3' class='empty'>No log entries</td></tr>"
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MT5 Sync v3 — Mnemox</title>
+<style>
+*{{margin:0;padding:0;box-sizing:border-box}}
+body{{background:#0a0a0a;color:#e0e0e0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:24px;max-width:960px;margin:0 auto}}
+h1{{font-size:1.1rem;color:#888;font-weight:400;margin-bottom:24px;letter-spacing:0.5px}}
+h1 span{{color:#00b4ff}}
+.status-box{{text-align:center;padding:32px 0;margin-bottom:32px;border:1px solid #1a1a1a;border-radius:8px;background:#111}}
+.status-label{{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:#666;margin-bottom:8px}}
+.status-text{{font-size:2.8rem;font-weight:700;color:{status_color};letter-spacing:2px}}
+.meta{{display:flex;justify-content:center;gap:32px;margin-top:16px;font-size:0.85rem;color:#888}}
+.meta .val{{color:#e0e0e0;font-weight:500}}
+#ago{{color:#00b4ff}}
+section{{margin-bottom:28px}}
+section h2{{font-size:0.8rem;text-transform:uppercase;letter-spacing:1.5px;color:#555;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #1a1a1a}}
+table{{width:100%;border-collapse:collapse;font-size:0.85rem}}
+th{{text-align:left;color:#555;font-weight:500;padding:8px 10px;border-bottom:1px solid #1a1a1a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px}}
+td{{padding:8px 10px;border-bottom:1px solid #111}}
+tr:hover td{{background:#0d0d0d}}
+.dir-long{{color:#00e676;font-weight:600}}
+.dir-short{{color:#ff5252;font-weight:600}}
+.empty{{color:#444;text-align:center;padding:20px;font-style:italic}}
+.badge{{background:#1a1a2e;color:#00b4ff;padding:2px 8px;border-radius:3px;font-size:0.75rem;font-family:monospace}}
+.footer{{text-align:center;margin-top:40px;color:#333;font-size:0.7rem}}
+</style>
+</head>
+<body>
+
+<h1><span>MNEMOX</span> &middot; MT5 Sync v3</h1>
+
+<div class="status-box">
+  <div class="status-label">System Status</div>
+  <div class="status-text">{status_text}</div>
+  <div class="meta">
+    <div>Last sync: <span class="val">{last_hb[:19].replace('T',' ') if last_hb else 'N/A'}</span> UTC</div>
+    <div>(<span id="ago">—</span>s ago)</div>
+    <div>Errors: <span class="val">{errors}</span></div>
+  </div>
+</div>
+
+<section>
+  <h2>Open Positions ({len(positions)})</h2>
+  <table>
+    <thead><tr><th>Symbol</th><th>Direction</th><th>Entry Price</th><th>Entry Time</th><th>Strategy</th></tr></thead>
+    <tbody>{pos_rows}</tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Recent Sync Log</h2>
+  <table>
+    <thead><tr><th>Timestamp</th><th>Event</th><th>Message</th></tr></thead>
+    <tbody>{log_rows}</tbody>
+  </table>
+</section>
+
+<div class="footer">auto-refresh 10s &middot; MT5 Sync v3</div>
+
+<script>
+(function(){{
+  var hb="{last_hb}";
+  function updateAgo(){{
+    if(!hb){{document.getElementById("ago").textContent="N/A";return}}
+    var d=new Date(hb.endsWith("Z")?hb:hb+"Z");
+    var s=Math.round((Date.now()-d.getTime())/1000);
+    var el=document.getElementById("ago");
+    el.textContent=s>=0?s:"0";
+    if(s>120)el.style.color="#ff4444";
+    else el.style.color="#00b4ff";
+  }}
+  updateAgo();
+  setInterval(updateAgo,1000);
+  setTimeout(function(){{location.reload()}},10000);
+}})();
+</script>
+
+</body>
+</html>"""
+    return HTMLResponse(content=html)
+
+
+# --- GET /open-positions ---
+
+@app.get("/open-positions")
+def open_positions_endpoint() -> list[dict]:
+    with get_db() as conn:
+        rows = conn.execute("SELECT * FROM open_positions ORDER BY entry_time DESC").fetchall()
+    return [dict(r) for r in rows]
+
+
+# --- GET /recent-trades ---
+
+@app.get("/recent-trades")
+def recent_trades() -> list[dict]:
+    with get_db() as conn:
+        rows = conn.execute(
+            "SELECT * FROM sync_log WHERE event_type = 'TRADE_CLOSED' "
+            "ORDER BY timestamp DESC LIMIT 10"
+        ).fetchall()
+    return [dict(r) for r in rows]
+
+
+# ---------------------------------------------------------------------------
+# Entrypoint
+# ---------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=9001, reload=False)
