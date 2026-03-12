@@ -1,17 +1,62 @@
 [
-  { "trade_id": "t-001", "entry_confidence": 0.82, "actual_pnl_r": 1.45, "strategy": "VolBreakout" },
-  { "trade_id": "t-002", "entry_confidence": 0.75, "actual_pnl_r": 0.85, "strategy": "IntradayMomentum" },
-  { "trade_id": "t-003", "entry_confidence": 0.68, "actual_pnl_r": -0.50, "strategy": "Pullback" },
-  { "trade_id": "t-004", "entry_confidence": 0.90, "actual_pnl_r": 2.10, "strategy": "VolBreakout" },
-  { "trade_id": "t-005", "entry_confidence": 0.55, "actual_pnl_r": -0.80, "strategy": "IntradayMomentum" },
-  { "trade_id": "t-006", "entry_confidence": 0.72, "actual_pnl_r": 1.20, "strategy": "Pullback" },
-  { "trade_id": "t-007", "entry_confidence": 0.85, "actual_pnl_r": 0.30, "strategy": "VolBreakout" },
-  { "trade_id": "t-008", "entry_confidence": 0.60, "actual_pnl_r": -1.00, "strategy": "IntradayMomentum" },
-  { "trade_id": "t-009", "entry_confidence": 0.78, "actual_pnl_r": 1.80, "strategy": "Pullback" },
-  { "trade_id": "t-010", "entry_confidence": 0.65, "actual_pnl_r": 0.50, "strategy": "VolBreakout" },
-  { "trade_id": "t-011", "entry_confidence": 0.88, "actual_pnl_r": 1.60, "strategy": "IntradayMomentum" },
-  { "trade_id": "t-012", "entry_confidence": 0.50, "actual_pnl_r": -0.30, "strategy": "Pullback" },
-  { "trade_id": "t-013", "entry_confidence": 0.70, "actual_pnl_r": 0.90, "strategy": "VolBreakout" },
-  { "trade_id": "t-014", "entry_confidence": 0.80, "actual_pnl_r": -0.60, "strategy": "IntradayMomentum" },
-  { "trade_id": "t-015", "entry_confidence": 0.62, "actual_pnl_r": 0.70, "strategy": "Pullback" }
+  {
+    "trade_id": "cal-001",
+    "entry_confidence": 0.05,
+    "actual_pnl_r": -3.42,
+    "strategy": "All"
+  },
+  {
+    "trade_id": "cal-002",
+    "entry_confidence": 0.15,
+    "actual_pnl_r": -2.8,
+    "strategy": "All"
+  },
+  {
+    "trade_id": "cal-003",
+    "entry_confidence": 0.25,
+    "actual_pnl_r": -2.5,
+    "strategy": "All"
+  },
+  {
+    "trade_id": "cal-004",
+    "entry_confidence": 0.35,
+    "actual_pnl_r": -1.92,
+    "strategy": "All"
+  },
+  {
+    "trade_id": "cal-005",
+    "entry_confidence": 0.45,
+    "actual_pnl_r": -0.24,
+    "strategy": "All"
+  },
+  {
+    "trade_id": "cal-006",
+    "entry_confidence": 0.55,
+    "actual_pnl_r": 0.04,
+    "strategy": "All"
+  },
+  {
+    "trade_id": "cal-007",
+    "entry_confidence": 0.65,
+    "actual_pnl_r": 1.22,
+    "strategy": "All"
+  },
+  {
+    "trade_id": "cal-008",
+    "entry_confidence": 0.75,
+    "actual_pnl_r": 3.25,
+    "strategy": "All"
+  },
+  {
+    "trade_id": "cal-009",
+    "entry_confidence": 0.85,
+    "actual_pnl_r": 4.94,
+    "strategy": "All"
+  },
+  {
+    "trade_id": "cal-010",
+    "entry_confidence": 0.95,
+    "actual_pnl_r": 8.16,
+    "strategy": "All"
+  }
 ]

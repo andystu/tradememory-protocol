@@ -129,9 +129,9 @@ export default function StrategiesPage() {
     (a) => a.strategy === selected || a.strategy === null
   );
 
-  // Sort trades by date desc
+  // Sort trades by timestamp desc
   const trades = [...d.trades].sort(
-    (a, b) => new Date(b.date as string).getTime() - new Date(a.date as string).getTime()
+    (a, b) => new Date(b.timestamp as string).getTime() - new Date(a.timestamp as string).getTime()
   );
 
   const visibleTrades = trades.slice(0, visibleRows);
@@ -225,15 +225,15 @@ export default function StrategiesPage() {
               <tbody>
                 {visibleTrades.map((tr) => {
                   const trade = tr as Record<string, unknown>;
-                  const pnl = trade.pnl as number;
-                  const pnlR = trade.pnl_r as number;
-                  const side = trade.side as string;
-                  const holdSec = trade.hold_seconds as number;
+                  const pnl = (trade.pnl as number) ?? 0;
+                  const pnlR = (trade.pnl_r as number) ?? 0;
+                  const side = (trade.side as string) ?? (trade.direction as string) ?? '—';
+                  const holdSec = ((trade.hold_seconds as number) ?? (trade.hold_duration as number)) ?? 0;
                   return (
                     <tr key={trade.id as string}>
-                      <td>{trade.date as string}</td>
-                      <td className={side === 'BUY' ? styles.long : styles.short}>
-                        {side === 'BUY' ? 'LONG' : 'SHORT'}
+                      <td>{((trade.date as string) ?? (trade.timestamp as string) ?? "").slice(0, 10)}</td>
+                      <td className={(side === 'BUY' || side === 'LONG' || side === 'long') ? styles.long : styles.short}>
+                        {(side === 'BUY' || side === 'LONG' || side === 'long') ? 'LONG' : (side === '—' ? '—' : 'SHORT')}
                       </td>
                       <td>{trade.session as string}</td>
                       <td className={pnl >= 0 ? styles.pnlPos : styles.pnlNeg}>

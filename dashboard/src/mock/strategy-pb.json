@@ -1,38 +1,227 @@
 {
+  "_disclaimer": "⚠️ Generated from backtest data (2024.01-2026.02, n=10,169). Not live trading results.",
   "name": "Pullback",
-  "total_trades": 13,
-  "win_rate": 0.538,
-  "profit_factor": 1.45,
-  "avg_pnl_r": 0.52,
-  "avg_hold_seconds": 4200,
+  "total_trades": 300,
+  "win_rate": 0.48,
+  "profit_factor": 1.84,
+  "avg_pnl_r": 1.23,
+  "avg_hold_seconds": 3229,
   "best_session": "London",
-  "worst_session": "NY",
+  "worst_session": "London",
   "baseline_pf": 1.45,
   "baseline_wr": 0.52,
   "trades": [
-    { "id": "pb-001", "date": "2026-02-12", "side": "BUY", "pnl": 95.30, "pnl_r": 1.24, "session": "London", "hold_seconds": 4500 },
-    { "id": "pb-002", "date": "2026-02-15", "side": "BUY", "pnl": -55.40, "pnl_r": -0.72, "session": "NY", "hold_seconds": 2700 },
-    { "id": "pb-003", "date": "2026-02-18", "side": "BUY", "pnl": 110.80, "pnl_r": 1.44, "session": "London", "hold_seconds": 5100 },
-    { "id": "pb-004", "date": "2026-02-20", "side": "BUY", "pnl": 72.50, "pnl_r": 0.94, "session": "London", "hold_seconds": 3900 },
-    { "id": "pb-005", "date": "2026-02-23", "side": "BUY", "pnl": -80.20, "pnl_r": -1.04, "session": "NY", "hold_seconds": 1800 },
-    { "id": "pb-006", "date": "2026-02-26", "side": "BUY", "pnl": 88.60, "pnl_r": 1.15, "session": "London", "hold_seconds": 4200 },
-    { "id": "pb-007", "date": "2026-02-28", "side": "BUY", "pnl": -42.10, "pnl_r": -0.55, "session": "Asia", "hold_seconds": 3000 },
-    { "id": "pb-008", "date": "2026-03-02", "side": "BUY", "pnl": 125.40, "pnl_r": 1.63, "session": "London", "hold_seconds": 5400 },
-    { "id": "pb-009", "date": "2026-03-04", "side": "BUY", "pnl": -68.30, "pnl_r": -0.89, "session": "NY", "hold_seconds": 2400 },
-    { "id": "pb-010", "date": "2026-03-06", "side": "BUY", "pnl": 82.70, "pnl_r": 1.07, "session": "London", "hold_seconds": 4800 },
-    { "id": "pb-011", "date": "2026-03-07", "side": "BUY", "pnl": -35.90, "pnl_r": -0.47, "session": "Asia", "hold_seconds": 2100 },
-    { "id": "pb-012", "date": "2026-03-09", "side": "BUY", "pnl": 105.60, "pnl_r": 1.37, "session": "London", "hold_seconds": 4500 },
-    { "id": "pb-013", "date": "2026-03-10", "side": "BUY", "pnl": 68.20, "pnl_r": 0.89, "session": "London", "hold_seconds": 3600 }
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR3_PCT0.6-0031",
+      "date": "2025-12-15",
+      "side": "BUY",
+      "pnl": -363.3,
+      "pnl_r": -3.63,
+      "session": "London",
+      "hold_seconds": 145
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR3_PCT0.75-0027",
+      "date": "2025-12-15",
+      "side": "BUY",
+      "pnl": -326.97,
+      "pnl_r": -3.27,
+      "session": "London",
+      "hold_seconds": 145
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR1.5_PCT0.5-0037",
+      "date": "2025-12-30",
+      "side": "BUY",
+      "pnl": -291.4,
+      "pnl_r": -2.91,
+      "session": "London",
+      "hold_seconds": 968
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR1.5_PCT0.6-0032",
+      "date": "2025-12-30",
+      "side": "BUY",
+      "pnl": -291.4,
+      "pnl_r": -2.91,
+      "session": "London",
+      "hold_seconds": 968
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR2_PCT0.5-0037",
+      "date": "2025-12-30",
+      "side": "BUY",
+      "pnl": -349.68,
+      "pnl_r": -3.5,
+      "session": "London",
+      "hold_seconds": 968
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR2_PCT0.6-0032",
+      "date": "2025-12-30",
+      "side": "BUY",
+      "pnl": -291.4,
+      "pnl_r": -2.91,
+      "session": "London",
+      "hold_seconds": 968
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR3_PCT0.5-0037",
+      "date": "2025-12-30",
+      "side": "BUY",
+      "pnl": -407.96,
+      "pnl_r": -4.08,
+      "session": "London",
+      "hold_seconds": 968
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR3_PCT0.6-0032",
+      "date": "2025-12-30",
+      "side": "BUY",
+      "pnl": -349.68,
+      "pnl_r": -3.5,
+      "session": "London",
+      "hold_seconds": 968
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR1.5_PCT0.75-0028",
+      "date": "2025-12-30",
+      "side": "BUY",
+      "pnl": -277.1,
+      "pnl_r": -2.77,
+      "session": "London",
+      "hold_seconds": 967
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR2_PCT0.75-0028",
+      "date": "2025-12-30",
+      "side": "BUY",
+      "pnl": -277.1,
+      "pnl_r": -2.77,
+      "session": "London",
+      "hold_seconds": 967
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR3_PCT0.75-0028",
+      "date": "2025-12-30",
+      "side": "BUY",
+      "pnl": -332.52,
+      "pnl_r": -3.33,
+      "session": "London",
+      "hold_seconds": 967
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR1.5_PCT0.5-0038",
+      "date": "2026-01-28",
+      "side": "BUY",
+      "pnl": 376.28,
+      "pnl_r": 3.76,
+      "session": "London",
+      "hold_seconds": 839
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR2_PCT0.5-0038",
+      "date": "2026-01-28",
+      "side": "BUY",
+      "pnl": 501.7,
+      "pnl_r": 5.02,
+      "session": "London",
+      "hold_seconds": 863
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR3_PCT0.5-0038",
+      "date": "2026-01-28",
+      "side": "BUY",
+      "pnl": -376.29,
+      "pnl_r": -3.76,
+      "session": "London",
+      "hold_seconds": 1813
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR1.5_PCT0.6-0033",
+      "date": "2026-01-28",
+      "side": "BUY",
+      "pnl": 351.9,
+      "pnl_r": 3.52,
+      "session": "London",
+      "hold_seconds": 830
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR2_PCT0.6-0033",
+      "date": "2026-01-28",
+      "side": "BUY",
+      "pnl": 469.2,
+      "pnl_r": 4.69,
+      "session": "London",
+      "hold_seconds": 857
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR3_PCT0.6-0033",
+      "date": "2026-01-28",
+      "side": "BUY",
+      "pnl": -351.9,
+      "pnl_r": -3.52,
+      "session": "London",
+      "hold_seconds": 1809
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR1.5_PCT0.75-0029",
+      "date": "2026-01-28",
+      "side": "BUY",
+      "pnl": 325.52,
+      "pnl_r": 3.26,
+      "session": "London",
+      "hold_seconds": 800
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR2_PCT0.75-0029",
+      "date": "2026-01-28",
+      "side": "BUY",
+      "pnl": 434.02,
+      "pnl_r": 4.34,
+      "session": "London",
+      "hold_seconds": 812
+    },
+    {
+      "id": "BT-PB_XAUUSD_BUY_RR3_PCT0.75-0029",
+      "date": "2026-01-28",
+      "side": "BUY",
+      "pnl": 976.56,
+      "pnl_r": 9.77,
+      "session": "London",
+      "hold_seconds": 835
+    }
   ],
   "session_heatmap": [
-    { "session": "Asia", "day": "Fri", "trades": 1, "avg_pnl": -42.10 },
-    { "session": "Asia", "day": "Sat", "trades": 1, "avg_pnl": -35.90 },
-    { "session": "London", "day": "Mon", "trades": 2, "avg_pnl": 93.15 },
-    { "session": "London", "day": "Tue", "trades": 2, "avg_pnl": 91.70 },
-    { "session": "London", "day": "Wed", "trades": 2, "avg_pnl": 103.10 },
-    { "session": "London", "day": "Thu", "trades": 2, "avg_pnl": 86.90 },
-    { "session": "NY", "day": "Mon", "trades": 1, "avg_pnl": -55.40 },
-    { "session": "NY", "day": "Wed", "trades": 1, "avg_pnl": -80.20 },
-    { "session": "NY", "day": "Thu", "trades": 1, "avg_pnl": -68.30 }
+    {
+      "session": "London",
+      "day": "Fri",
+      "trades": 57,
+      "avg_pnl": -119.72
+    },
+    {
+      "session": "London",
+      "day": "Mon",
+      "trades": 36,
+      "avg_pnl": 70.84
+    },
+    {
+      "session": "London",
+      "day": "Thu",
+      "trades": 51,
+      "avg_pnl": 320.94
+    },
+    {
+      "session": "London",
+      "day": "Tue",
+      "trades": 54,
+      "avg_pnl": 136.18
+    },
+    {
+      "session": "London",
+      "day": "Wed",
+      "trades": 102,
+      "avg_pnl": 170.41
+    }
   ]
 }

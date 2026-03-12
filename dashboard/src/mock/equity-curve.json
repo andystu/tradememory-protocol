@@ -1,32 +1,1322 @@
 [
-  { "date": "2026-02-09", "cumulative_pnl": 0, "drawdown_pct": 0, "trade_count": 0 },
-  { "date": "2026-02-10", "cumulative_pnl": 85.20, "drawdown_pct": 0, "trade_count": 2 },
-  { "date": "2026-02-11", "cumulative_pnl": 142.80, "drawdown_pct": 0, "trade_count": 3 },
-  { "date": "2026-02-12", "cumulative_pnl": 98.50, "drawdown_pct": 0.0034, "trade_count": 5 },
-  { "date": "2026-02-13", "cumulative_pnl": 215.30, "drawdown_pct": 0, "trade_count": 6 },
-  { "date": "2026-02-14", "cumulative_pnl": 310.60, "drawdown_pct": 0, "trade_count": 8 },
-  { "date": "2026-02-15", "cumulative_pnl": 275.40, "drawdown_pct": 0.0028, "trade_count": 9 },
-  { "date": "2026-02-16", "cumulative_pnl": 390.10, "drawdown_pct": 0, "trade_count": 10 },
-  { "date": "2026-02-17", "cumulative_pnl": 520.80, "drawdown_pct": 0, "trade_count": 12 },
-  { "date": "2026-02-18", "cumulative_pnl": 610.50, "drawdown_pct": 0, "trade_count": 13 },
-  { "date": "2026-02-19", "cumulative_pnl": 545.20, "drawdown_pct": 0.0052, "trade_count": 15 },
-  { "date": "2026-02-20", "cumulative_pnl": 680.30, "drawdown_pct": 0, "trade_count": 16 },
-  { "date": "2026-02-21", "cumulative_pnl": 825.60, "drawdown_pct": 0, "trade_count": 18 },
-  { "date": "2026-02-22", "cumulative_pnl": 920.40, "drawdown_pct": 0, "trade_count": 19 },
-  { "date": "2026-02-23", "cumulative_pnl": 870.10, "drawdown_pct": 0.0040, "trade_count": 20 },
-  { "date": "2026-02-24", "cumulative_pnl": 1050.70, "drawdown_pct": 0, "trade_count": 22 },
-  { "date": "2026-02-25", "cumulative_pnl": 1180.30, "drawdown_pct": 0, "trade_count": 24 },
-  { "date": "2026-02-26", "cumulative_pnl": 1320.90, "drawdown_pct": 0, "trade_count": 25 },
-  { "date": "2026-02-27", "cumulative_pnl": 1245.60, "drawdown_pct": 0.0057, "trade_count": 27 },
-  { "date": "2026-02-28", "cumulative_pnl": 1410.20, "drawdown_pct": 0, "trade_count": 28 },
-  { "date": "2026-03-01", "cumulative_pnl": 1580.50, "drawdown_pct": 0, "trade_count": 30 },
-  { "date": "2026-03-02", "cumulative_pnl": 1720.80, "drawdown_pct": 0, "trade_count": 32 },
-  { "date": "2026-03-03", "cumulative_pnl": 1650.30, "drawdown_pct": 0.0055, "trade_count": 33 },
-  { "date": "2026-03-04", "cumulative_pnl": 1890.60, "drawdown_pct": 0, "trade_count": 35 },
-  { "date": "2026-03-05", "cumulative_pnl": 2050.40, "drawdown_pct": 0, "trade_count": 37 },
-  { "date": "2026-03-06", "cumulative_pnl": 2210.90, "drawdown_pct": 0, "trade_count": 39 },
-  { "date": "2026-03-07", "cumulative_pnl": 2105.20, "drawdown_pct": 0.0080, "trade_count": 41 },
-  { "date": "2026-03-08", "cumulative_pnl": 2380.70, "drawdown_pct": 0, "trade_count": 43 },
-  { "date": "2026-03-09", "cumulative_pnl": 2620.30, "drawdown_pct": 0, "trade_count": 45 },
-  { "date": "2026-03-10", "cumulative_pnl": 2847.50, "drawdown_pct": 0, "trade_count": 47 }
+  {
+    "date": "2024-01-02",
+    "cumulative_pnl": -6074.09,
+    "drawdown_pct": 0.0,
+    "trade_count": 25
+  },
+  {
+    "date": "2024-01-04",
+    "cumulative_pnl": -11843.97,
+    "drawdown_pct": 0.0,
+    "trade_count": 49
+  },
+  {
+    "date": "2024-01-09",
+    "cumulative_pnl": -12781.41,
+    "drawdown_pct": 0.0,
+    "trade_count": 53
+  },
+  {
+    "date": "2024-01-11",
+    "cumulative_pnl": -18963.54,
+    "drawdown_pct": 0.0,
+    "trade_count": 79
+  },
+  {
+    "date": "2024-01-12",
+    "cumulative_pnl": -15509.8,
+    "drawdown_pct": 0.0,
+    "trade_count": 107
+  },
+  {
+    "date": "2024-01-19",
+    "cumulative_pnl": -19678.15,
+    "drawdown_pct": 0.0,
+    "trade_count": 125
+  },
+  {
+    "date": "2024-01-23",
+    "cumulative_pnl": -28638.05,
+    "drawdown_pct": 0.0,
+    "trade_count": 174
+  },
+  {
+    "date": "2024-01-24",
+    "cumulative_pnl": -28633.88,
+    "drawdown_pct": 0.0,
+    "trade_count": 189
+  },
+  {
+    "date": "2024-01-29",
+    "cumulative_pnl": -25099.24,
+    "drawdown_pct": 0.0,
+    "trade_count": 223
+  },
+  {
+    "date": "2024-02-12",
+    "cumulative_pnl": -25532.5,
+    "drawdown_pct": 0.0,
+    "trade_count": 241
+  },
+  {
+    "date": "2024-02-13",
+    "cumulative_pnl": -29488.27,
+    "drawdown_pct": 0.0,
+    "trade_count": 259
+  },
+  {
+    "date": "2024-02-19",
+    "cumulative_pnl": -23201.09,
+    "drawdown_pct": 0.0,
+    "trade_count": 271
+  },
+  {
+    "date": "2024-02-22",
+    "cumulative_pnl": -24922.55,
+    "drawdown_pct": 0.0,
+    "trade_count": 295
+  },
+  {
+    "date": "2024-02-27",
+    "cumulative_pnl": -27142.13,
+    "drawdown_pct": 0.0,
+    "trade_count": 305
+  },
+  {
+    "date": "2024-02-29",
+    "cumulative_pnl": -29310.33,
+    "drawdown_pct": 0.0,
+    "trade_count": 315
+  },
+  {
+    "date": "2024-03-04",
+    "cumulative_pnl": -23233.09,
+    "drawdown_pct": 0.0,
+    "trade_count": 341
+  },
+  {
+    "date": "2024-03-05",
+    "cumulative_pnl": -11444.0,
+    "drawdown_pct": 0.0,
+    "trade_count": 363
+  },
+  {
+    "date": "2024-03-06",
+    "cumulative_pnl": -7066.65,
+    "drawdown_pct": 0.0,
+    "trade_count": 372
+  },
+  {
+    "date": "2024-03-07",
+    "cumulative_pnl": -592.07,
+    "drawdown_pct": 0.0,
+    "trade_count": 384
+  },
+  {
+    "date": "2024-03-08",
+    "cumulative_pnl": 5535.37,
+    "drawdown_pct": 0.0,
+    "trade_count": 409
+  },
+  {
+    "date": "2024-03-18",
+    "cumulative_pnl": 8856.41,
+    "drawdown_pct": 0.0,
+    "trade_count": 415
+  },
+  {
+    "date": "2024-03-21",
+    "cumulative_pnl": 7521.31,
+    "drawdown_pct": 0.1507,
+    "trade_count": 421
+  },
+  {
+    "date": "2024-03-27",
+    "cumulative_pnl": 14975.28,
+    "drawdown_pct": 0.0,
+    "trade_count": 437
+  },
+  {
+    "date": "2024-03-28",
+    "cumulative_pnl": 19126.64,
+    "drawdown_pct": 0.0,
+    "trade_count": 447
+  },
+  {
+    "date": "2024-04-01",
+    "cumulative_pnl": 27990.0,
+    "drawdown_pct": 0.0,
+    "trade_count": 465
+  },
+  {
+    "date": "2024-04-02",
+    "cumulative_pnl": 40095.29,
+    "drawdown_pct": 0.0,
+    "trade_count": 490
+  },
+  {
+    "date": "2024-04-09",
+    "cumulative_pnl": 35327.98,
+    "drawdown_pct": 0.1189,
+    "trade_count": 506
+  },
+  {
+    "date": "2024-04-12",
+    "cumulative_pnl": 30442.02,
+    "drawdown_pct": 0.2408,
+    "trade_count": 526
+  },
+  {
+    "date": "2024-04-15",
+    "cumulative_pnl": 30302.02,
+    "drawdown_pct": 0.2442,
+    "trade_count": 532
+  },
+  {
+    "date": "2024-04-17",
+    "cumulative_pnl": 30901.57,
+    "drawdown_pct": 0.2293,
+    "trade_count": 544
+  },
+  {
+    "date": "2024-04-25",
+    "cumulative_pnl": 32137.75,
+    "drawdown_pct": 0.1985,
+    "trade_count": 561
+  },
+  {
+    "date": "2024-05-06",
+    "cumulative_pnl": 35360.14,
+    "drawdown_pct": 0.1181,
+    "trade_count": 579
+  },
+  {
+    "date": "2024-05-10",
+    "cumulative_pnl": 27445.87,
+    "drawdown_pct": 0.3155,
+    "trade_count": 609
+  },
+  {
+    "date": "2024-05-20",
+    "cumulative_pnl": 20310.25,
+    "drawdown_pct": 0.4935,
+    "trade_count": 637
+  },
+  {
+    "date": "2024-05-24",
+    "cumulative_pnl": 22596.96,
+    "drawdown_pct": 0.4364,
+    "trade_count": 646
+  },
+  {
+    "date": "2024-05-28",
+    "cumulative_pnl": 22308.96,
+    "drawdown_pct": 0.4436,
+    "trade_count": 658
+  },
+  {
+    "date": "2024-06-05",
+    "cumulative_pnl": 26465.11,
+    "drawdown_pct": 0.3399,
+    "trade_count": 666
+  },
+  {
+    "date": "2024-06-06",
+    "cumulative_pnl": 24901.15,
+    "drawdown_pct": 0.379,
+    "trade_count": 678
+  },
+  {
+    "date": "2024-06-07",
+    "cumulative_pnl": 22570.15,
+    "drawdown_pct": 0.4371,
+    "trade_count": 686
+  },
+  {
+    "date": "2024-06-20",
+    "cumulative_pnl": 16654.91,
+    "drawdown_pct": 0.5846,
+    "trade_count": 720
+  },
+  {
+    "date": "2024-06-28",
+    "cumulative_pnl": 12243.98,
+    "drawdown_pct": 0.6946,
+    "trade_count": 736
+  },
+  {
+    "date": "2024-07-01",
+    "cumulative_pnl": 11978.38,
+    "drawdown_pct": 0.7013,
+    "trade_count": 748
+  },
+  {
+    "date": "2024-07-03",
+    "cumulative_pnl": 21912.65,
+    "drawdown_pct": 0.4535,
+    "trade_count": 766
+  },
+  {
+    "date": "2024-07-05",
+    "cumulative_pnl": 17098.14,
+    "drawdown_pct": 0.5736,
+    "trade_count": 795
+  },
+  {
+    "date": "2024-07-11",
+    "cumulative_pnl": 28349.64,
+    "drawdown_pct": 0.2929,
+    "trade_count": 815
+  },
+  {
+    "date": "2024-07-16",
+    "cumulative_pnl": 43799.22,
+    "drawdown_pct": 0.0,
+    "trade_count": 858
+  },
+  {
+    "date": "2024-07-18",
+    "cumulative_pnl": 38633.44,
+    "drawdown_pct": 0.1179,
+    "trade_count": 878
+  },
+  {
+    "date": "2024-07-24",
+    "cumulative_pnl": 36424.36,
+    "drawdown_pct": 0.1684,
+    "trade_count": 887
+  },
+  {
+    "date": "2024-07-26",
+    "cumulative_pnl": 38303.4,
+    "drawdown_pct": 0.1255,
+    "trade_count": 890
+  },
+  {
+    "date": "2024-07-31",
+    "cumulative_pnl": 43537.99,
+    "drawdown_pct": 0.006,
+    "trade_count": 910
+  },
+  {
+    "date": "2024-08-02",
+    "cumulative_pnl": 35901.37,
+    "drawdown_pct": 0.1803,
+    "trade_count": 941
+  },
+  {
+    "date": "2024-08-05",
+    "cumulative_pnl": 33762.03,
+    "drawdown_pct": 0.2292,
+    "trade_count": 949
+  },
+  {
+    "date": "2024-08-08",
+    "cumulative_pnl": 37845.93,
+    "drawdown_pct": 0.1359,
+    "trade_count": 975
+  },
+  {
+    "date": "2024-08-14",
+    "cumulative_pnl": 35651.01,
+    "drawdown_pct": 0.186,
+    "trade_count": 983
+  },
+  {
+    "date": "2024-08-23",
+    "cumulative_pnl": 39918.24,
+    "drawdown_pct": 0.0886,
+    "trade_count": 1029
+  },
+  {
+    "date": "2024-08-29",
+    "cumulative_pnl": 37689.36,
+    "drawdown_pct": 0.1395,
+    "trade_count": 1037
+  },
+  {
+    "date": "2024-08-30",
+    "cumulative_pnl": 35483.51,
+    "drawdown_pct": 0.1899,
+    "trade_count": 1045
+  },
+  {
+    "date": "2024-09-02",
+    "cumulative_pnl": 35124.41,
+    "drawdown_pct": 0.1981,
+    "trade_count": 1060
+  },
+  {
+    "date": "2024-09-03",
+    "cumulative_pnl": 30903.01,
+    "drawdown_pct": 0.2944,
+    "trade_count": 1076
+  },
+  {
+    "date": "2024-09-05",
+    "cumulative_pnl": 30482.66,
+    "drawdown_pct": 0.304,
+    "trade_count": 1088
+  },
+  {
+    "date": "2024-09-11",
+    "cumulative_pnl": 25974.08,
+    "drawdown_pct": 0.407,
+    "trade_count": 1119
+  },
+  {
+    "date": "2024-09-13",
+    "cumulative_pnl": 25553.49,
+    "drawdown_pct": 0.4166,
+    "trade_count": 1137
+  },
+  {
+    "date": "2024-09-16",
+    "cumulative_pnl": 25489.59,
+    "drawdown_pct": 0.418,
+    "trade_count": 1155
+  },
+  {
+    "date": "2024-09-19",
+    "cumulative_pnl": 39311.21,
+    "drawdown_pct": 0.1025,
+    "trade_count": 1180
+  },
+  {
+    "date": "2024-09-20",
+    "cumulative_pnl": 48991.63,
+    "drawdown_pct": 0.0,
+    "trade_count": 1198
+  },
+  {
+    "date": "2024-09-24",
+    "cumulative_pnl": 46817.03,
+    "drawdown_pct": 0.0444,
+    "trade_count": 1206
+  },
+  {
+    "date": "2024-09-26",
+    "cumulative_pnl": 46382.87,
+    "drawdown_pct": 0.0532,
+    "trade_count": 1224
+  },
+  {
+    "date": "2024-09-30",
+    "cumulative_pnl": 45314.87,
+    "drawdown_pct": 0.075,
+    "trade_count": 1228
+  },
+  {
+    "date": "2024-10-01",
+    "cumulative_pnl": 43396.98,
+    "drawdown_pct": 0.1142,
+    "trade_count": 1252
+  },
+  {
+    "date": "2024-10-11",
+    "cumulative_pnl": 50727.4,
+    "drawdown_pct": 0.0,
+    "trade_count": 1264
+  },
+  {
+    "date": "2024-10-14",
+    "cumulative_pnl": 46562.68,
+    "drawdown_pct": 0.0821,
+    "trade_count": 1280
+  },
+  {
+    "date": "2024-10-16",
+    "cumulative_pnl": 59982.78,
+    "drawdown_pct": 0.0,
+    "trade_count": 1313
+  },
+  {
+    "date": "2024-10-18",
+    "cumulative_pnl": 68509.47,
+    "drawdown_pct": 0.0,
+    "trade_count": 1327
+  },
+  {
+    "date": "2024-10-21",
+    "cumulative_pnl": 65430.51,
+    "drawdown_pct": 0.0449,
+    "trade_count": 1339
+  },
+  {
+    "date": "2024-10-22",
+    "cumulative_pnl": 58796.22,
+    "drawdown_pct": 0.1418,
+    "trade_count": 1365
+  },
+  {
+    "date": "2024-10-23",
+    "cumulative_pnl": 56025.87,
+    "drawdown_pct": 0.1822,
+    "trade_count": 1374
+  },
+  {
+    "date": "2024-10-24",
+    "cumulative_pnl": 60194.83,
+    "drawdown_pct": 0.1214,
+    "trade_count": 1402
+  },
+  {
+    "date": "2024-10-30",
+    "cumulative_pnl": 54955.56,
+    "drawdown_pct": 0.1978,
+    "trade_count": 1422
+  },
+  {
+    "date": "2024-11-01",
+    "cumulative_pnl": 52931.37,
+    "drawdown_pct": 0.2274,
+    "trade_count": 1430
+  },
+  {
+    "date": "2024-11-05",
+    "cumulative_pnl": 48920.15,
+    "drawdown_pct": 0.2859,
+    "trade_count": 1446
+  },
+  {
+    "date": "2024-11-07",
+    "cumulative_pnl": 49997.2,
+    "drawdown_pct": 0.2702,
+    "trade_count": 1453
+  },
+  {
+    "date": "2024-11-15",
+    "cumulative_pnl": 49800.08,
+    "drawdown_pct": 0.2731,
+    "trade_count": 1462
+  },
+  {
+    "date": "2024-11-18",
+    "cumulative_pnl": 54853.1,
+    "drawdown_pct": 0.1993,
+    "trade_count": 1470
+  },
+  {
+    "date": "2024-11-19",
+    "cumulative_pnl": 63861.01,
+    "drawdown_pct": 0.0679,
+    "trade_count": 1486
+  },
+  {
+    "date": "2024-11-21",
+    "cumulative_pnl": 75824.53,
+    "drawdown_pct": 0.0,
+    "trade_count": 1504
+  },
+  {
+    "date": "2024-11-22",
+    "cumulative_pnl": 67882.47,
+    "drawdown_pct": 0.1047,
+    "trade_count": 1533
+  },
+  {
+    "date": "2024-11-27",
+    "cumulative_pnl": 60470.91,
+    "drawdown_pct": 0.2025,
+    "trade_count": 1561
+  },
+  {
+    "date": "2024-11-28",
+    "cumulative_pnl": 61506.3,
+    "drawdown_pct": 0.1888,
+    "trade_count": 1577
+  },
+  {
+    "date": "2024-11-29",
+    "cumulative_pnl": 59581.82,
+    "drawdown_pct": 0.2142,
+    "trade_count": 1591
+  },
+  {
+    "date": "2024-12-09",
+    "cumulative_pnl": 67284.41,
+    "drawdown_pct": 0.1126,
+    "trade_count": 1619
+  },
+  {
+    "date": "2024-12-16",
+    "cumulative_pnl": 64963.91,
+    "drawdown_pct": 0.1432,
+    "trade_count": 1628
+  },
+  {
+    "date": "2024-12-19",
+    "cumulative_pnl": 73457.14,
+    "drawdown_pct": 0.0312,
+    "trade_count": 1668
+  },
+  {
+    "date": "2025-01-02",
+    "cumulative_pnl": 68701.22,
+    "drawdown_pct": 0.0939,
+    "trade_count": 1699
+  },
+  {
+    "date": "2025-01-06",
+    "cumulative_pnl": 69026.3,
+    "drawdown_pct": 0.0897,
+    "trade_count": 1711
+  },
+  {
+    "date": "2025-01-07",
+    "cumulative_pnl": 68964.35,
+    "drawdown_pct": 0.0905,
+    "trade_count": 1714
+  },
+  {
+    "date": "2025-01-15",
+    "cumulative_pnl": 77054.81,
+    "drawdown_pct": 0.0,
+    "trade_count": 1730
+  },
+  {
+    "date": "2025-01-16",
+    "cumulative_pnl": 76695.96,
+    "drawdown_pct": 0.0047,
+    "trade_count": 1736
+  },
+  {
+    "date": "2025-01-20",
+    "cumulative_pnl": 83318.12,
+    "drawdown_pct": 0.0,
+    "trade_count": 1767
+  },
+  {
+    "date": "2025-01-21",
+    "cumulative_pnl": 87804.32,
+    "drawdown_pct": 0.0,
+    "trade_count": 1775
+  },
+  {
+    "date": "2025-01-22",
+    "cumulative_pnl": 80854.18,
+    "drawdown_pct": 0.0792,
+    "trade_count": 1800
+  },
+  {
+    "date": "2025-01-24",
+    "cumulative_pnl": 76604.9,
+    "drawdown_pct": 0.1275,
+    "trade_count": 1826
+  },
+  {
+    "date": "2025-01-30",
+    "cumulative_pnl": 86360.93,
+    "drawdown_pct": 0.0164,
+    "trade_count": 1840
+  },
+  {
+    "date": "2025-02-05",
+    "cumulative_pnl": 74617.63,
+    "drawdown_pct": 0.1502,
+    "trade_count": 1883
+  },
+  {
+    "date": "2025-02-10",
+    "cumulative_pnl": 78423.86,
+    "drawdown_pct": 0.1068,
+    "trade_count": 1917
+  },
+  {
+    "date": "2025-02-13",
+    "cumulative_pnl": 78084.86,
+    "drawdown_pct": 0.1107,
+    "trade_count": 1932
+  },
+  {
+    "date": "2025-02-18",
+    "cumulative_pnl": 78882.08,
+    "drawdown_pct": 0.1016,
+    "trade_count": 1940
+  },
+  {
+    "date": "2025-02-20",
+    "cumulative_pnl": 77561.33,
+    "drawdown_pct": 0.1167,
+    "trade_count": 1944
+  },
+  {
+    "date": "2025-02-24",
+    "cumulative_pnl": 76474.15,
+    "drawdown_pct": 0.129,
+    "trade_count": 1948
+  },
+  {
+    "date": "2025-03-04",
+    "cumulative_pnl": 79538.25,
+    "drawdown_pct": 0.0941,
+    "trade_count": 1964
+  },
+  {
+    "date": "2025-03-05",
+    "cumulative_pnl": 79832.89,
+    "drawdown_pct": 0.0908,
+    "trade_count": 1981
+  },
+  {
+    "date": "2025-03-07",
+    "cumulative_pnl": 73433.23,
+    "drawdown_pct": 0.1637,
+    "trade_count": 2012
+  },
+  {
+    "date": "2025-03-11",
+    "cumulative_pnl": 82464.11,
+    "drawdown_pct": 0.0608,
+    "trade_count": 2040
+  },
+  {
+    "date": "2025-03-17",
+    "cumulative_pnl": 86780.09,
+    "drawdown_pct": 0.0117,
+    "trade_count": 2048
+  },
+  {
+    "date": "2025-03-18",
+    "cumulative_pnl": 103012.8,
+    "drawdown_pct": 0.0,
+    "trade_count": 2079
+  },
+  {
+    "date": "2025-03-19",
+    "cumulative_pnl": 101222.37,
+    "drawdown_pct": 0.0174,
+    "trade_count": 2085
+  },
+  {
+    "date": "2025-03-24",
+    "cumulative_pnl": 98903.57,
+    "drawdown_pct": 0.0399,
+    "trade_count": 2093
+  },
+  {
+    "date": "2025-03-26",
+    "cumulative_pnl": 96650.05,
+    "drawdown_pct": 0.0618,
+    "trade_count": 2101
+  },
+  {
+    "date": "2025-03-27",
+    "cumulative_pnl": 110176.02,
+    "drawdown_pct": 0.0,
+    "trade_count": 2137
+  },
+  {
+    "date": "2025-03-28",
+    "cumulative_pnl": 115121.97,
+    "drawdown_pct": 0.0,
+    "trade_count": 2155
+  },
+  {
+    "date": "2025-03-31",
+    "cumulative_pnl": 110346.95,
+    "drawdown_pct": 0.0415,
+    "trade_count": 2186
+  },
+  {
+    "date": "2025-04-03",
+    "cumulative_pnl": 111201.95,
+    "drawdown_pct": 0.0341,
+    "trade_count": 2204
+  },
+  {
+    "date": "2025-04-04",
+    "cumulative_pnl": 108790.43,
+    "drawdown_pct": 0.055,
+    "trade_count": 2213
+  },
+  {
+    "date": "2025-04-08",
+    "cumulative_pnl": 117360.1,
+    "drawdown_pct": 0.0,
+    "trade_count": 2247
+  },
+  {
+    "date": "2025-04-09",
+    "cumulative_pnl": 127407.67,
+    "drawdown_pct": 0.0,
+    "trade_count": 2263
+  },
+  {
+    "date": "2025-04-10",
+    "cumulative_pnl": 129856.02,
+    "drawdown_pct": 0.0,
+    "trade_count": 2267
+  },
+  {
+    "date": "2025-04-11",
+    "cumulative_pnl": 132230.51,
+    "drawdown_pct": 0.0,
+    "trade_count": 2287
+  },
+  {
+    "date": "2025-04-14",
+    "cumulative_pnl": 131978.75,
+    "drawdown_pct": 0.0019,
+    "trade_count": 2299
+  },
+  {
+    "date": "2025-04-16",
+    "cumulative_pnl": 143012.13,
+    "drawdown_pct": 0.0,
+    "trade_count": 2352
+  },
+  {
+    "date": "2025-04-21",
+    "cumulative_pnl": 140567.15,
+    "drawdown_pct": 0.0171,
+    "trade_count": 2374
+  },
+  {
+    "date": "2025-04-22",
+    "cumulative_pnl": 139311.29,
+    "drawdown_pct": 0.0259,
+    "trade_count": 2378
+  },
+  {
+    "date": "2025-05-02",
+    "cumulative_pnl": 134915.8,
+    "drawdown_pct": 0.0566,
+    "trade_count": 2403
+  },
+  {
+    "date": "2025-05-05",
+    "cumulative_pnl": 151970.28,
+    "drawdown_pct": 0.0,
+    "trade_count": 2428
+  },
+  {
+    "date": "2025-05-06",
+    "cumulative_pnl": 151151.49,
+    "drawdown_pct": 0.0054,
+    "trade_count": 2435
+  },
+  {
+    "date": "2025-05-13",
+    "cumulative_pnl": 147828.43,
+    "drawdown_pct": 0.0273,
+    "trade_count": 2446
+  },
+  {
+    "date": "2025-05-15",
+    "cumulative_pnl": 147555.79,
+    "drawdown_pct": 0.029,
+    "trade_count": 2458
+  },
+  {
+    "date": "2025-05-19",
+    "cumulative_pnl": 152344.83,
+    "drawdown_pct": 0.0,
+    "trade_count": 2475
+  },
+  {
+    "date": "2025-05-21",
+    "cumulative_pnl": 147361.23,
+    "drawdown_pct": 0.0327,
+    "trade_count": 2501
+  },
+  {
+    "date": "2025-05-23",
+    "cumulative_pnl": 142109.99,
+    "drawdown_pct": 0.0672,
+    "trade_count": 2531
+  },
+  {
+    "date": "2025-05-26",
+    "cumulative_pnl": 141858.99,
+    "drawdown_pct": 0.0688,
+    "trade_count": 2543
+  },
+  {
+    "date": "2025-05-28",
+    "cumulative_pnl": 140680.54,
+    "drawdown_pct": 0.0766,
+    "trade_count": 2547
+  },
+  {
+    "date": "2025-06-02",
+    "cumulative_pnl": 144375.04,
+    "drawdown_pct": 0.0523,
+    "trade_count": 2593
+  },
+  {
+    "date": "2025-06-09",
+    "cumulative_pnl": 143999.08,
+    "drawdown_pct": 0.0548,
+    "trade_count": 2607
+  },
+  {
+    "date": "2025-06-11",
+    "cumulative_pnl": 151479.86,
+    "drawdown_pct": 0.0057,
+    "trade_count": 2624
+  },
+  {
+    "date": "2025-06-12",
+    "cumulative_pnl": 151674.54,
+    "drawdown_pct": 0.0044,
+    "trade_count": 2630
+  },
+  {
+    "date": "2025-06-16",
+    "cumulative_pnl": 151416.78,
+    "drawdown_pct": 0.0061,
+    "trade_count": 2642
+  },
+  {
+    "date": "2025-06-20",
+    "cumulative_pnl": 151223.5,
+    "drawdown_pct": 0.0074,
+    "trade_count": 2650
+  },
+  {
+    "date": "2025-06-23",
+    "cumulative_pnl": 150936.7,
+    "drawdown_pct": 0.0092,
+    "trade_count": 2662
+  },
+  {
+    "date": "2025-06-24",
+    "cumulative_pnl": 151280.62,
+    "drawdown_pct": 0.007,
+    "trade_count": 2670
+  },
+  {
+    "date": "2025-06-26",
+    "cumulative_pnl": 150497.95,
+    "drawdown_pct": 0.0121,
+    "trade_count": 2692
+  },
+  {
+    "date": "2025-06-30",
+    "cumulative_pnl": 152812.97,
+    "drawdown_pct": 0.0,
+    "trade_count": 2700
+  },
+  {
+    "date": "2025-07-01",
+    "cumulative_pnl": 149978.16,
+    "drawdown_pct": 0.0186,
+    "trade_count": 2723
+  },
+  {
+    "date": "2025-07-04",
+    "cumulative_pnl": 147159.05,
+    "drawdown_pct": 0.037,
+    "trade_count": 2743
+  },
+  {
+    "date": "2025-07-08",
+    "cumulative_pnl": 146929.85,
+    "drawdown_pct": 0.0385,
+    "trade_count": 2753
+  },
+  {
+    "date": "2025-07-11",
+    "cumulative_pnl": 149724.13,
+    "drawdown_pct": 0.0202,
+    "trade_count": 2769
+  },
+  {
+    "date": "2025-07-15",
+    "cumulative_pnl": 144050.79,
+    "drawdown_pct": 0.0573,
+    "trade_count": 2787
+  },
+  {
+    "date": "2025-07-16",
+    "cumulative_pnl": 143638.77,
+    "drawdown_pct": 0.06,
+    "trade_count": 2805
+  },
+  {
+    "date": "2025-07-18",
+    "cumulative_pnl": 144159.33,
+    "drawdown_pct": 0.0566,
+    "trade_count": 2814
+  },
+  {
+    "date": "2025-07-21",
+    "cumulative_pnl": 159037.79,
+    "drawdown_pct": 0.0,
+    "trade_count": 2845
+  },
+  {
+    "date": "2025-07-28",
+    "cumulative_pnl": 156427.52,
+    "drawdown_pct": 0.0164,
+    "trade_count": 2853
+  },
+  {
+    "date": "2025-07-29",
+    "cumulative_pnl": 151390.82,
+    "drawdown_pct": 0.0481,
+    "trade_count": 2869
+  },
+  {
+    "date": "2025-07-31",
+    "cumulative_pnl": 176031.94,
+    "drawdown_pct": 0.0,
+    "trade_count": 2924
+  },
+  {
+    "date": "2025-08-07",
+    "cumulative_pnl": 170088.5,
+    "drawdown_pct": 0.0338,
+    "trade_count": 2952
+  },
+  {
+    "date": "2025-08-18",
+    "cumulative_pnl": 167549.0,
+    "drawdown_pct": 0.0482,
+    "trade_count": 2960
+  },
+  {
+    "date": "2025-09-01",
+    "cumulative_pnl": 173925.46,
+    "drawdown_pct": 0.012,
+    "trade_count": 2986
+  },
+  {
+    "date": "2025-09-05",
+    "cumulative_pnl": 175374.32,
+    "drawdown_pct": 0.0037,
+    "trade_count": 3003
+  },
+  {
+    "date": "2025-09-08",
+    "cumulative_pnl": 184329.76,
+    "drawdown_pct": 0.0,
+    "trade_count": 3019
+  },
+  {
+    "date": "2025-09-09",
+    "cumulative_pnl": 183168.04,
+    "drawdown_pct": 0.0063,
+    "trade_count": 3023
+  },
+  {
+    "date": "2025-09-10",
+    "cumulative_pnl": 174500.76,
+    "drawdown_pct": 0.0533,
+    "trade_count": 3054
+  },
+  {
+    "date": "2025-09-16",
+    "cumulative_pnl": 173104.62,
+    "drawdown_pct": 0.0609,
+    "trade_count": 3080
+  },
+  {
+    "date": "2025-09-19",
+    "cumulative_pnl": 179665.53,
+    "drawdown_pct": 0.0253,
+    "trade_count": 3088
+  },
+  {
+    "date": "2025-09-22",
+    "cumulative_pnl": 195256.09,
+    "drawdown_pct": 0.0,
+    "trade_count": 3109
+  },
+  {
+    "date": "2025-09-23",
+    "cumulative_pnl": 190448.73,
+    "drawdown_pct": 0.0246,
+    "trade_count": 3125
+  },
+  {
+    "date": "2025-09-25",
+    "cumulative_pnl": 185797.92,
+    "drawdown_pct": 0.0484,
+    "trade_count": 3141
+  },
+  {
+    "date": "2025-09-29",
+    "cumulative_pnl": 198285.87,
+    "drawdown_pct": 0.0,
+    "trade_count": 3175
+  },
+  {
+    "date": "2025-09-30",
+    "cumulative_pnl": 196858.47,
+    "drawdown_pct": 0.0072,
+    "trade_count": 3179
+  },
+  {
+    "date": "2025-10-01",
+    "cumulative_pnl": 191605.23,
+    "drawdown_pct": 0.0337,
+    "trade_count": 3222
+  },
+  {
+    "date": "2025-10-02",
+    "cumulative_pnl": 187071.5,
+    "drawdown_pct": 0.0566,
+    "trade_count": 3238
+  },
+  {
+    "date": "2025-10-06",
+    "cumulative_pnl": 203663.17,
+    "drawdown_pct": 0.0,
+    "trade_count": 3275
+  },
+  {
+    "date": "2025-10-08",
+    "cumulative_pnl": 195702.13,
+    "drawdown_pct": 0.0391,
+    "trade_count": 3306
+  },
+  {
+    "date": "2025-10-10",
+    "cumulative_pnl": 198221.61,
+    "drawdown_pct": 0.0267,
+    "trade_count": 3310
+  },
+  {
+    "date": "2025-10-13",
+    "cumulative_pnl": 209910.24,
+    "drawdown_pct": 0.0,
+    "trade_count": 3335
+  },
+  {
+    "date": "2025-10-14",
+    "cumulative_pnl": 208556.91,
+    "drawdown_pct": 0.0064,
+    "trade_count": 3340
+  },
+  {
+    "date": "2025-10-15",
+    "cumulative_pnl": 222396.26,
+    "drawdown_pct": 0.0,
+    "trade_count": 3395
+  },
+  {
+    "date": "2025-10-17",
+    "cumulative_pnl": 220700.94,
+    "drawdown_pct": 0.0076,
+    "trade_count": 3407
+  },
+  {
+    "date": "2025-10-22",
+    "cumulative_pnl": 220476.9,
+    "drawdown_pct": 0.0086,
+    "trade_count": 3415
+  },
+  {
+    "date": "2025-10-23",
+    "cumulative_pnl": 218394.54,
+    "drawdown_pct": 0.018,
+    "trade_count": 3423
+  },
+  {
+    "date": "2025-10-29",
+    "cumulative_pnl": 221600.99,
+    "drawdown_pct": 0.0036,
+    "trade_count": 3442
+  },
+  {
+    "date": "2025-11-05",
+    "cumulative_pnl": 226104.1,
+    "drawdown_pct": 0.0,
+    "trade_count": 3450
+  },
+  {
+    "date": "2025-11-06",
+    "cumulative_pnl": 227170.66,
+    "drawdown_pct": 0.0,
+    "trade_count": 3468
+  },
+  {
+    "date": "2025-11-10",
+    "cumulative_pnl": 239935.72,
+    "drawdown_pct": 0.0,
+    "trade_count": 3493
+  },
+  {
+    "date": "2025-11-13",
+    "cumulative_pnl": 234593.91,
+    "drawdown_pct": 0.0223,
+    "trade_count": 3522
+  },
+  {
+    "date": "2025-11-19",
+    "cumulative_pnl": 229833.15,
+    "drawdown_pct": 0.0421,
+    "trade_count": 3538
+  },
+  {
+    "date": "2025-12-01",
+    "cumulative_pnl": 228603.45,
+    "drawdown_pct": 0.0472,
+    "trade_count": 3541
+  },
+  {
+    "date": "2025-12-03",
+    "cumulative_pnl": 228556.25,
+    "drawdown_pct": 0.0474,
+    "trade_count": 3553
+  },
+  {
+    "date": "2025-12-05",
+    "cumulative_pnl": 224024.97,
+    "drawdown_pct": 0.0663,
+    "trade_count": 3573
+  },
+  {
+    "date": "2025-12-08",
+    "cumulative_pnl": 223976.37,
+    "drawdown_pct": 0.0665,
+    "trade_count": 3575
+  },
+  {
+    "date": "2025-12-10",
+    "cumulative_pnl": 225022.29,
+    "drawdown_pct": 0.0622,
+    "trade_count": 3593
+  },
+  {
+    "date": "2025-12-12",
+    "cumulative_pnl": 226093.17,
+    "drawdown_pct": 0.0577,
+    "trade_count": 3609
+  },
+  {
+    "date": "2025-12-15",
+    "cumulative_pnl": 212278.86,
+    "drawdown_pct": 0.1153,
+    "trade_count": 3652
+  },
+  {
+    "date": "2025-12-17",
+    "cumulative_pnl": 211879.82,
+    "drawdown_pct": 0.1169,
+    "trade_count": 3660
+  },
+  {
+    "date": "2025-12-22",
+    "cumulative_pnl": 215130.9,
+    "drawdown_pct": 0.1034,
+    "trade_count": 3694
+  },
+  {
+    "date": "2025-12-23",
+    "cumulative_pnl": 214706.46,
+    "drawdown_pct": 0.1052,
+    "trade_count": 3712
+  },
+  {
+    "date": "2025-12-30",
+    "cumulative_pnl": 204496.42,
+    "drawdown_pct": 0.1477,
+    "trade_count": 3743
+  },
+  {
+    "date": "2026-01-02",
+    "cumulative_pnl": 214966.57,
+    "drawdown_pct": 0.1041,
+    "trade_count": 3777
+  },
+  {
+    "date": "2026-01-05",
+    "cumulative_pnl": 216898.77,
+    "drawdown_pct": 0.096,
+    "trade_count": 3793
+  },
+  {
+    "date": "2026-01-12",
+    "cumulative_pnl": 225124.35,
+    "drawdown_pct": 0.0617,
+    "trade_count": 3823
+  },
+  {
+    "date": "2026-01-19",
+    "cumulative_pnl": 233136.03,
+    "drawdown_pct": 0.0283,
+    "trade_count": 3847
+  },
+  {
+    "date": "2026-01-20",
+    "cumulative_pnl": 246291.71,
+    "drawdown_pct": 0.0,
+    "trade_count": 3873
+  },
+  {
+    "date": "2026-01-21",
+    "cumulative_pnl": 250718.57,
+    "drawdown_pct": 0.0,
+    "trade_count": 3901
+  },
+  {
+    "date": "2026-01-23",
+    "cumulative_pnl": 249836.29,
+    "drawdown_pct": 0.0035,
+    "trade_count": 3903
+  },
+  {
+    "date": "2026-01-26",
+    "cumulative_pnl": 265742.69,
+    "drawdown_pct": 0.0,
+    "trade_count": 3929
+  },
+  {
+    "date": "2026-01-27",
+    "cumulative_pnl": 269208.46,
+    "drawdown_pct": 0.0,
+    "trade_count": 3937
+  },
+  {
+    "date": "2026-01-28",
+    "cumulative_pnl": 276858.07,
+    "drawdown_pct": 0.0,
+    "trade_count": 3962
+  },
+  {
+    "date": "2026-01-29",
+    "cumulative_pnl": 270580.39,
+    "drawdown_pct": 0.0227,
+    "trade_count": 3980
+  },
+  {
+    "date": "2026-02-03",
+    "cumulative_pnl": 275832.25,
+    "drawdown_pct": 0.0037,
+    "trade_count": 4012
+  },
+  {
+    "date": "2026-02-06",
+    "cumulative_pnl": 278599.53,
+    "drawdown_pct": 0.0,
+    "trade_count": 4028
+  },
+  {
+    "date": "2026-02-09",
+    "cumulative_pnl": 278155.83,
+    "drawdown_pct": 0.0016,
+    "trade_count": 4046
+  },
+  {
+    "date": "2026-02-19",
+    "cumulative_pnl": 277712.85,
+    "drawdown_pct": 0.0032,
+    "trade_count": 4064
+  },
+  {
+    "date": "2026-02-23",
+    "cumulative_pnl": 277271.41,
+    "drawdown_pct": 0.0048,
+    "trade_count": 4082
+  },
+  {
+    "date": "2026-02-25",
+    "cumulative_pnl": 276535.25,
+    "drawdown_pct": 0.0074,
+    "trade_count": 4102
+  }
 ]
