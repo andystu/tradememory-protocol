@@ -62,6 +62,15 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - NEVER hardcode credentials. All secrets via `.env` or environment variables
 - Use UTC for all timestamps
 
+## Recent Changes
+- [2026-03-15] 建立 Jarvis 系統：/morning 每日掃描、/wrap-up session handoff
+
+## Current Status
+- v0.4.0, 503 tests passing
+- MT5 Sync V3 運作中, 0 errors
+- Roadmap 42/43 完成
+- 狀態：等待中（累積交易數據）
+
 ## Compact Instructions
 
 When compacting, preserve: ROADMAP.md progress, key design decisions (LLM validation, UTC enforcement, platform-agnostic core), current task progress, security rules, lessons learned, rules.

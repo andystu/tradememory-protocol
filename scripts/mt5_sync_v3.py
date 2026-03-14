@@ -336,17 +336,19 @@ class MT5Poller:
                                f"ticket={ticket} {row['strategy']} {row['symbol']} {row['direction']}")
                     log.info(f"[CLOSED] ticket={ticket} {row['strategy']} {row['symbol']}")
 
-                conn.execute("DELETE FROM open_positions WHERE ticket = ?", (ticket,))
+                # NOTE: Do NOT delete here — only after successful sync to TradeMemory
 
-            # Sync closed positions to TradeMemory (outside DB transaction)
-            closed_data = []
-            if closed_tickets:
-                for ticket in closed_tickets:
-                    closed_data.append(ticket)
+            closed_data = list(closed_tickets)
 
         # Sync closed trades to TradeMemory (after DB commit)
         if closed_data:
-            self._sync_closed_trades_to_memory(closed_data)
+            synced_tickets = self._sync_closed_trades_to_memory(closed_data)
+            # Only delete successfully synced tickets from open_positions
+            if synced_tickets:
+                with get_db() as conn:
+                    for ticket in synced_tickets:
+                        conn.execute("DELETE FROM open_positions WHERE ticket = ?", (ticket,))
+                    log.info(f"Cleaned up {len(synced_tickets)} synced positions from open_positions")
 
     def _run_trade_advisor(self, pos, strategy: str, direction: str):
         """Send new-open Discord embed + run trade advisor warnings."""
@@ -420,12 +422,15 @@ class MT5Poller:
 
     # --- Closed trade sync (history-based, same as v2) ---
 
-    def _sync_closed_trades_to_memory(self, closed_tickets: list[int]):
+    def _sync_closed_trades_to_memory(self, closed_tickets: list[int]) -> list[int]:
         """
         For each closed ticket, look up in MT5 history_deals_get
         and POST to TradeMemory record_decision + record_outcome.
+        Returns list of successfully synced ticket numbers.
         """
         import MetaTrader5 as MT5
+
+        synced: list[int] = []
 
         from_date = datetime(2020, 1, 1, tzinfo=timezone.utc)
         to_date = datetime.now(timezone.utc)
@@ -435,7 +440,7 @@ class MT5Poller:
         )
         if timed_out or history is None:
             log.error("Cannot fetch deal history for closed trade sync")
-            return
+            return synced
 
         # Group deals by position_id
         deal_map: dict[int, list] = {}
@@ -463,6 +468,7 @@ class MT5Poller:
                 success = self._post_trade_to_memory(ticket, deals_sorted)
 
                 if success:
+                    synced.append(ticket)
                     # Update last_ticket
                     conn.execute(
                         "UPDATE sync_state SET last_ticket = MAX(last_ticket, ?) WHERE id = 1",
@@ -470,6 +476,8 @@ class MT5Poller:
                     )
                     _log_event(conn, "TRADE_CLOSED",
                                f"ticket={ticket} synced to TradeMemory")
+
+        return synced
 
     def _post_trade_to_memory(self, ticket: int, deals: list) -> bool:
         """POST record_decision + record_outcome to TradeMemory API."""
