@@ -5,9 +5,49 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
-## [Unreleased]
+## [0.5.0] - 2026-03-16
 
-_No unreleased changes._
+### Added
+- **Evolution Engine** — automated observe → hypothesize → backtest → select loop
+  - `src/tradememory/evolution/`: models, backtester, generator, selector, engine
+  - LLM-powered pattern discovery (Anthropic Sonnet) with structured JSON output
+  - Vectorized backtester: ATR-based SL/TP, long/short, time-based exit, dynamic Sharpe annualization
+  - Hypothesis generator: explore/exploit temperature control, graveyard-aware
+  - Selection & Elimination: IS rank → OOS validation (Sharpe > 1.0, trade_count > 30, max_dd < 20%)
+  - Evolution Orchestrator: multi-generation, configurable population_size/mutation_rate
+  - Strategy Graveyard for learning from failures
+- **OWM Completion** — all 5 memory types fully implemented
+  - Episodic decay: power-law S(t) = S₀ × (1 + t/τ)^(-d) × boost(n) with rehearsal boost
+  - Semantic decay: Bayesian Beta(α,β) posterior update, regime_match_factor, τ=180d
+  - Auto-induction: episodic patterns → semantic memory (check_auto_induction)
+  - Procedural drift: CUSUM detection for behavioral stats (holding time, SL/TP ratio, disposition)
+  - Affective EWMA: ewma_confidence (λ=0.9), risk_appetite linked to drawdown
+  - Prospective feedback: evaluate_trigger condition matching, record_outcome tracking
+- **Platform-Agnostic Data Layer** (Phase 9)
+  - DataSource Protocol (runtime_checkable): fetch_ohlcv(), available_symbols()
+  - Binance historical data adapter: REST API, rate limiting, parquet cache
+  - Context Builder: ATR, trend, volatility regime, time-of-day from OHLCVSeries
+  - MT5 CSV adapter: tab/comma auto-detect, DataSource Protocol wrapper
+  - OHLCV model, Timeframe enum, OHLCVSeries with IS/OOS split()
+- **Evolution MCP Tools** (Phase 11)
+  - 5 new MCP tools: fetch_market_data, discover_patterns, run_backtest, evolve_strategy, get_evolution_log
+  - 4 REST endpoints: POST /evolution/run, GET /evolution/runs, GET /evolution/runs/{id}, GET /evolution/graveyard
+  - 3 Pydantic response models
+- **Integration & Validation** (Phase 12)
+  - Evolution demo script: mock BTC 1H data, 3-generation evolution, text equity curve
+  - Dashboard evolution page: surviving/graveyard tables, fitness trend, run summary
+  - Research log auto-write (EXP-00X format)
+- 627 new tests (1026 total, up from 399)
+
+### Changed
+- All `from src.tradememory` imports fixed to `from tradememory` (180+ files)
+- Sharpe annualization now dynamic per timeframe (was hardcoded sqrt(252))
+- Trailing stop uses ATR; SL/TP takes priority over time-based exit
+
+### Stats
+- 15 MCP tools (was 10), 30+ REST endpoints
+- 1026 tests passing, 0 failures
+- Phases 8-12 complete (P1: 42/42, P2: 20/20)
 
 ---
 

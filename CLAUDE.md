@@ -6,8 +6,8 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 
 - GitHub: mnemox-ai/tradememory-protocol
 - PyPI: tradememory-protocol
-- 版本: v0.4.0
-- Tests: 503 tests passing
+- 版本: v0.5.0
+- Tests: 1026 tests passing
 - Default branch: `master`（不是 main）
 
 ## 開發規範
@@ -63,26 +63,23 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - Use UTC for all timestamps
 
 ## Recent Changes
-- [2026-03-16] P1+P2+P3 fix: trailing stop ATR, SL/TP priority over time exit, docstring corrections. 4 new tests, 39 backtester tests pass
-- [2026-03-16] P0 fix: Sharpe annualization now dynamic per timeframe (was hardcoded sqrt(252)). 3 new tests, 35 backtester tests pass
-- [2026-03-16] Task 10.5: Evolution Orchestrator — full loop, multi-gen, explore/exploit (20 tests)
-- [2026-03-16] Task 10.4: Selection & Elimination — IS rank, OOS validate, graveyard (26 tests)
-- [2026-03-16] Task 10.3: Hypothesis generator — explore/exploit, retry, graveyard-aware (20 tests)
-- [2026-03-16] Task 10.2: Vectorized backtester — ATR SL/TP, condition eval, fitness (32 tests)
-- [2026-03-16] Task 10.1: Evolution models + LLM pattern discovery (49 tests)
-- [2026-03-15] Phase 9 complete: DataSource Protocol + Binance + Context Builder + MT5 CSV (4 tasks, 144 new tests)
-- [2026-03-15] Task 9.2 Binance Adapter: pagination, rate limiting, parquet cache, 27 tests
-- [2026-03-15] P2 Evolution Engine roadmap added (Phases 8-12, 18 tasks)
-- [2026-03-15] Task 9.1 DataSource Protocol: OHLCV model, Timeframe enum, OHLCVSeries, DataSource Protocol, 27 tests
-- [2026-03-15] 修復 mt5_sync_v3.py 關鍵 bug：DELETE open_positions 在 sync 前執行導致資料遺失。現在先 sync 成功再 DELETE
-- [2026-03-15] 手動補回遺失交易 MT5-2352281785（IntradayMomentum XAUUSD -$196.38）。總交易數 13→14
+- [2026-03-16] **v0.5.0 Release** — Evolution Engine + OWM Completion. 1026 tests, all 12 phases complete
+- [2026-03-16] Phase 8: OWM Decay + Auto-induction + CUSUM drift + Affective EWMA + Prospective feedback (6 tasks, 78 new tests)
+- [2026-03-16] Phase 10: Evolution Engine Core — models, vectorized backtester, generator, selector, orchestrator (5 tasks, 147 new tests)
+- [2026-03-16] Phase 11: Evolution MCP Tools — 5 MCP tools + 4 REST endpoints + Pydantic models (6 tasks, 36 new tests)
+- [2026-03-16] Phase 12: Integration — evolution demo, dashboard evolution page, research log (3 tasks, 21 new tests)
+- [2026-03-16] Import fix: 180+ `from src.tradememory` → `from tradememory`
+- [2026-03-15] Phase 9: DataSource Protocol + Binance + Context Builder + MT5 CSV (4 tasks, 144 new tests)
+- [2026-03-15] 修復 mt5_sync_v3.py 關鍵 bug：DELETE open_positions 在 sync 前執行導致資料遺失
 - [2026-03-15] 建立 Jarvis 系統：/morning 每日掃描、/wrap-up session handoff
 
 ## Current Status
-- v0.4.0, 891 tests passing
-- P2 Evolution Engine: Phase 10 complete (5/5), next: Phase 8 or 11
-- Roadmap: 51/61 tasks (P1: 42/42, P2: 9/19)
-- MT5 Sync V3 running, 14 trades, PnL +,200
+- **v0.5.0**, 1026 tests passing, 1 skipped
+- **All 12 phases complete** — P1: 42/42, P2: 20/20, total 62/62 tasks
+- Evolution Engine: discover → hypothesize → backtest → select → evolve (LLM-powered)
+- OWM 5 memory types fully implemented (episodic, semantic, procedural, affective, prospective)
+- 15 MCP tools, 30+ REST endpoints
+- MT5 Sync V3 running, 14 trades, PnL +$2,200
 
 ## Compact Instructions
 
