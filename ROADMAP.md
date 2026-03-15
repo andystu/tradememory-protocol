@@ -273,7 +273,7 @@
 - async httpx client
 - 測試：mock API response、cache hit/miss、rate limit handling
 
-### Task 9.3：Context Builder ❌
+### Task 9.3：Context Builder ✅
 - 從 OHLCVSeries 計算 ContextVector（for OWM recall）
 - 指標：ATR, trend direction, volatility regime, time-of-day bucket
 - Pure function，不依賴外部狀態
@@ -389,7 +389,7 @@
 | Phase 6：OWM Architecture | ✅ 完成 | 2026-03-05 |
 | Phase 7：Trading Intelligence Dashboard | ✅ 完成 | 2026-03-11 |
 | Phase 8：OWM Completion | ❌ 未開始 | — |
-| Phase 9：Data Layer | 🔄 進行中 (2/4) | — |
+| Phase 9：Data Layer | 🔄 進行中 (3/4) | — |
 | Phase 10：Evolution Engine | ❌ 未開始 | — |
 | Phase 11：Evolution MCP Tools | ❌ 未開始 | — |
 | Phase 12：Integration & Validation | ❌ 未開始 | — |
