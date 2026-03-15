@@ -7,9 +7,9 @@ import tempfile
 from pathlib import Path
 from datetime import datetime, timezone
 
-from src.tradememory.db import Database
-from src.tradememory.journal import TradeJournal
-from src.tradememory.reflection import ReflectionEngine
+from tradememory.db import Database
+from tradememory.journal import TradeJournal
+from tradememory.reflection import ReflectionEngine
 
 
 # ========== Fixtures ==========

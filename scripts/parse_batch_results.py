@@ -14,7 +14,7 @@ import json
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.stdout.reconfigure(encoding='utf-8')
 
-from src.tradememory.backtest_importer import (
+from tradememory.backtest_importer import (
     parse_mt5_report,
     parse_variant_tag,
     build_trade_records,

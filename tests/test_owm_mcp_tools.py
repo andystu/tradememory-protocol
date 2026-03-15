@@ -13,8 +13,8 @@ _test_db = os.path.join(_tmpdir, "test_owm_tradememory.db")
 @pytest.fixture(autouse=True)
 def _fresh_db(monkeypatch):
     """Use a fresh temp database for each test."""
-    import src.tradememory.mcp_server as mod
-    from src.tradememory.db import Database
+    import tradememory.mcp_server as mod
+    from tradememory.db import Database
 
     db = Database(db_path=_test_db)
     mod._db = db
@@ -29,7 +29,7 @@ def _fresh_db(monkeypatch):
 
 @pytest.mark.asyncio
 async def test_remember_trade_basic():
-    from src.tradememory.mcp_server import remember_trade
+    from tradememory.mcp_server import remember_trade
 
     result = await remember_trade(
         symbol="XAUUSD",
@@ -50,7 +50,7 @@ async def test_remember_trade_basic():
 
 @pytest.mark.asyncio
 async def test_remember_trade_invalid_direction():
-    from src.tradememory.mcp_server import remember_trade
+    from tradememory.mcp_server import remember_trade
 
     result = await remember_trade(
         symbol="XAUUSD",
@@ -66,7 +66,7 @@ async def test_remember_trade_invalid_direction():
 
 @pytest.mark.asyncio
 async def test_remember_trade_custom_id():
-    from src.tradememory.mcp_server import remember_trade
+    from tradememory.mcp_server import remember_trade
 
     result = await remember_trade(
         symbol="XAUUSD",
@@ -84,7 +84,7 @@ async def test_remember_trade_custom_id():
 @pytest.mark.asyncio
 async def test_remember_trade_writes_episodic():
     """Verify episodic_memory row is created."""
-    from src.tradememory.mcp_server import remember_trade, _get_db
+    from tradememory.mcp_server import remember_trade, _get_db
 
     await remember_trade(
         symbol="XAUUSD",
@@ -107,7 +107,7 @@ async def test_remember_trade_writes_episodic():
 @pytest.mark.asyncio
 async def test_remember_trade_writes_trade_records():
     """Verify backward-compat trade_records row is created."""
-    from src.tradememory.mcp_server import remember_trade, _get_db
+    from tradememory.mcp_server import remember_trade, _get_db
 
     await remember_trade(
         symbol="XAUUSD",
@@ -129,7 +129,7 @@ async def test_remember_trade_writes_trade_records():
 @pytest.mark.asyncio
 async def test_remember_trade_creates_semantic():
     """Verify semantic memory is created on first trade."""
-    from src.tradememory.mcp_server import remember_trade, _get_db
+    from tradememory.mcp_server import remember_trade, _get_db
 
     await remember_trade(
         symbol="XAUUSD",
@@ -151,7 +151,7 @@ async def test_remember_trade_creates_semantic():
 @pytest.mark.asyncio
 async def test_remember_trade_bayesian_update_loss():
     """Verify losing trade increases beta."""
-    from src.tradememory.mcp_server import remember_trade, _get_db
+    from tradememory.mcp_server import remember_trade, _get_db
 
     # First trade (creates semantic)
     await remember_trade(
@@ -178,7 +178,7 @@ async def test_remember_trade_bayesian_update_loss():
 @pytest.mark.asyncio
 async def test_remember_trade_updates_procedural():
     """Verify procedural memory is created/updated."""
-    from src.tradememory.mcp_server import remember_trade, _get_db
+    from tradememory.mcp_server import remember_trade, _get_db
 
     await remember_trade(
         symbol="XAUUSD", direction="long", entry_price=2650.0,
@@ -203,7 +203,7 @@ async def test_remember_trade_updates_procedural():
 @pytest.mark.asyncio
 async def test_remember_trade_updates_affective():
     """Verify affective state is initialized and updated."""
-    from src.tradememory.mcp_server import remember_trade, _get_db
+    from tradememory.mcp_server import remember_trade, _get_db
 
     await remember_trade(
         symbol="XAUUSD", direction="long", entry_price=2650.0,
@@ -222,7 +222,7 @@ async def test_remember_trade_updates_affective():
 @pytest.mark.asyncio
 async def test_remember_trade_affective_streaks():
     """Verify win/loss streak tracking."""
-    from src.tradememory.mcp_server import remember_trade, _get_db
+    from tradememory.mcp_server import remember_trade, _get_db
 
     # 2 wins
     await remember_trade(
@@ -254,7 +254,7 @@ async def test_remember_trade_affective_streaks():
 @pytest.mark.asyncio
 async def test_remember_trade_with_pnl_r():
     """Verify pnl_r is stored in episodic and used for semantic weight."""
-    from src.tradememory.mcp_server import remember_trade, _get_db
+    from tradememory.mcp_server import remember_trade, _get_db
 
     await remember_trade(
         symbol="XAUUSD", direction="long", entry_price=2650.0,
@@ -273,7 +273,7 @@ async def test_remember_trade_with_pnl_r():
 
 @pytest.mark.asyncio
 async def test_recall_memories_empty():
-    from src.tradememory.mcp_server import recall_memories
+    from tradememory.mcp_server import recall_memories
 
     result = await recall_memories(
         symbol="XAUUSD",
@@ -285,7 +285,7 @@ async def test_recall_memories_empty():
 
 @pytest.mark.asyncio
 async def test_recall_memories_with_episodic():
-    from src.tradememory.mcp_server import remember_trade, recall_memories
+    from tradememory.mcp_server import remember_trade, recall_memories
 
     await remember_trade(
         symbol="XAUUSD", direction="long", entry_price=2650.0,
@@ -312,7 +312,7 @@ async def test_recall_memories_with_episodic():
 
 @pytest.mark.asyncio
 async def test_recall_memories_with_semantic():
-    from src.tradememory.mcp_server import remember_trade, recall_memories
+    from tradememory.mcp_server import remember_trade, recall_memories
 
     # Store a trade to create semantic memory
     await remember_trade(
@@ -335,7 +335,7 @@ async def test_recall_memories_with_semantic():
 @pytest.mark.asyncio
 async def test_recall_memories_owm_scoring_ranks_winners_higher():
     """Store 3 trades: 1 big win, 1 small win, 1 loss. OWM should rank big win highest."""
-    from src.tradememory.mcp_server import remember_trade, recall_memories
+    from tradememory.mcp_server import remember_trade, recall_memories
 
     await remember_trade(
         symbol="XAUUSD", direction="long", entry_price=2650.0,
@@ -381,7 +381,7 @@ async def test_recall_memories_owm_scoring_ranks_winners_higher():
 @pytest.mark.asyncio
 async def test_recall_memories_symbol_filter():
     """Ensure only matching symbol is returned."""
-    from src.tradememory.mcp_server import remember_trade, recall_memories
+    from tradememory.mcp_server import remember_trade, recall_memories
 
     await remember_trade(
         symbol="XAUUSD", direction="long", entry_price=2650.0,
@@ -406,7 +406,7 @@ async def test_recall_memories_symbol_filter():
 
 @pytest.mark.asyncio
 async def test_recall_memories_strategy_filter():
-    from src.tradememory.mcp_server import remember_trade, recall_memories
+    from tradememory.mcp_server import remember_trade, recall_memories
 
     await remember_trade(
         symbol="XAUUSD", direction="long", entry_price=2650.0,
@@ -432,7 +432,7 @@ async def test_recall_memories_strategy_filter():
 
 @pytest.mark.asyncio
 async def test_recall_memories_includes_affective_state():
-    from src.tradememory.mcp_server import remember_trade, recall_memories
+    from tradememory.mcp_server import remember_trade, recall_memories
 
     await remember_trade(
         symbol="XAUUSD", direction="long", entry_price=2650.0,
@@ -455,7 +455,7 @@ async def test_recall_memories_includes_affective_state():
 @pytest.mark.asyncio
 async def test_recall_similar_trades_uses_owm_when_episodic_exists():
     """When episodic memory has data, recall_similar_trades should use OWM."""
-    from src.tradememory.mcp_server import remember_trade, recall_similar_trades
+    from tradememory.mcp_server import remember_trade, recall_similar_trades
 
     await remember_trade(
         symbol="XAUUSD", direction="long", entry_price=2650.0,
@@ -478,7 +478,7 @@ async def test_recall_similar_trades_uses_owm_when_episodic_exists():
 @pytest.mark.asyncio
 async def test_recall_similar_trades_fallback_keyword():
     """When no episodic data, recall_similar_trades should use keyword matching."""
-    from src.tradememory.mcp_server import store_trade_memory, recall_similar_trades
+    from tradememory.mcp_server import store_trade_memory, recall_similar_trades
 
     await store_trade_memory(
         symbol="XAUUSD", direction="long", entry_price=2650.0,
@@ -500,7 +500,7 @@ async def test_recall_similar_trades_fallback_keyword():
 @pytest.mark.asyncio
 async def test_full_owm_integration():
     """End-to-end: store 3 trades, recall, verify OWM scoring works correctly."""
-    from src.tradememory.mcp_server import remember_trade, recall_memories, _get_db
+    from tradememory.mcp_server import remember_trade, recall_memories, _get_db
 
     # Store 3 trades with different outcomes
     t1 = await remember_trade(

@@ -14,9 +14,9 @@ _test_db = os.path.join(_tmpdir, "test_tradememory.db")
 @pytest.fixture(autouse=True)
 def _fresh_db(monkeypatch):
     """Use a fresh temp database for each test."""
-    import src.tradememory.mcp_server as mod
+    import tradememory.mcp_server as mod
 
-    from src.tradememory.db import Database
+    from tradememory.db import Database
 
     db = Database(db_path=_test_db)
     mod._db = db
@@ -32,7 +32,7 @@ def _fresh_db(monkeypatch):
 
 @pytest.mark.asyncio
 async def test_store_trade_memory_basic():
-    from src.tradememory.mcp_server import store_trade_memory
+    from tradememory.mcp_server import store_trade_memory
 
     result = await store_trade_memory(
         symbol="XAUUSD",
@@ -50,7 +50,7 @@ async def test_store_trade_memory_basic():
 
 @pytest.mark.asyncio
 async def test_store_trade_memory_with_outcome():
-    from src.tradememory.mcp_server import store_trade_memory
+    from tradememory.mcp_server import store_trade_memory
 
     result = await store_trade_memory(
         symbol="XAUUSD",
@@ -69,7 +69,7 @@ async def test_store_trade_memory_with_outcome():
 
 @pytest.mark.asyncio
 async def test_store_trade_memory_invalid_direction():
-    from src.tradememory.mcp_server import store_trade_memory
+    from tradememory.mcp_server import store_trade_memory
 
     result = await store_trade_memory(
         symbol="XAUUSD",
@@ -83,7 +83,7 @@ async def test_store_trade_memory_invalid_direction():
 
 @pytest.mark.asyncio
 async def test_store_trade_memory_custom_id():
-    from src.tradememory.mcp_server import store_trade_memory
+    from tradememory.mcp_server import store_trade_memory
 
     result = await store_trade_memory(
         symbol="XAUUSD",
@@ -101,7 +101,7 @@ async def test_store_trade_memory_custom_id():
 
 @pytest.mark.asyncio
 async def test_recall_similar_trades_empty():
-    from src.tradememory.mcp_server import recall_similar_trades
+    from tradememory.mcp_server import recall_similar_trades
 
     result = await recall_similar_trades(
         symbol="XAUUSD",
@@ -113,7 +113,7 @@ async def test_recall_similar_trades_empty():
 
 @pytest.mark.asyncio
 async def test_recall_similar_trades_with_data():
-    from src.tradememory.mcp_server import recall_similar_trades, store_trade_memory
+    from tradememory.mcp_server import recall_similar_trades, store_trade_memory
 
     # Store some trades first
     await store_trade_memory(
@@ -148,7 +148,7 @@ async def test_recall_similar_trades_with_data():
 
 @pytest.mark.asyncio
 async def test_recall_similar_trades_with_strategy_filter():
-    from src.tradememory.mcp_server import recall_similar_trades, store_trade_memory
+    from tradememory.mcp_server import recall_similar_trades, store_trade_memory
 
     await store_trade_memory(
         symbol="XAUUSD", direction="long", entry_price=2650.0,
@@ -173,7 +173,7 @@ async def test_recall_similar_trades_with_strategy_filter():
 
 @pytest.mark.asyncio
 async def test_get_strategy_performance_empty():
-    from src.tradememory.mcp_server import get_strategy_performance
+    from tradememory.mcp_server import get_strategy_performance
 
     result = await get_strategy_performance()
     assert result["trade_count"] == 0
@@ -181,7 +181,7 @@ async def test_get_strategy_performance_empty():
 
 @pytest.mark.asyncio
 async def test_get_strategy_performance_with_trades():
-    from src.tradememory.mcp_server import get_strategy_performance, store_trade_memory
+    from tradememory.mcp_server import get_strategy_performance, store_trade_memory
 
     # Store closed trades
     await store_trade_memory(
@@ -217,7 +217,7 @@ async def test_get_strategy_performance_with_trades():
 
 @pytest.mark.asyncio
 async def test_get_strategy_performance_filtered():
-    from src.tradememory.mcp_server import get_strategy_performance, store_trade_memory
+    from tradememory.mcp_server import get_strategy_performance, store_trade_memory
 
     await store_trade_memory(
         symbol="XAUUSD", direction="long", entry_price=2650.0,
@@ -240,7 +240,7 @@ async def test_get_strategy_performance_filtered():
 
 @pytest.mark.asyncio
 async def test_get_trade_reflection_not_found():
-    from src.tradememory.mcp_server import get_trade_reflection
+    from tradememory.mcp_server import get_trade_reflection
 
     result = await get_trade_reflection(trade_id="nonexistent")
     assert "error" in result
@@ -248,7 +248,7 @@ async def test_get_trade_reflection_not_found():
 
 @pytest.mark.asyncio
 async def test_get_trade_reflection_found():
-    from src.tradememory.mcp_server import get_trade_reflection, store_trade_memory
+    from tradememory.mcp_server import get_trade_reflection, store_trade_memory
 
     stored = await store_trade_memory(
         symbol="XAUUSD",

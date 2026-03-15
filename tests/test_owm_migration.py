@@ -8,8 +8,8 @@ import json
 from pathlib import Path
 from datetime import datetime
 
-from src.tradememory.db import Database
-from src.tradememory.owm.migration import (
+from tradememory.db import Database
+from tradememory.owm.migration import (
     migrate_trades_to_episodic,
     migrate_patterns_to_semantic,
     initialize_affective,

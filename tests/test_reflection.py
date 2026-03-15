@@ -8,9 +8,9 @@ import json
 from pathlib import Path
 from datetime import datetime, date, timezone, timedelta
 
-from src.tradememory.reflection import ReflectionEngine
-from src.tradememory.journal import TradeJournal
-from src.tradememory.db import Database
+from tradememory.reflection import ReflectionEngine
+from tradememory.journal import TradeJournal
+from tradememory.db import Database
 
 
 @pytest.fixture

@@ -6,8 +6,8 @@ import pytest
 import tempfile
 from pathlib import Path
 
-from src.tradememory.journal import TradeJournal
-from src.tradememory.db import Database
+from tradememory.journal import TradeJournal
+from tradememory.db import Database
 
 
 @pytest.fixture

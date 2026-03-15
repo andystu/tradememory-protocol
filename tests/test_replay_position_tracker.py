@@ -4,13 +4,13 @@ from datetime import datetime
 
 import pytest
 
-from src.tradememory.replay.models import (
+from tradememory.replay.models import (
     AgentDecision,
     Bar,
     DecisionType,
     PositionState,
 )
-from src.tradememory.replay.position_tracker import PositionTracker
+from tradememory.replay.position_tracker import PositionTracker
 
 
 def _bar(

@@ -14,8 +14,8 @@ from typing import Optional
 
 import httpx
 
-from src.tradememory.data.models import OHLCV, OHLCVSeries, Timeframe
-from src.tradememory.data.protocol import (
+from tradememory.data.models import OHLCV, OHLCVSeries, Timeframe
+from tradememory.data.protocol import (
     DataSourceError,
     RateLimitError,
     SymbolNotFoundError,

@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 import pytest
 
-from src.tradememory.owm.recall import (
+from tradememory.owm.recall import (
     ScoredMemory,
     compute_affective_modulation,
     compute_confidence_factor,
@@ -18,7 +18,7 @@ from src.tradememory.owm.recall import (
     outcome_weighted_recall,
     sigmoid,
 )
-from src.tradememory.owm.context import ContextVector
+from tradememory.owm.context import ContextVector
 
 
 # ---------------------------------------------------------------------------

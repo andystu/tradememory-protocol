@@ -3,11 +3,11 @@
 import pytest
 from datetime import datetime, timezone, timedelta
 
-from src.tradememory.db import Database
-from src.tradememory.journal import TradeJournal
-from src.tradememory.state import StateManager
-from src.tradememory.adaptive_risk import AdaptiveRisk
-from src.tradememory.models import (
+from tradememory.db import Database
+from tradememory.journal import TradeJournal
+from tradememory.state import StateManager
+from tradememory.adaptive_risk import AdaptiveRisk
+from tradememory.models import (
     RiskStatus, RiskConstraints, TradeProposal, TradeCheckResult, TradeDirection,
 )
 

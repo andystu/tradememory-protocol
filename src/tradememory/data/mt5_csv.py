@@ -9,9 +9,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from src.tradememory.data.models import OHLCV, OHLCVSeries, Timeframe
-from src.tradememory.data.protocol import DataSourceError, SymbolNotFoundError
-from src.tradememory.replay.data_loader import parse_mt5_csv
+from tradememory.data.models import OHLCV, OHLCVSeries, Timeframe
+from tradememory.data.protocol import DataSourceError, SymbolNotFoundError
+from tradememory.replay.data_loader import parse_mt5_csv
 
 logger = logging.getLogger(__name__)
 

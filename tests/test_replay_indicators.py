@@ -3,8 +3,8 @@
 import pytest
 from datetime import datetime, timedelta
 
-from src.tradememory.replay.models import Bar, IndicatorSnapshot
-from src.tradememory.replay.indicators import (
+from tradememory.replay.models import Bar, IndicatorSnapshot
+from tradememory.replay.indicators import (
     compute_atr,
     compute_rsi,
     compute_sma,

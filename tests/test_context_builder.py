@@ -8,7 +8,7 @@ from datetime import datetime, timezone, timedelta
 
 import pytest
 
-from src.tradememory.data.context_builder import (
+from tradememory.data.context_builder import (
     ContextConfig,
     MarketContext,
     Regime,
@@ -24,7 +24,7 @@ from src.tradememory.data.context_builder import (
     compute_sma,
     compute_trend,
 )
-from src.tradememory.data.models import OHLCV, OHLCVSeries, Timeframe
+from tradememory.data.models import OHLCV, OHLCVSeries, Timeframe
 
 
 # --- Helpers ---

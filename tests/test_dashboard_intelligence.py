@@ -7,10 +7,10 @@ Each endpoint has happy path, empty DB, and edge case tests.
 import pytest
 from fastapi.testclient import TestClient
 
-from src.tradememory.db import Database
-from src.tradememory.dashboard_models import CalibrationPoint, StrategyDetailResponse
-from src.tradememory.repositories.trade import TradeRepository
-from src.tradememory.services.dashboard import DashboardService, BATCH_001_BASELINES
+from tradememory.db import Database
+from tradememory.dashboard_models import CalibrationPoint, StrategyDetailResponse
+from tradememory.repositories.trade import TradeRepository
+from tradememory.services.dashboard import DashboardService, BATCH_001_BASELINES
 
 
 @pytest.fixture
@@ -22,8 +22,8 @@ def db(tmp_path):
 @pytest.fixture
 def client(db):
     """TestClient with dashboard_api wired to temp DB."""
-    from src.tradememory.server import app
-    from src.tradememory.dashboard_api import get_trade_repository
+    from tradememory.server import app
+    from tradememory.dashboard_api import get_trade_repository
 
     def override_repo():
         return TradeRepository(db=db)
@@ -243,7 +243,7 @@ class TestStrategyDetailService:
 
     def test_not_found_raises(self, service):
         """Non-existent strategy raises StrategyNotFoundError."""
-        from src.tradememory.exceptions import StrategyNotFoundError
+        from tradememory.exceptions import StrategyNotFoundError
         with pytest.raises(StrategyNotFoundError):
             service.get_strategy_detail("NonExistent")
 

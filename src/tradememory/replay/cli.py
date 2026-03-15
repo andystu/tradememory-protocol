@@ -8,8 +8,8 @@ from typing import Any, Dict, List, Optional
 
 import yaml
 
-from src.tradememory.replay.engine import ReplayEngine, run_replay
-from src.tradememory.replay.models import ReplayConfig
+from tradememory.replay.engine import ReplayEngine, run_replay
+from tradememory.replay.models import ReplayConfig
 
 
 def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:

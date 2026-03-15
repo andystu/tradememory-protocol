@@ -2,8 +2,8 @@
 
 import pytest
 
-from src.tradememory.owm.kelly import kelly_from_memory
-from src.tradememory.owm.recall import ScoredMemory
+from tradememory.owm.kelly import kelly_from_memory
+from tradememory.owm.recall import ScoredMemory
 
 
 def _make_memory(pnl_r: float, score: float = 1.0) -> ScoredMemory:

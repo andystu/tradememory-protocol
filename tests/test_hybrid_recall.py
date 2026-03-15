@@ -8,13 +8,13 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from src.tradememory.hybrid_recall import (
+from tradememory.hybrid_recall import (
     _cosine_similarity,
     ensure_negative_balance,
     hybrid_recall,
 )
-from src.tradememory.owm.context import ContextVector
-from src.tradememory.owm.recall import ScoredMemory
+from tradememory.owm.context import ContextVector
+from tradememory.owm.recall import ScoredMemory
 
 
 # ---------------------------------------------------------------------------

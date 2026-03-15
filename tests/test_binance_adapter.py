@@ -12,14 +12,14 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import httpx
 import pytest
 
-from src.tradememory.data.binance import (
+from tradememory.data.binance import (
     BASE_URL,
     KLINES_ENDPOINT,
     BinanceDataSource,
     TIMEFRAME_MAP,
 )
-from src.tradememory.data.models import OHLCV, OHLCVSeries, Timeframe
-from src.tradememory.data.protocol import (
+from tradememory.data.models import OHLCV, OHLCVSeries, Timeframe
+from tradememory.data.protocol import (
     DataSource,
     DataSourceError,
     RateLimitError,

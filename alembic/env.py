@@ -13,8 +13,8 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # Import Base from our models to get target_metadata for autogenerate
-from src.tradememory.database import Base  # noqa: E402
-import src.tradememory.db_models  # noqa: E402, F401 — registers all models
+from tradememory.database import Base  # noqa: E402
+import tradememory.db_models  # noqa: E402, F401 — registers all models
 
 target_metadata = Base.metadata
 

@@ -5,7 +5,7 @@ Unit tests for LLM output validation (DEC-010).
 import pytest
 from datetime import date, datetime, timezone
 
-from src.tradememory.reflection import ReflectionEngine
+from tradememory.reflection import ReflectionEngine
 
 
 @pytest.fixture
@@ -161,8 +161,8 @@ def test_validate_empty_or_short_output(reflection):
 
 def test_llm_fallback_on_invalid_output(reflection):
     """Test that invalid LLM output triggers rule-based fallback"""
-    from src.tradememory.journal import TradeJournal
-    from src.tradememory.db import Database
+    from tradememory.journal import TradeJournal
+    from tradememory.db import Database
     import tempfile
     from pathlib import Path
     

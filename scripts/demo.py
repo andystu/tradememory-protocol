@@ -30,10 +30,10 @@ try:
     from tradememory.reflection import ReflectionEngine
     from tradememory.state import StateManager
 except ImportError:
-    from src.tradememory.db import Database
-    from src.tradememory.journal import TradeJournal
-    from src.tradememory.reflection import ReflectionEngine
-    from src.tradememory.state import StateManager
+    from tradememory.db import Database
+    from tradememory.journal import TradeJournal
+    from tradememory.reflection import ReflectionEngine
+    from tradememory.state import StateManager
 
 
 # ─────────────────────────────────────────────────────
@@ -421,7 +421,7 @@ def main():
     print("  Next steps:")
     print("    1. cp .env.example .env")
     print("    2. Add your ANTHROPIC_API_KEY to .env")
-    print("    3. python -m src.tradememory.server")
+    print("    3. python -m tradememory.server")
     print()
     print("  Docs: https://github.com/mnemox-ai/tradememory-protocol")
     print()

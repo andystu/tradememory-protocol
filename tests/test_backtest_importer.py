@@ -6,7 +6,7 @@ import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
-from src.tradememory.backtest_importer import (
+from tradememory.backtest_importer import (
     classify_session,
     parse_mt5_report,
     parse_variant_tag,

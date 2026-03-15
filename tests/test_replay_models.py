@@ -1,7 +1,7 @@
 """Tests for replay models — strategy normalization validator."""
 
 import pytest
-from src.tradememory.replay.models import (
+from tradememory.replay.models import (
     VALID_STRATEGIES,
     AgentDecision,
     DecisionType,
@@ -98,7 +98,7 @@ class TestPromptStrategyInstruction:
     """System prompt contains basic decision instructions."""
 
     def test_system_prompt_has_decision_types(self):
-        from src.tradememory.replay.prompt import build_system_prompt
+        from tradememory.replay.prompt import build_system_prompt
 
         prompt = build_system_prompt()
         assert "BUY" in prompt

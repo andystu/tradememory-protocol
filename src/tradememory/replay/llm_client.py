@@ -8,7 +8,7 @@ import instructor
 from anthropic import Anthropic
 from openai import OpenAI
 
-from src.tradememory.replay.models import AgentDecision, DecisionType, ReplayConfig
+from tradememory.replay.models import AgentDecision, DecisionType, ReplayConfig
 
 logger = logging.getLogger(__name__)
 

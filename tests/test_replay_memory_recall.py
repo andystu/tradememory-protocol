@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from src.tradememory.replay.memory_recall import build_memory_context
+from tradememory.replay.memory_recall import build_memory_context
 
 _SCHEMA = """
 CREATE TABLE episodic_memory (

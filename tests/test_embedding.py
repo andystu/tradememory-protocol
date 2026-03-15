@@ -5,8 +5,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-import src.tradememory.embedding as emb_module
-from src.tradememory.embedding import EmbeddingBackend, embed_trade_context
+import tradememory.embedding as emb_module
+from tradememory.embedding import EmbeddingBackend, embed_trade_context
 
 
 # ---------------------------------------------------------------------------

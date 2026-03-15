@@ -7,9 +7,9 @@ import tempfile
 from pathlib import Path
 from datetime import datetime, timezone
 
-from src.tradememory.state import StateManager
-from src.tradememory.db import Database
-from src.tradememory.models import SessionState
+from tradememory.state import StateManager
+from tradememory.db import Database
+from tradememory.models import SessionState
 
 
 @pytest.fixture

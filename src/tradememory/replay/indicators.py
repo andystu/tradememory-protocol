@@ -6,7 +6,7 @@ All functions accept lists of Bar and return None when insufficient data.
 from datetime import date, timedelta
 from typing import Dict, List, Optional, Tuple
 
-from src.tradememory.replay.models import Bar, IndicatorSnapshot
+from tradememory.replay.models import Bar, IndicatorSnapshot
 
 
 def _true_range(bar: Bar, prev_bar: Optional[Bar]) -> float:

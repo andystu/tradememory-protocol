@@ -26,10 +26,10 @@ if sys.platform == "win32":
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
-from src.tradememory.db import Database
-from src.tradememory.journal import TradeJournal
-from src.tradememory.reflection import ReflectionEngine
-from src.tradememory.state import StateManager
+from tradememory.db import Database
+from tradememory.journal import TradeJournal
+from tradememory.reflection import ReflectionEngine
+from tradememory.state import StateManager
 
 OUTPUT_DIR = REPO_ROOT / "assets" / "screenshots"
 

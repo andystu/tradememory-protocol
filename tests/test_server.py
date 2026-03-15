@@ -11,11 +11,11 @@ def real_client(tmp_path):
     """Create a test client with real database for integration tests."""
     db_path = str(tmp_path / "test.db")
 
-    from src.tradememory.db import Database
-    from src.tradememory.journal import TradeJournal
-    from src.tradememory.state import StateManager
-    from src.tradememory.reflection import ReflectionEngine
-    from src.tradememory.adaptive_risk import AdaptiveRisk
+    from tradememory.db import Database
+    from tradememory.journal import TradeJournal
+    from tradememory.state import StateManager
+    from tradememory.reflection import ReflectionEngine
+    from tradememory.adaptive_risk import AdaptiveRisk
 
     db = Database(db_path)
     journal = TradeJournal(db=db)
@@ -23,12 +23,12 @@ def real_client(tmp_path):
     reflection = ReflectionEngine(journal=journal)
     risk = AdaptiveRisk(journal=journal, state_manager=state_mgr)
 
-    with patch("src.tradememory.server.journal", journal), \
-         patch("src.tradememory.server.state_manager", state_mgr), \
-         patch("src.tradememory.server.reflection_engine", reflection), \
-         patch("src.tradememory.server.adaptive_risk", risk):
+    with patch("tradememory.server.journal", journal), \
+         patch("tradememory.server.state_manager", state_mgr), \
+         patch("tradememory.server.reflection_engine", reflection), \
+         patch("tradememory.server.adaptive_risk", risk):
 
-        from src.tradememory.server import app
+        from tradememory.server import app
         yield TestClient(app)
 
 

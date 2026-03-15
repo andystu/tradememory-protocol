@@ -14,8 +14,8 @@ _test_db = os.path.join(_tmpdir, "test_owm_new_tools.db")
 @pytest.fixture(autouse=True)
 def _fresh_db(monkeypatch):
     """Use a fresh temp database for each test."""
-    import src.tradememory.mcp_server as mod
-    from src.tradememory.db import Database
+    import tradememory.mcp_server as mod
+    from tradememory.db import Database
 
     db = Database(db_path=_test_db)
     mod._db = db
@@ -41,7 +41,7 @@ async def _store_trade(
     confidence=0.5,
     trade_id=None,
 ):
-    from src.tradememory.mcp_server import remember_trade
+    from tradememory.mcp_server import remember_trade
 
     return await remember_trade(
         symbol=symbol,
@@ -63,7 +63,7 @@ async def _store_trade(
 
 @pytest.mark.asyncio
 async def test_behavioral_analysis_no_data():
-    from src.tradememory.mcp_server import get_behavioral_analysis
+    from tradememory.mcp_server import get_behavioral_analysis
 
     result = await get_behavioral_analysis()
     assert result["status"] == "no_data"
@@ -72,7 +72,7 @@ async def test_behavioral_analysis_no_data():
 
 @pytest.mark.asyncio
 async def test_behavioral_analysis_with_data():
-    from src.tradememory.mcp_server import get_behavioral_analysis
+    from tradememory.mcp_server import get_behavioral_analysis
 
     await _store_trade(strategy_name="VolBreakout", symbol="XAUUSD")
 
@@ -93,7 +93,7 @@ async def test_behavioral_analysis_with_data():
 
 @pytest.mark.asyncio
 async def test_behavioral_analysis_filter_strategy():
-    from src.tradememory.mcp_server import get_behavioral_analysis
+    from tradememory.mcp_server import get_behavioral_analysis
 
     await _store_trade(strategy_name="VolBreakout", trade_id="ba-vb-001")
     await _store_trade(strategy_name="IntradayMomentum", trade_id="ba-im-001")
@@ -106,7 +106,7 @@ async def test_behavioral_analysis_filter_strategy():
 
 @pytest.mark.asyncio
 async def test_behavioral_analysis_filter_symbol():
-    from src.tradememory.mcp_server import get_behavioral_analysis
+    from tradememory.mcp_server import get_behavioral_analysis
 
     await _store_trade(symbol="XAUUSD", trade_id="ba-xau-001")
     await _store_trade(symbol="EURUSD", entry_price=1.08, exit_price=1.09, trade_id="ba-eur-001")
@@ -119,7 +119,7 @@ async def test_behavioral_analysis_filter_symbol():
 
 @pytest.mark.asyncio
 async def test_behavioral_analysis_sample_size_increments():
-    from src.tradememory.mcp_server import get_behavioral_analysis
+    from tradememory.mcp_server import get_behavioral_analysis
 
     await _store_trade(trade_id="ba-inc-001")
     await _store_trade(trade_id="ba-inc-002")
@@ -135,7 +135,7 @@ async def test_behavioral_analysis_sample_size_increments():
 
 @pytest.mark.asyncio
 async def test_agent_state_empty_initializes():
-    from src.tradememory.mcp_server import get_agent_state
+    from tradememory.mcp_server import get_agent_state
 
     result = await get_agent_state()
     assert result["status"] == "ok"
@@ -149,7 +149,7 @@ async def test_agent_state_empty_initializes():
 
 @pytest.mark.asyncio
 async def test_agent_state_after_wins():
-    from src.tradememory.mcp_server import get_agent_state
+    from tradememory.mcp_server import get_agent_state
 
     await _store_trade(pnl=200.0, confidence=0.8, trade_id="as-w1")
     await _store_trade(pnl=150.0, confidence=0.7, trade_id="as-w2")
@@ -163,7 +163,7 @@ async def test_agent_state_after_wins():
 
 @pytest.mark.asyncio
 async def test_agent_state_after_losses():
-    from src.tradememory.mcp_server import get_agent_state
+    from tradememory.mcp_server import get_agent_state
 
     await _store_trade(pnl=-200.0, trade_id="as-l1")
     await _store_trade(pnl=-150.0, trade_id="as-l2")
@@ -177,7 +177,7 @@ async def test_agent_state_after_losses():
 @pytest.mark.asyncio
 async def test_agent_state_recommended_action_reduce_size():
     """Force drawdown between 0.3 and 0.6 → reduce_size."""
-    from src.tradememory.mcp_server import get_agent_state, _get_db
+    from tradememory.mcp_server import get_agent_state, _get_db
 
     db = _get_db()
     db.init_affective(peak_equity=10000.0, current_equity=10000.0)
@@ -202,7 +202,7 @@ async def test_agent_state_recommended_action_reduce_size():
 @pytest.mark.asyncio
 async def test_agent_state_recommended_action_stop_trading():
     """Force drawdown > 0.6 → stop_trading."""
-    from src.tradememory.mcp_server import get_agent_state, _get_db
+    from tradememory.mcp_server import get_agent_state, _get_db
 
     db = _get_db()
     db.init_affective(peak_equity=10000.0, current_equity=10000.0)
@@ -226,7 +226,7 @@ async def test_agent_state_recommended_action_stop_trading():
 
 @pytest.mark.asyncio
 async def test_agent_state_equity_tracking():
-    from src.tradememory.mcp_server import get_agent_state
+    from tradememory.mcp_server import get_agent_state
 
     await _store_trade(pnl=500.0, trade_id="eq-001")
 
@@ -242,7 +242,7 @@ async def test_agent_state_equity_tracking():
 
 @pytest.mark.asyncio
 async def test_create_plan_basic():
-    from src.tradememory.mcp_server import create_trading_plan
+    from tradememory.mcp_server import create_trading_plan
 
     result = await create_trading_plan(
         trigger_type="market_condition",
@@ -259,7 +259,7 @@ async def test_create_plan_basic():
 
 @pytest.mark.asyncio
 async def test_create_plan_custom_expiry():
-    from src.tradememory.mcp_server import create_trading_plan
+    from tradememory.mcp_server import create_trading_plan
 
     result = await create_trading_plan(
         trigger_type="time_based",
@@ -278,7 +278,7 @@ async def test_create_plan_custom_expiry():
 
 @pytest.mark.asyncio
 async def test_create_plan_custom_priority():
-    from src.tradememory.mcp_server import create_trading_plan, _get_db
+    from tradememory.mcp_server import create_trading_plan, _get_db
 
     await create_trading_plan(
         trigger_type="drawdown",
@@ -295,7 +295,7 @@ async def test_create_plan_custom_priority():
 
 @pytest.mark.asyncio
 async def test_create_plan_invalid_trigger_json():
-    from src.tradememory.mcp_server import create_trading_plan
+    from tradememory.mcp_server import create_trading_plan
 
     result = await create_trading_plan(
         trigger_type="market_condition",
@@ -308,7 +308,7 @@ async def test_create_plan_invalid_trigger_json():
 
 @pytest.mark.asyncio
 async def test_create_plan_invalid_action_json():
-    from src.tradememory.mcp_server import create_trading_plan
+    from tradememory.mcp_server import create_trading_plan
 
     result = await create_trading_plan(
         trigger_type="market_condition",
@@ -321,7 +321,7 @@ async def test_create_plan_invalid_action_json():
 
 @pytest.mark.asyncio
 async def test_create_plan_stored_in_db():
-    from src.tradememory.mcp_server import create_trading_plan, _get_db
+    from tradememory.mcp_server import create_trading_plan, _get_db
 
     result = await create_trading_plan(
         trigger_type="market_condition",
@@ -347,7 +347,7 @@ async def test_create_plan_stored_in_db():
 
 @pytest.mark.asyncio
 async def test_check_plans_empty():
-    from src.tradememory.mcp_server import check_active_plans
+    from tradememory.mcp_server import check_active_plans
 
     result = await check_active_plans()
     assert result["active_count"] == 0
@@ -357,7 +357,7 @@ async def test_check_plans_empty():
 
 @pytest.mark.asyncio
 async def test_check_plans_triggered_by_regime():
-    from src.tradememory.mcp_server import create_trading_plan, check_active_plans
+    from tradememory.mcp_server import create_trading_plan, check_active_plans
 
     await create_trading_plan(
         trigger_type="market_condition",
@@ -375,7 +375,7 @@ async def test_check_plans_triggered_by_regime():
 
 @pytest.mark.asyncio
 async def test_check_plans_not_triggered_by_different_regime():
-    from src.tradememory.mcp_server import create_trading_plan, check_active_plans
+    from tradememory.mcp_server import create_trading_plan, check_active_plans
 
     await create_trading_plan(
         trigger_type="market_condition",
@@ -392,7 +392,7 @@ async def test_check_plans_not_triggered_by_different_regime():
 
 @pytest.mark.asyncio
 async def test_check_plans_atr_filtering():
-    from src.tradememory.mcp_server import create_trading_plan, check_active_plans
+    from tradememory.mcp_server import create_trading_plan, check_active_plans
 
     await create_trading_plan(
         trigger_type="market_condition",
@@ -418,7 +418,7 @@ async def test_check_plans_atr_filtering():
 
 @pytest.mark.asyncio
 async def test_check_plans_expired_auto_removed():
-    from src.tradememory.mcp_server import create_trading_plan, check_active_plans, _get_db
+    from tradememory.mcp_server import create_trading_plan, check_active_plans, _get_db
 
     # Create plan with 0-day expiry (already expired)
     result = await create_trading_plan(
@@ -455,7 +455,7 @@ async def test_check_plans_expired_auto_removed():
 
 @pytest.mark.asyncio
 async def test_check_plans_multiple_plans():
-    from src.tradememory.mcp_server import create_trading_plan, check_active_plans
+    from tradememory.mcp_server import create_trading_plan, check_active_plans
 
     # Plan 1: triggers on ranging
     await create_trading_plan(
@@ -482,7 +482,7 @@ async def test_check_plans_multiple_plans():
 @pytest.mark.asyncio
 async def test_check_plans_no_context_with_conditions():
     """When no context is provided but plan has conditions, it should be pending."""
-    from src.tradememory.mcp_server import create_trading_plan, check_active_plans
+    from tradememory.mcp_server import create_trading_plan, check_active_plans
 
     await create_trading_plan(
         trigger_type="market_condition",
@@ -500,7 +500,7 @@ async def test_check_plans_no_context_with_conditions():
 @pytest.mark.asyncio
 async def test_check_plans_empty_condition_always_triggers():
     """Plan with empty trigger_condition should always match."""
-    from src.tradememory.mcp_server import create_trading_plan, check_active_plans
+    from tradememory.mcp_server import create_trading_plan, check_active_plans
 
     await create_trading_plan(
         trigger_type="always",
@@ -515,7 +515,7 @@ async def test_check_plans_empty_condition_always_triggers():
 
 @pytest.mark.asyncio
 async def test_check_plans_combined_regime_and_atr():
-    from src.tradememory.mcp_server import create_trading_plan, check_active_plans
+    from tradememory.mcp_server import create_trading_plan, check_active_plans
 
     await create_trading_plan(
         trigger_type="market_condition",
@@ -545,7 +545,7 @@ async def test_check_plans_combined_regime_and_atr():
 @pytest.mark.asyncio
 async def test_full_workflow():
     """Store trades → check behavioral analysis → check agent state → create plan → check plans."""
-    from src.tradememory.mcp_server import (
+    from tradememory.mcp_server import (
         get_behavioral_analysis,
         get_agent_state,
         create_trading_plan,

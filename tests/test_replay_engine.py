@@ -9,8 +9,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from src.tradememory.replay.engine import ReplayEngine, run_replay
-from src.tradememory.replay.models import (
+from tradememory.replay.engine import ReplayEngine, run_replay
+from tradememory.replay.models import (
     AgentDecision,
     Bar,
     DecisionType,
@@ -129,7 +129,7 @@ class TestDryRun:
 
 
 class TestHoldOnly:
-    @patch("src.tradememory.replay.engine.LLMClient")
+    @patch("tradememory.replay.engine.LLMClient")
     def test_all_holds_no_trades(self, MockLLMClient):
         """If LLM always returns HOLD, no trades should open."""
         mock_llm = MagicMock()
@@ -158,7 +158,7 @@ class TestHoldOnly:
 
 
 class TestSingleTradeSL:
-    @patch("src.tradememory.replay.engine.LLMClient")
+    @patch("tradememory.replay.engine.LLMClient")
     def test_buy_then_sl_hit(self, MockLLMClient):
         """BUY on first decision, then SL hit on intermediate bar."""
         # Create bars where price drops below SL after entry
@@ -227,8 +227,8 @@ class TestSingleTradeSL:
 
 
 class TestMemoryStorage:
-    @patch("src.tradememory.replay.engine.LLMClient")
-    @patch("src.tradememory.db.Database")
+    @patch("tradememory.replay.engine.LLMClient")
+    @patch("tradememory.db.Database")
     def test_closed_trade_stored_to_db(self, MockDatabase, MockLLMClient):
         """Closed trades should be stored via db.insert_episodic()."""
         call_count = [0]
@@ -274,7 +274,7 @@ class TestMemoryStorage:
 
 
 class TestEquityTracking:
-    @patch("src.tradememory.replay.engine.LLMClient")
+    @patch("tradememory.replay.engine.LLMClient")
     def test_equity_changes_after_trade(self, MockLLMClient):
         """Equity should change after a trade closes."""
         call_count = [0]
@@ -314,7 +314,7 @@ class TestEquityTracking:
 
 
 class TestMaxOnePosition:
-    @patch("src.tradememory.replay.engine.LLMClient")
+    @patch("tradememory.replay.engine.LLMClient")
     def test_second_buy_ignored_while_position_open(self, MockLLMClient):
         """Only 1 position allowed — second BUY should be ignored."""
         mock_llm = MagicMock()
@@ -346,7 +346,7 @@ class TestMaxOnePosition:
 
 
 class TestEODClose:
-    @patch("src.tradememory.replay.engine.LLMClient")
+    @patch("tradememory.replay.engine.LLMClient")
     def test_open_position_closed_at_end(self, MockLLMClient):
         """Open position at end of data should be force-closed as EOD."""
         call_count = [0]

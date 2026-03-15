@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Optional, Protocol, runtime_checkable
 
-from src.tradememory.data.models import OHLCVSeries, Timeframe
+from tradememory.data.models import OHLCVSeries, Timeframe
 
 
 @runtime_checkable

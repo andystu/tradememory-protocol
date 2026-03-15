@@ -10,10 +10,10 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from src.tradememory.replay.data_loader import parse_mt5_csv, sliding_window
-from src.tradememory.replay.indicators import compute_all_indicators, precompute_d1_atr_series
-from src.tradememory.replay.llm_client import LLMClient
-from src.tradememory.replay.models import (
+from tradememory.replay.data_loader import parse_mt5_csv, sliding_window
+from tradememory.replay.indicators import compute_all_indicators, precompute_d1_atr_series
+from tradememory.replay.llm_client import LLMClient
+from tradememory.replay.models import (
     AgentDecision,
     Bar,
     DecisionType,
@@ -22,8 +22,8 @@ from src.tradememory.replay.models import (
     PositionState,
     ReplayConfig,
 )
-from src.tradememory.replay.position_tracker import PositionTracker
-from src.tradememory.replay.prompt import build_system_prompt, build_user_prompt
+from tradememory.replay.position_tracker import PositionTracker
+from tradememory.replay.prompt import build_system_prompt, build_user_prompt
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +69,7 @@ class ReplayEngine:
         # Initialize DB for memory storage
         db = None
         if self.config.store_to_memory and not dry_run:
-            from src.tradememory.db import Database
+            from tradememory.db import Database
 
             db = Database(self.config.db_path)
 
@@ -131,7 +131,7 @@ class ReplayEngine:
                     )
                 else:
                     # Default built-in recall
-                    from src.tradememory.replay.memory_recall import build_memory_context
+                    from tradememory.replay.memory_recall import build_memory_context
 
                     memory_context = build_memory_context(
                         db_path=self.config.db_path,

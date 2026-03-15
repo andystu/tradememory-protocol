@@ -9,13 +9,13 @@ from pathlib import Path
 
 import pytest
 
-from src.tradememory.data.models import OHLCV, OHLCVSeries, Timeframe
-from src.tradememory.data.mt5_csv import (
+from tradememory.data.models import OHLCV, OHLCVSeries, Timeframe
+from tradememory.data.mt5_csv import (
     MT5CSVDataSource,
     _infer_symbol,
     _infer_timeframe,
 )
-from src.tradememory.data.protocol import (
+from tradememory.data.protocol import (
     DataSource,
     DataSourceError,
     SymbolNotFoundError,

@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 from datetime import datetime
 
-from src.tradememory.db import Database
+from tradememory.db import Database
 
 
 # ========== Fixtures ==========

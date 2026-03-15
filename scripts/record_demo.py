@@ -46,10 +46,10 @@ except ImportError:
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.tradememory.db import Database
-from src.tradememory.journal import TradeJournal
-from src.tradememory.reflection import ReflectionEngine
-from src.tradememory.state import StateManager
+from tradememory.db import Database
+from tradememory.journal import TradeJournal
+from tradememory.reflection import ReflectionEngine
+from tradememory.state import StateManager
 
 import tempfile
 
@@ -350,7 +350,7 @@ def main():
         f"  Key insight: London [green]{london_wr:.0f}% WR[/green] >> Asian [red]{asian_wr:.0f}% WR[/red]\n\n"
         f"  [dim]This demo used simulated data.[/dim]\n"
         f"  [dim]Connect a real API key for Claude-powered reflection.[/dim]\n\n"
-        f"  Next: [bold]python -m src.tradememory.server[/bold]\n"
+        f"  Next: [bold]python -m tradememory.server[/bold]\n"
         f"  Docs: [link=https://github.com/mnemox-ai/tradememory-protocol]github.com/mnemox-ai/tradememory-protocol[/link]",
         border_style="bright_green",
         padding=(1, 3),

@@ -6,8 +6,8 @@ from datetime import datetime
 
 import pytest
 
-from src.tradememory.replay.data_loader import parse_mt5_csv, sliding_window
-from src.tradememory.replay.models import Bar
+from tradememory.replay.data_loader import parse_mt5_csv, sliding_window
+from tradememory.replay.models import Bar
 
 SAMPLE_CSV = os.path.join(
     os.path.dirname(__file__), "..", "data", "sample_xauusd_m15.csv"

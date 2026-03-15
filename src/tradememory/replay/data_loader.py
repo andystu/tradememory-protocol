@@ -5,7 +5,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Iterator, List, Tuple
 
-from src.tradememory.replay.models import Bar
+from tradememory.replay.models import Bar
 
 
 def parse_mt5_csv(file_path: str) -> List[Bar]:

@@ -4,7 +4,7 @@ import math
 
 import pytest
 
-from src.tradememory.owm.context import ContextVector, context_similarity
+from tradememory.owm.context import ContextVector, context_similarity
 
 
 def _make_context(**overrides):

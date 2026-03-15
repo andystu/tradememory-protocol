@@ -4,10 +4,10 @@ import pytest
 from unittest.mock import MagicMock, patch
 from datetime import datetime
 
-from src.tradememory.db import Database
-from src.tradememory.journal import TradeJournal
-from src.tradememory.state import StateManager
-from src.tradememory.mt5_connector import MT5Connector
+from tradememory.db import Database
+from tradememory.journal import TradeJournal
+from tradememory.state import StateManager
+from tradememory.mt5_connector import MT5Connector
 
 
 @pytest.fixture
@@ -30,7 +30,7 @@ class TestMT5Init:
 
     def test_init_without_mt5_library(self, db):
         """MT5Connector initializes with mt5=None when library is unavailable."""
-        with patch("src.tradememory.mt5_connector.MT5Connector._init_mt5"):
+        with patch("tradememory.mt5_connector.MT5Connector._init_mt5"):
             conn = MT5Connector(journal=TradeJournal(db=db), state_manager=StateManager(db=db))
             # _init_mt5 was mocked so mt5 stays None (default from __init__)
             assert conn.mt5 is None

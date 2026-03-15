@@ -16,9 +16,9 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.stdout.reconfigure(encoding='utf-8')
 
-from src.tradememory.db import Database
-from src.tradememory.journal import TradeJournal
-from src.tradememory.reflection import ReflectionEngine
+from tradememory.db import Database
+from tradememory.journal import TradeJournal
+from tradememory.reflection import ReflectionEngine
 
 
 def validate(db_path: str):

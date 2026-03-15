@@ -2,8 +2,8 @@
 
 from datetime import datetime
 
-from src.tradememory.replay.models import Bar, IndicatorSnapshot, Position, PositionState
-from src.tradememory.replay.prompt import (
+from tradememory.replay.models import Bar, IndicatorSnapshot, Position, PositionState
+from tradememory.replay.prompt import (
     build_system_prompt,
     build_user_prompt,
     format_bars_table,

@@ -5,10 +5,10 @@ from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
-from src.tradememory.db import Database
-from src.tradememory.dashboard_models import OverviewResponse
-from src.tradememory.repositories.trade import TradeRepository
-from src.tradememory.services.dashboard import DashboardService
+from tradememory.db import Database
+from tradememory.dashboard_models import OverviewResponse
+from tradememory.repositories.trade import TradeRepository
+from tradememory.services.dashboard import DashboardService
 
 
 @pytest.fixture
@@ -20,8 +20,8 @@ def db(tmp_path):
 @pytest.fixture
 def client(db):
     """TestClient with dashboard_api wired to temp DB."""
-    from src.tradememory.server import app
-    from src.tradememory.dashboard_api import get_trade_repository
+    from tradememory.server import app
+    from tradememory.dashboard_api import get_trade_repository
 
     def override_repo():
         return TradeRepository(db=db)

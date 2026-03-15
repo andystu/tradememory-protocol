@@ -3,8 +3,8 @@
 import pytest
 from datetime import datetime, timezone, timedelta
 
-from src.tradememory.data.models import OHLCV, OHLCVSeries, Timeframe
-from src.tradememory.data.protocol import (
+from tradememory.data.models import OHLCV, OHLCVSeries, Timeframe
+from tradememory.data.protocol import (
     DataSource,
     DataSourceError,
     RateLimitError,

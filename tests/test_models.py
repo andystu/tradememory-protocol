@@ -4,7 +4,7 @@ Unit tests for data models.
 
 import pytest
 from datetime import datetime, timezone
-from src.tradememory.models import (
+from tradememory.models import (
     TradeRecord,
     MarketContext,
     SessionState,
