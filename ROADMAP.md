@@ -305,7 +305,7 @@
 - 不用外部 backtest library（保持輕量）
 - 測試：known-outcome trades、edge cases
 
-### Task 10.3：Hypothesis Generator ❌
+### Task 10.3：Hypothesis Generator ✅
 - `src/tradememory/evolution/generator.py`
 - LLM-powered（Sonnet）：給定 OHLCVSeries 統計摘要，產生交易假說
 - Prompt engineering：結構化輸出（JSON schema）
