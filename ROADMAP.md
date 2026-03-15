@@ -297,7 +297,7 @@
 - Mutation: generate variations of promising hypotheses
 - 49 tests (mock LLM, no real API calls) + 1 integration test (@pytest.mark.integration)
 
-### Task 10.2：Vectorized Backtester ❌
+### Task 10.2：Vectorized Backtester ✅
 - `src/tradememory/evolution/backtester.py`
 - Pure Python vectorized backtester（擴展 replay/ 概念）
 - 輸入：OHLCVSeries + Hypothesis → FitnessMetrics
