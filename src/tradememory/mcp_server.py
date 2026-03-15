@@ -1076,6 +1076,133 @@ async def check_active_plans(
     }
 
 
+# ---------------------------------------------------------------------------
+# Evolution Engine tools (Phase 11 — P2)
+# ---------------------------------------------------------------------------
+
+
+@mcp.tool()
+async def evolution_fetch_market_data(
+    symbol: str,
+    timeframe: str = "1h",
+    days: int = 90,
+) -> dict:
+    """Fetch OHLCV market data from Binance for evolution analysis.
+
+    Downloads historical price bars for backtesting and pattern discovery.
+    Use this before discover_patterns or run_backtest to get data.
+
+    Args:
+        symbol: Trading pair (e.g. "BTCUSDT", "ETHUSDT")
+        timeframe: Bar timeframe — "5m", "15m", "1h", "4h", "1d"
+        days: Number of days of history to fetch (default 90)
+    """
+    from .evolution.mcp_tools import fetch_market_data
+
+    result = await fetch_market_data(symbol, timeframe, days)
+    # Strip OHLCVSeries from response (not JSON-serializable)
+    result_copy = {k: v for k, v in result.items() if k != "series"}
+    return result_copy
+
+
+@mcp.tool()
+async def evolution_discover_patterns(
+    symbol: str,
+    timeframe: str = "1h",
+    count: int = 5,
+    temperature: float = 0.7,
+    days: int = 90,
+) -> dict:
+    """Discover trading patterns from market data using LLM analysis.
+
+    Uses Claude to analyze OHLCV data and generate candidate trading patterns
+    with entry/exit conditions. Each pattern can be backtested afterward.
+
+    Args:
+        symbol: Trading pair (e.g. "BTCUSDT")
+        timeframe: Bar timeframe — "5m", "15m", "1h", "4h", "1d"
+        count: Number of patterns to generate (default 5)
+        temperature: LLM creativity 0-1 (default 0.7, higher = more diverse)
+        days: Days of history to analyze (default 90)
+    """
+    from .evolution.llm import AnthropicClient
+    from .evolution.mcp_tools import discover_patterns
+
+    llm = AnthropicClient()
+    return await discover_patterns(
+        symbol, timeframe, count, temperature,
+        llm=llm, days=days,
+    )
+
+
+@mcp.tool()
+async def evolution_run_backtest(
+    pattern_dict: dict,
+    symbol: str = "BTCUSDT",
+    timeframe: str = "1h",
+    days: int = 90,
+) -> dict:
+    """Backtest a candidate pattern against historical OHLCV data.
+
+    Takes a pattern dict (from discover_patterns) and runs a vectorized
+    backtest. Returns fitness metrics: Sharpe ratio, win rate, trade count,
+    max drawdown, total PnL.
+
+    Args:
+        pattern_dict: CandidatePattern as dict (from discover_patterns output)
+        symbol: Trading pair (e.g. "BTCUSDT")
+        timeframe: Bar timeframe — "5m", "15m", "1h", "4h", "1d"
+        days: Days of history to backtest against (default 90)
+    """
+    from .evolution.mcp_tools import run_backtest
+
+    return await run_backtest(pattern_dict, symbol, timeframe, days)
+
+
+@mcp.tool()
+async def evolution_evolve_strategy(
+    symbol: str,
+    timeframe: str = "1h",
+    generations: int = 3,
+    population_size: int = 10,
+    days: int = 90,
+) -> dict:
+    """Run full evolution loop — generate, backtest, select, eliminate.
+
+    Multi-generation strategy evolution: generates candidate patterns via LLM,
+    backtests on in-sample data, validates survivors on out-of-sample data,
+    eliminates weak hypotheses. Returns graduated strategies and graveyard.
+
+    Args:
+        symbol: Trading pair (e.g. "BTCUSDT")
+        timeframe: Bar timeframe — "5m", "15m", "1h", "4h", "1d"
+        generations: Number of evolution generations (default 3)
+        population_size: Hypotheses per generation (default 10)
+        days: Days of history to use (default 90)
+    """
+    from .evolution.llm import AnthropicClient
+    from .evolution.mcp_tools import evolve_strategy
+
+    llm = AnthropicClient()
+    return await evolve_strategy(
+        symbol, timeframe, generations, population_size,
+        llm=llm, days=days,
+    )
+
+
+@mcp.tool()
+async def evolution_get_log() -> dict:
+    """Get the log of past evolution runs from this session.
+
+    Returns a list of all evolution runs with their results, including
+    graduated strategies, graveyard, token usage, and backtest counts.
+    Data is in-memory (resets on server restart).
+    """
+    from .evolution.mcp_tools import get_evolution_log
+
+    return get_evolution_log()
+
+
 def main():
     """Entry point for MCP server."""
     mcp.run()

@@ -1297,6 +1297,91 @@ async def owm_migrate():
         raise HTTPException(status_code=400, detail=str(e))
 
 
+# ========== Evolution Engine Endpoints (Phase 11 — P2) ==========
+
+
+class EvolutionDiscoverRequest(BaseModel):
+    """Request for POST /evolution/discover"""
+    symbol: str
+    timeframe: str = "1h"
+    count: int = 5
+    temperature: float = 0.7
+    days: int = 90
+
+
+class EvolutionBacktestRequest(BaseModel):
+    """Request for POST /evolution/backtest"""
+    pattern_dict: Dict[str, Any]
+    symbol: str = "BTCUSDT"
+    timeframe: str = "1h"
+    days: int = 90
+
+
+class EvolutionEvolveRequest(BaseModel):
+    """Request for POST /evolution/evolve"""
+    symbol: str
+    timeframe: str = "1h"
+    generations: int = 3
+    population_size: int = 10
+    days: int = 90
+
+
+@app.post("/evolution/discover")
+async def evolution_discover(req: EvolutionDiscoverRequest):
+    """Discover trading patterns from market data using LLM analysis."""
+    try:
+        from .evolution.llm import AnthropicClient
+        from .evolution.mcp_tools import discover_patterns
+
+        llm = AnthropicClient()
+        return await discover_patterns(
+            req.symbol, req.timeframe, req.count, req.temperature,
+            llm=llm, days=req.days,
+        )
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/evolution/backtest")
+async def evolution_backtest(req: EvolutionBacktestRequest):
+    """Backtest a candidate pattern against historical OHLCV data."""
+    try:
+        from .evolution.mcp_tools import run_backtest
+
+        return await run_backtest(
+            req.pattern_dict, req.symbol, req.timeframe, req.days,
+        )
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/evolution/evolve")
+async def evolution_evolve(req: EvolutionEvolveRequest):
+    """Run full evolution loop — generate, backtest, select, eliminate."""
+    try:
+        from .evolution.llm import AnthropicClient
+        from .evolution.mcp_tools import evolve_strategy
+
+        llm = AnthropicClient()
+        return await evolve_strategy(
+            req.symbol, req.timeframe, req.generations, req.population_size,
+            llm=llm, days=req.days,
+        )
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/evolution/log")
+async def evolution_log():
+    """Get the log of past evolution runs from this session."""
+    try:
+        from .evolution.mcp_tools import get_evolution_log
+
+        return get_evolution_log()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 # --- Dashboard static file serving ---
 _logger = logging.getLogger(__name__)
 _dashboard_dist = Path(__file__).parent.parent.parent / "dashboard" / "dist"
@@ -1304,7 +1389,7 @@ _dashboard_dist = Path(__file__).parent.parent.parent / "dashboard" / "dist"
 # API prefixes that must NOT be caught by the SPA catch-all
 _API_PREFIXES = (
     "dashboard/", "trade/", "state/", "reflect/", "mt5/", "risk/",
-    "patterns/", "adjustments/", "owm/", "health",
+    "patterns/", "adjustments/", "owm/", "evolution/", "health",
 )
 
 if _dashboard_dist.exists():
