@@ -320,7 +320,7 @@
 - 淘汰策略 → Strategy Graveyard（保留學習）
 - 測試：selection 邏輯、OOS filter、edge cases
 
-### Task 10.5：Evolution Orchestrator ❌
+### Task 10.5：Evolution Orchestrator ✅
 - `src/tradememory/evolution/engine.py`
 - 完整 loop：fetch data → generate hypotheses → backtest IS → select → validate OOS → store
 - Configurable：generations, population_size, mutation_rate
