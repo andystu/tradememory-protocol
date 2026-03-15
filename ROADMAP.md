@@ -312,7 +312,7 @@
 - Temperature 控制：exploration vs exploitation
 - 測試：mock LLM response、schema validation
 
-### Task 10.4：Selection & Elimination ❌
+### Task 10.4：Selection & Elimination ✅
 - `src/tradememory/evolution/selector.py`
 - IS fitness → 排名 → top N 進 OOS validation
 - OOS validation：Sharpe > 1.0, trade_count > 30, max_dd < 20%

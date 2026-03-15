@@ -63,6 +63,7 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - Use UTC for all timestamps
 
 ## Recent Changes
+- [2026-03-16] Task 10.4: Selection & Elimination — IS rank, OOS validate, graveyard (26 tests)
 - [2026-03-16] Task 10.3: Hypothesis generator — explore/exploit, retry, graveyard-aware (20 tests)
 - [2026-03-16] Task 10.2: Vectorized backtester — ATR SL/TP, condition eval, fitness (32 tests)
 - [2026-03-16] Task 10.1: Evolution models + LLM pattern discovery (49 tests)
@@ -75,9 +76,9 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - [2026-03-15] 建立 Jarvis 系統：/morning 每日掃描、/wrap-up session handoff
 
 ## Current Status
-- v0.4.0, 838 tests passing
-- P2 Evolution Engine: Task 10.3 done, next: 10.4 Selection & Elimination
-- Roadmap: 49/61 tasks (P1: 42/42, P2: 7/19)
+- v0.4.0, 864 tests passing
+- P2 Evolution Engine: Task 10.4 done, next: 10.5 Evolution Orchestrator
+- Roadmap: 50/61 tasks (P1: 42/42, P2: 8/19)
 - MT5 Sync V3 running, 14 trades, PnL +,200
 
 ## Compact Instructions
