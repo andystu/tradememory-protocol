@@ -63,6 +63,7 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - Use UTC for all timestamps
 
 ## Recent Changes
+- [2026-03-15] Phase 9 complete: DataSource Protocol + Binance + Context Builder + MT5 CSV (4 tasks, 144 new tests)
 - [2026-03-15] Task 9.2 Binance Adapter: pagination, rate limiting, parquet cache, 27 tests
 - [2026-03-15] P2 Evolution Engine roadmap added (Phases 8-12, 18 tasks)
 - [2026-03-15] Task 9.1 DataSource Protocol: OHLCV model, Timeframe enum, OHLCVSeries, DataSource Protocol, 27 tests
@@ -71,9 +72,9 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - [2026-03-15] 建立 Jarvis 系統：/morning 每日掃描、/wrap-up session handoff
 
 ## Current Status
-- v0.4.0, 647 tests passing
-- P2 Evolution Engine: Task 9.1-9.2 done, next: 9.3 Context Builder
-- Roadmap: 44/61 tasks (P1: 42/42, P2: 2/19)
+- v0.4.0, 737 tests passing
+- P2 Evolution Engine: Phase 9 complete (4/4), next: Phase 8 or 10
+- Roadmap: 46/61 tasks (P1: 42/42, P2: 4/19)
 - MT5 Sync V3 running, 14 trades, PnL +,200
 
 ## Compact Instructions

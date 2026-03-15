@@ -279,7 +279,7 @@
 - Pure function，不依賴外部狀態
 - 測試：各指標計算、邊界值
 
-### Task 9.4：MT5 CSV Adapter ❌
+### Task 9.4：MT5 CSV Adapter ✅
 - Wrap 現有 `replay/data_loader.py` 的 `parse_mt5_csv()` into DataSource Protocol
 - 讀取本地 CSV 檔案，轉換為 OHLCVSeries
 - 測試：CSV 解析、tab/comma auto-detect
@@ -389,7 +389,7 @@
 | Phase 6：OWM Architecture | ✅ 完成 | 2026-03-05 |
 | Phase 7：Trading Intelligence Dashboard | ✅ 完成 | 2026-03-11 |
 | Phase 8：OWM Completion | ❌ 未開始 | — |
-| Phase 9：Data Layer | 🔄 進行中 (3/4) | — |
+| Phase 9：Data Layer | ✅ 完成 | 2026-03-15 | — |
 | Phase 10：Evolution Engine | ❌ 未開始 | — |
 | Phase 11：Evolution MCP Tools | ❌ 未開始 | — |
 | Phase 12：Integration & Validation | ❌ 未開始 | — |
