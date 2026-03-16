@@ -63,28 +63,20 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - Use UTC for all timestamps
 
 ## Recent Changes
-- [2026-03-16] CI green: re-enabled workflow, added pip install -e ., lazy import instructor, fixed entry points, skipped flaky binance cache test
-- [2026-03-16] Distribution sprint complete: Smithery (15 tools) + mcp.so + mcpservers.org ($39 paid) + Glama (pending re-crawl)
-- [2026-03-16] Distribution sprint: v0.5.0 PyPI release + Smithery + mcp.so + awesome-mcp-servers PRs
-- [2026-03-16] Deep market research report: 4 sub-reports → 1 comprehensive report (competitors, channels, painpoints, SEO/pricing). Key: memory layer = blue ocean, forex MCP underserved, need Smithery/mcp.so/awesome listing
-- [2026-03-16] RESEARCH_LOG.md finalized: 11 experiments, model comparison table (Haiku vs Sonnet vs Opus), pattern library, strategy graveyard
-- [2026-03-16] Evolution robustness: P0 parser (Haiku format), P1 min bars, P2 Sharpe guard. Binance live test passed (2160 bars, 2 graduated). 1055 tests
-- [2026-03-16] **v0.5.0 Release** — Evolution Engine + OWM Completion. 1026 tests, all 12 phases complete
-- [2026-03-16] Phase 8: OWM Decay + Auto-induction + CUSUM drift + Affective EWMA + Prospective feedback (6 tasks, 78 new tests)
-- [2026-03-16] Phase 10: Evolution Engine Core — models, vectorized backtester, generator, selector, orchestrator (5 tasks, 147 new tests)
-- [2026-03-16] Phase 11: Evolution MCP Tools — 5 MCP tools + 4 REST endpoints + Pydantic models (6 tasks, 36 new tests)
-- [2026-03-16] Phase 12: Integration — evolution demo, dashboard evolution page, research log (3 tasks, 21 new tests)
-- [2026-03-16] Import fix: 180+ `from src.tradememory` → `from tradememory`
-- [2026-03-15] Phase 9: DataSource Protocol + Binance + Context Builder + MT5 CSV (4 tasks, 144 new tests)
-- [2026-03-15] 修復 mt5_sync_v3.py 關鍵 bug：DELETE open_positions 在 sync 前執行導致資料遺失
+- [2026-03-16] **v0.5.0 產品化大整頓**（3 批次 auto-claude + 手動補修）：TUTORIAL/CONTRIBUTING/SKILL.md 更新，GitHub Release v0.5.0，Org profile README（3 產品卡片），mnemox.ai 網站加 Evolution Engine + SEO，全 repo src.tradememory.server 引用清除
+- [2026-03-16] README 視覺重設計：6 PNG（hero/before-after/architecture × light/dark）+ 中文版 6 張，490→280 行
+- [2026-03-16] CI green + Distribution sprint: Smithery + mcp.so + mcpservers.org + Glama
+- [2026-03-16] **v0.5.0 Release** — Evolution Engine + OWM Completion. 1055 tests, 12 phases complete
+- [2026-03-15] Phase 9: DataSource Protocol + Binance + Context Builder + MT5 CSV
 - [2026-03-15] 建立 Jarvis 系統：/morning 每日掃描、/wrap-up session handoff
 
 ## Current Status
 - **v0.5.0**, 1055 tests passing, 1 skipped
 - **All 12 phases complete** — P1: 42/42, P2: 20/20, total 62/62 tasks
-- Evolution Engine: discover → hypothesize → backtest → select → evolve (LLM-powered)
-- OWM 5 memory types fully implemented (episodic, semantic, procedural, affective, prospective)
-- 15 MCP tools, 30+ REST endpoints
+- GitHub Release v0.5.0 已建立，Org profile + 3 產品卡片上線
+- 15 MCP tools, 30+ REST endpoints, Evolution Engine + OWM 5 memory types
+- mnemox.ai 網站已更新（Evolution Engine + SEO metadata）
+- 全文件一致性掃描完成，所有 src.tradememory.server 引用已清除
 - MT5 Sync V3 running, 14 trades, PnL +$2,200
 
 ## Compact Instructions
