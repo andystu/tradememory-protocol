@@ -7,7 +7,7 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - GitHub: mnemox-ai/tradememory-protocol
 - PyPI: tradememory-protocol
 - 版本: v0.5.0
-- Tests: 1026 tests passing
+- Tests: 1055 tests passing
 - Default branch: `master`（不是 main）
 
 ## 開發規範
@@ -63,6 +63,7 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - Use UTC for all timestamps
 
 ## Recent Changes
+- [2026-03-16] Evolution robustness: P0 parser (Haiku format), P1 min bars, P2 Sharpe guard. Binance live test passed (2160 bars, 2 graduated). 1055 tests
 - [2026-03-16] **v0.5.0 Release** — Evolution Engine + OWM Completion. 1026 tests, all 12 phases complete
 - [2026-03-16] Phase 8: OWM Decay + Auto-induction + CUSUM drift + Affective EWMA + Prospective feedback (6 tasks, 78 new tests)
 - [2026-03-16] Phase 10: Evolution Engine Core — models, vectorized backtester, generator, selector, orchestrator (5 tasks, 147 new tests)
@@ -74,7 +75,7 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - [2026-03-15] 建立 Jarvis 系統：/morning 每日掃描、/wrap-up session handoff
 
 ## Current Status
-- **v0.5.0**, 1026 tests passing, 1 skipped
+- **v0.5.0**, 1055 tests passing, 1 skipped
 - **All 12 phases complete** — P1: 42/42, P2: 20/20, total 62/62 tasks
 - Evolution Engine: discover → hypothesize → backtest → select → evolve (LLM-powered)
 - OWM 5 memory types fully implemented (episodic, semantic, procedural, affective, prospective)
