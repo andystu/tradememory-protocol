@@ -37,7 +37,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
   - Evolution demo script: mock BTC 1H data, 3-generation evolution, text equity curve
   - Dashboard evolution page: surviving/graveyard tables, fitness trend, run summary
   - Research log auto-write (EXP-00X format)
-- 627 new tests (1026 total, up from 399)
+- 656 new tests (1,055 total, up from 399)
 
 ### Changed
 - All `from src.tradememory` imports fixed to `from tradememory` (180+ files)
@@ -46,7 +46,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Stats
 - 15 MCP tools (was 10), 30+ REST endpoints
-- 1026 tests passing, 0 failures
+- 1,055 tests passing, 0 failures
 - Phases 8-12 complete (P1: 42/42, P2: 20/20)
 
 ---
