@@ -84,6 +84,10 @@ uv.lock
 dashboard/node_modules/
 dashboard/dist/
 
+# Old marketing/drafts
+marketing/
+drafts/
+
 # OS
 .DS_Store
 Thumbs.db
