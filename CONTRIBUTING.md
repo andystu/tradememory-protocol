@@ -37,7 +37,7 @@ This runs ruff, mypy, and formatting checks automatically on every commit.
 
 ```bash
 python -m pytest tests/ -v
-# Expected: 67 passed
+# Expected: 1,055 passed
 ```
 
 ---
@@ -120,7 +120,7 @@ git push origin feat/your-feature
 
 Before submitting, confirm:
 
-- [ ] `python -m pytest tests/ -v` passes (111+ tests)
+- [ ] `python -m pytest tests/ -v` passes (1,055+ tests)
 - [ ] New features include tests
 - [ ] `ruff check` and `mypy` pass (or use pre-commit hooks)
 - [ ] Commit messages follow conventional commits
@@ -142,6 +142,8 @@ Before submitting, confirm:
 - **Broker integrations** — Binance, Bybit, Alpaca, Interactive Brokers
 - **Reflection algorithms** — Better pattern detection, multi-timeframe analysis
 - **Performance optimizations** — Faster queries, better caching
+- **Evolution Engine extensions** — Custom fitness functions, multi-asset support
+- **OWM enhancements** — New memory type adapters
 
 ### Also Welcome
 
@@ -179,7 +181,7 @@ Use the [Feature Request template](https://github.com/mnemox-ai/tradememory-prot
 Before contributing, understand the key design principles:
 
 1. **Platform-agnostic core** — TradeMemory does NOT connect to brokers directly. Broker-specific code stays in adapters (`scripts/trade_adapter.py`, `scripts/mt5_sync.py`).
-2. **3-Layer Memory** — L1 (Hot/RAM), L2 (Warm/JSON), L3 (Cold/SQLite). Respect the layer boundaries.
+2. **5 OWM Memory Types** — Episodic (trade events), Semantic (strategy rules), Procedural (behavioral patterns), Affective (confidence/risk state), Prospective (conditional plans). Plus Evolution Engine for autonomous strategy discovery.
 3. **All timestamps in UTC** — No exceptions.
 4. **LLM outputs are untrusted** — Always validate and provide fallback defaults.
 
