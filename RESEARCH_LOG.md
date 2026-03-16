@@ -480,6 +480,7 @@
 26. 「過度具體化」是模型無關的系統性問題 — Sonnet 和 Haiku 都傾向鎖定固定時段 + 高門檻窄條件，需要從 prompt 層面解決
 27. Opus 在 evolution pipeline 中表現最差 — 最慢（72.4s vs Haiku 34.7s）、畢業品質最低（OOS PnL=-$1,741），高推理能力在高創造性低精度任務中無優勢
 28. 三模型對比確認：Haiku > Sonnet > Opus 在 evolution pipeline 的性價比排序。成本相當（均 ~$0.013-0.016），差異在速度和品質
+29. Graveyard feedback 深度不足 — 目前只傳策略名稱 + elimination reason（表層：「IS Sharpe < -5」），P1 手動 loop 傳的是完整失敗分析（深層：為什麼止損結構不對、為什麼逆勢必死）。v0.6.0 方向：graveyard entry 加 `structural_failure_reason` 欄位，告訴 LLM「這類策略失敗是因為 X」而非只說「這個策略失敗了」，讓下一輪避開同類型結構性錯誤
 
 ---
 
