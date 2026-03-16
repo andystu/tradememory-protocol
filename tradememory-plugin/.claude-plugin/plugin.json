@@ -1,0 +1,8 @@
+{
+  "name": "tradememory",
+  "version": "0.5.0",
+  "description": "AI trading memory with outcome-weighted recall, behavioral analysis, and autonomous strategy evolution. 15 MCP tools for recording trades, recalling similar contexts, tracking performance, and evolving new strategies from raw price data.",
+  "author": {
+    "name": "Mnemox AI"
+  }
+}
