@@ -390,6 +390,30 @@
 
 ---
 
+## Phase 13：Statistical Validation ✅
+
+確保 Evolution Engine 發現的策略有真正的 edge，不是隨機噪音。
+
+### Task 13.1：Random Baseline Generator ✅
+- `scripts/random_baseline_demo.py`：合成 OHLCV + 200 random strategies + percentile ranking
+- 函數：generate_random_ohlcv, compute_sharpe, random_strategy_sharpe, run_random_baseline, percentile_rank
+- Demo：Strategy C (Sharpe 2.0) vs random distribution
+
+### Task 13.2：Random Baseline Tests ✅
+- Unit tests for all baseline functions
+- Edge cases: empty data, zero-std returns, boundary percentiles
+
+### Task 13.3：Validation Results Template ✅
+- `VALIDATION_RESULTS.md`：4-step validation framework
+- Step 1 Random Baseline / Step 2 Walk-Forward / Step 3 Time Bias / Step 4 Extended OOS
+- Placeholder for real Binance data results
+
+### Task 13.4：Demo Script ✅
+- `scripts/random_baseline_demo.py` with `if __name__=="__main__"`
+- Prints distribution stats (mean, std, p5, p50, p95) + Strategy C ranking + pass/fail
+
+---
+
 ## 進度追蹤
 
 | Phase | 狀態 | 完成日期 |
@@ -406,3 +430,4 @@
 | Phase 10：Evolution Engine | ✅ 完成 | 2026-03-16 |
 | Phase 11：Evolution MCP Tools | ✅ 完成 | 2026-03-16 |
 | Phase 12：Integration & Validation | ✅ 完成 | 2026-03-16 |
+| Phase 13：Statistical Validation | ✅ 完成 | 2026-03-17 |
