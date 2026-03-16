@@ -122,6 +122,18 @@ docker compose up -d
 
 </details>
 
+<details>
+<summary>Claude Plugin (commands + skills + domain knowledge)</summary>
+
+```bash
+git clone https://github.com/mnemox-ai/tradememory-plugin.git
+claude --plugin-dir ./tradememory-plugin
+```
+
+Adds 5 slash commands (`/record-trade`, `/recall`, `/performance`, `/evolve`, `/daily-review`) and 3 domain knowledge skills. See [tradememory-plugin](https://github.com/mnemox-ai/tradememory-plugin) for details.
+
+</details>
+
 ---
 
 ## Use Cases
