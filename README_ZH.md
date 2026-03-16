@@ -3,8 +3,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.png">
-  <img src="assets/hero-light.png" alt="TradeMemory Protocol" width="720">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/hero-zh-dark.png">
+  <img src="assets/hero-zh-light.png" alt="TradeMemory Protocol" width="720">
 </picture>
 
 **如果你的交易機器人能從每次失敗中學習，還能自己發明更好的策略呢？**
@@ -26,8 +26,8 @@ TradeMemory 是改變這一切的記憶層。
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/before-after-dark.png">
-  <img src="assets/before-after-light.png" alt="使用前後對比" width="720">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/before-after-zh-dark.png">
+  <img src="assets/before-after-zh-light.png" alt="使用前後對比" width="720">
 </picture>
 
 </div>
@@ -135,8 +135,8 @@ docker compose up -d
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/owm-architecture-dark.png">
-  <img src="assets/owm-architecture-light.png" alt="OWM 架構" width="720">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/owm-architecture-zh-dark.png">
+  <img src="assets/owm-architecture-zh-light.png" alt="OWM 架構" width="720">
 </picture>
 
 </div>
