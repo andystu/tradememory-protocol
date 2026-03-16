@@ -1,14 +1,30 @@
 # TradeMemory Plugin
 
-Claude Code plugin for AI trading memory with outcome-weighted recall and autonomous strategy evolution.
+Persistent memory + autonomous strategy evolution for AI traders. 200+ trading MCP servers execute. None remember. TradeMemory does.
 
 ## Installation
+
+### From GitHub (recommended)
+
+```bash
+git clone https://github.com/mnemox-ai/tradememory-plugin.git
+claude --plugin-dir ./tradememory-plugin
+```
+
+### Manual
+
+Copy the plugin directory into your project or pass it directly:
 
 ```bash
 claude --plugin-dir /path/to/tradememory-plugin
 ```
 
-Or copy to your project's `.claude-plugin/` directory.
+### MCP Server (standalone, no plugin needed)
+
+```bash
+pip install tradememory-protocol
+claude mcp add tradememory -- uvx tradememory-protocol
+```
 
 ## Commands
 
@@ -91,6 +107,7 @@ Or copy to your project's `.claude-plugin/` directory.
 
 ## Links
 
-- [GitHub](https://github.com/mnemox-ai/tradememory-protocol)
+- [Plugin repo](https://github.com/mnemox-ai/tradememory-plugin)
+- [Core protocol](https://github.com/mnemox-ai/tradememory-protocol)
 - [PyPI](https://pypi.org/project/tradememory-protocol/)
 - [Tutorial](https://github.com/mnemox-ai/tradememory-protocol/blob/master/docs/TUTORIAL.md)
