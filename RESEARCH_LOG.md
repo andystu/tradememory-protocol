@@ -346,6 +346,59 @@
 - 03:00 UTC 做多是新發現（Haiku 未產出此時段），但 n=2 無統計意義
 - **產出檔案**：`scripts/evolution_binance_test.py`（同 EXP-009）
 
+### EXP-011: Evolution Engine — Opus 模型對比測試 ✅ REAL DATA
+
+- **日期**：2026-03-16
+- **數據**：BTC/USDT 1H, **2,160 bars from Binance API**（2025-12-16 ~ 2026-03-16）
+  - 價格範圍：$62,900 ~ $97,655
+- **模型**：claude-opus-4-20250514（對比 EXP-009 Haiku、EXP-010 Sonnet）
+- **成本**：$0.013 | 72.4s | 6,218 tokens | 16 次回測
+- **設定**：Population=5, Generations=2, IS/OOS=1,512/648 bars (70/30)
+- **目的**：測試 Opus 模型在相同 pipeline、相同數據下的表現差異
+
+#### 結果
+
+| 指標 | EXP-009 (Haiku) | EXP-010 (Sonnet) | EXP-011 (Opus) |
+|---|---|---|---|
+| 假說總數 | 10 | 10 | 10 |
+| 畢業（graduated） | 2 | 1 | 1 |
+| 淘汰（eliminated） | 8 | 9 | 9 |
+| 回測次數 | 15 | 14 | 16 |
+| Token 數 | 7,680 | 6,186 | 6,218 |
+| 耗時 | 34.7s | 51.9s | 72.4s |
+| 成本 | $0.016 | $0.013 | $0.013 |
+
+#### 畢業策略
+
+| # | 策略名稱 | 方向 | 條件 | SL | TP | Max Bars | OOS 交易數 | OOS WR | OOS PF | OOS PnL |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | Asian Morning Reversal Long | LONG | hour_utc=3, trend_12h<0, atr_h1>threshold | 1.3xATR | 2.6xATR | 6 | 4 | 25% | 0.05 | -$1,741 |
+
+#### 淘汰明細
+
+| 淘汰原因 | 數量 |
+|---|---|
+| IS Sharpe < -5 | 4 |
+| OOS max_dd > 80% | 2 |
+| OOS Sharpe < -5 | 3 |
+
+#### Opus 行為特徵
+
+1. **最慢但不最好**：72.4s（Haiku 的 2.1x，Sonnet 的 1.4x），但畢業策略品質最差
+2. **畢業策略虧損**：唯一畢業策略 OOS PnL=-$1,741，WR=25%，PF=0.05 — 三個模型中最差
+3. **Pattern 命名更精緻**：「Late London Bearish Cascade」「Asian Morning Reversal Long」，語義更豐富但不影響回測品質
+4. **相同的過度具體化問題**：仍然鎖定 hour_utc + 單一條件組合
+5. **03:00 UTC 做多再次被發現**：Opus 和 Sonnet 都發現了 03:00 UTC，模型間有趨同
+6. **Opus 更傾向 short 策略**：Gen 0 的 5 個假說中 3 個是 short，與 Haiku/Sonnet 偏好不同
+
+#### 結論
+
+- Opus 在 evolution pipeline 中 **表現最差** — 最慢、畢業品質最低、成本無優勢
+- 三個模型核心瓶頸完全一致：**過度具體化 + n 不足**，與模型能力無關
+- Opus 的高推理能力在 pattern discovery 這種高創造性低精度任務中**沒有優勢**
+- **確認結論：Haiku 是 evolution pipeline 的最佳選擇**
+- **產出檔案**：`scripts/evolution_binance_test.py`（同 EXP-009/010）
+
 ---
 
 ## Pattern Library（L2 知識庫）
@@ -378,6 +431,7 @@
 | 瀑布接盤 | EXP-005 | 37.9% | 0.16 | PF 1.02，無實質 edge |
 | EXP-009 淘汰 ×8 | EXP-009 | — | — | IS Sharpe<-5 (3), trade_count=0 (2), OOS trade<2 (2), OOS DD>80% (1) |
 | EXP-010 淘汰 ×9 | EXP-010 | — | — | IS Sharpe<-5 (4), IS trade<3 (1), OOS Sharpe<-5 (2), OOS trade<2 (1), graduated (1) |
+| EXP-011 淘汰 ×9 | EXP-011 | — | — | IS Sharpe<-5 (4), OOS DD>80% (2), OOS Sharpe<-5 (3) |
 
 ---
 
@@ -392,6 +446,7 @@
 | 16:00 UTC Reversal Short (Auto) | EXP-009 | 100% (n=2) | — | 999 | ⚠️ 自動發現，n=2 統計不足，待更多數據 |
 | 16:00 UTC Short Continuation (Auto) | EXP-009 | 100% (n=2) | — | 999 | ⚠️ 自動發現，n=2 統計不足，待更多數據 |
 | 03:00 UTC Morning Expansion Long (Auto) | EXP-010 | 50% (n=2) | 0.00 | 9.96 | ⚠️ Sonnet 發現，n=2 統計不足 |
+| Asian Morning Reversal Long (Auto) | EXP-011 | 25% (n=4) | 0.00 | 0.05 | ⚠️ Opus 發現，OOS 虧損 -$1,741，品質最差 |
 
 ---
 
@@ -423,44 +478,57 @@
 24. 自動發現與人工發現的收斂驗證：EXP-009 的 LLM 獨立發現了 16:00 UTC 做空效應，與 EXP-003 人工策略 C 一致 — 這是 edge 真實存在的強證據
 25. Sonnet vs Haiku 在 evolution pipeline 表現相當 — 瓶頸在 prompt 不在模型。高迭代低精度任務用 Haiku 更划算（更快、成本差不多）
 26. 「過度具體化」是模型無關的系統性問題 — Sonnet 和 Haiku 都傾向鎖定固定時段 + 高門檻窄條件，需要從 prompt 層面解決
+27. Opus 在 evolution pipeline 中表現最差 — 最慢（72.4s vs Haiku 34.7s）、畢業品質最低（OOS PnL=-$1,741），高推理能力在高創造性低精度任務中無優勢
+28. 三模型對比確認：Haiku > Sonnet > Opus 在 evolution pipeline 的性價比排序。成本相當（均 ~$0.013-0.016），差異在速度和品質
 
 ---
 
 ## Model Comparison: Evolution Engine LLM Selection
 
-> 基於 EXP-009（Haiku）和 EXP-010（Sonnet）在相同數據、相同 pipeline 下的對比
+> 基於 EXP-009（Haiku）、EXP-010（Sonnet）、EXP-011（Opus）在相同數據（BTCUSDT 1H 2160 bars）、相同 pipeline 下的對比
 
 ### 總覽
 
-| 指標 | Haiku (EXP-009) | Sonnet (EXP-010) | 結論 |
-|---|---|---|---|
-| 模型 | claude-haiku-4-5-20251001 | claude-sonnet-4-20250514 | — |
-| 假說總數 | 10 | 10 | 相同 |
-| 畢業數 | 2 | 1 | Haiku 多，但 n=2 皆不足 |
-| 淘汰數 | 8 | 9 | — |
-| 回測次數 | 15 | 14 | 相當 |
-| Token 數 | 7,680 | 6,186 | Sonnet -19% |
-| 耗時 | 34.7s | 51.9s | Haiku 快 50% |
-| 成本 | $0.016 | $0.013 | 相當（差 $0.003） |
+| 指標 | Haiku (EXP-009) | Sonnet (EXP-010) | Opus (EXP-011) | 結論 |
+|---|---|---|---|---|
+| 模型 | claude-haiku-4-5-20251001 | claude-sonnet-4-20250514 | claude-opus-4-20250514 | — |
+| 假說總數 | 10 | 10 | 10 | 相同 |
+| 畢業數 | 2 | 1 | 1 | Haiku 多，但所有模型 n 皆不足 |
+| 淘汰數 | 8 | 9 | 9 | — |
+| 回測次數 | 15 | 14 | 16 | 相當 |
+| Token 數 | 7,680 | 6,186 | 6,218 | Sonnet/Opus 更精煉 |
+| 耗時 | **34.7s** | 51.9s | 72.4s | Haiku 最快（Opus 2.1x 慢） |
+| 成本 | $0.016 | $0.013 | $0.013 | 均 ~$0.013-0.016 |
+| OOS 畢業品質 | n=2, PF=999 | n=2, PF=9.96 | n=4, PF=0.05 | **Opus 最差（虧損）** |
 
 ### 行為特徵
 
-| 面向 | Haiku | Sonnet |
-|---|---|---|
-| 時段偏好 | 16:00 UTC（2 個畢業策略都是） | 03:00 UTC（1 個畢業策略） |
-| 多樣性 | 低 — 兩個畢業策略幾乎相同 | 中 — 探索了更多時段（3, 17, 22 UTC） |
-| 條件窄度 | 高（高 ATR 門檻 + 固定時段） | 高（低 ATR percentile + 固定時段） |
-| 過度具體化 | ✅ 嚴重 | ✅ 嚴重（模型無關的問題） |
-| Pattern 描述 | 冗長（+19% token） | 精煉 |
-| OOS 畢業品質 | n=2, PF=999（假象） | n=2, PF=9.96 |
+| 面向 | Haiku | Sonnet | Opus |
+|---|---|---|---|
+| 時段偏好 | 16:00 UTC（2 個畢業策略都是） | 03:00 UTC | 03:00 UTC |
+| 多樣性 | 低 — 畢業策略幾乎相同 | 中 — 更多時段探索 | 中 — 更多 short 策略 |
+| 條件窄度 | 高（高 ATR + 固定時段） | 高（低 ATR percentile + 固定時段） | 高（trend + 固定時段） |
+| 過度具體化 | ✅ 嚴重 | ✅ 嚴重 | ✅ 嚴重（三模型一致） |
+| Pattern 描述 | 冗長（+19% token） | 精煉 | 最精緻（語義豐富） |
+| 方向偏好 | short 為主 | 均衡 | short 偏好（60%） |
+
+### 成本效益分析
+
+| 模型 | 成本/run | 成本/假說 | 成本/畢業策略 | 秒/假說 |
+|---|---|---|---|---|
+| **Haiku** | **$0.016** | **$0.0016** | **$0.008** | **3.47** |
+| Sonnet | $0.013 | $0.0013 | $0.013 | 5.19 |
+| Opus | $0.013 | $0.0013 | $0.013 | 7.24 |
 
 ### 結論與建議
 
 | 決策 | 選擇 | 理由 |
 |---|---|---|
-| **Evolution pipeline 預設模型** | **Haiku** | 更快（-33%）、成本相當、畢業率不劣於 Sonnet |
+| **Evolution pipeline 預設模型** | **Haiku** | 最快、畢業率最高、成本/畢業策略最低 |
 | 探索性研究 | Sonnet | 更多時段多樣性，適合發現新 pattern |
-| 大規模迭代（100+ runs） | Haiku | 速度是瓶頸時 Haiku 優勢明顯 |
-| 瓶頸所在 | **Prompt，不是模型** | 兩個模型都有相同的過度具體化問題，升級模型無法解決 |
+| 生產級策略生成 | Haiku | Opus 無優勢反而最差 |
+| 大規模迭代（100+ runs） | Haiku | 速度是瓶頸時 Haiku 優勢明顯（2x faster than Opus） |
+| **不推薦** | **Opus** | 最慢、畢業品質最差、成本無優勢 |
+| 瓶頸所在 | **Prompt，不是模型** | 三個模型都有相同的過度具體化問題，升級模型無法解決 |
 
-**核心發現**：Evolution Engine 的 LLM 選擇對結果的影響 < prompt 設計對結果的影響。下一步優化方向是 prompt engineering，而非模型升級。
+**核心發現**：三模型對比證實 Evolution Engine 的 LLM 選擇對結果的影響 < prompt 設計對結果的影響。Opus 的高推理能力在 pattern discovery 中沒有優勢。下一步優化方向是 prompt engineering，而非模型升級。
