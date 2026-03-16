@@ -1,11 +1,10 @@
 ---
 name: tradememory
 slug: tradememory
-version: 1.0.0
+version: 0.5.0
 description: >-
-  AI trading memory for MT5/forex traders. Record every trade, discover patterns,
-  and get AI-powered reflections with automatic strategy adjustments.
-  The only trading memory system with 3-layer architecture (raw trades -> patterns -> strategy).
+  AI trading memory with outcome-weighted recall and autonomous strategy evolution.
+  15 MCP tools, 1,055 tests, works with any trading platform.
 source: https://github.com/mnemox-ai/tradememory-protocol
 repository: https://github.com/mnemox-ai/tradememory-protocol
 homepage: https://github.com/mnemox-ai/tradememory-protocol
@@ -16,10 +15,7 @@ metadata:
     requires:
       bins: ["python3", "pip"]
       env:
-        MT5_LOGIN: "MetaTrader 5 account number (optional, MT5 sync only)"
-        MT5_PASSWORD: "MetaTrader 5 password (optional, MT5 sync only)"
-        MT5_SERVER: "MT5 broker server name (optional, MT5 sync only)"
-        ANTHROPIC_API_KEY: "Enables LLM reflections (optional, rule-based fallback without it)"
+        ANTHROPIC_API_KEY: "Required for LLM reflections and Evolution Engine (optional, rule-based fallback without it)"
         TRADEMEMORY_API: "API endpoint, defaults to http://localhost:8000 (optional)"
     os: ["linux", "darwin", "win32"]
     homepage: https://github.com/mnemox-ai/tradememory-protocol
@@ -27,9 +23,13 @@ metadata:
 
 # TradeMemory Protocol
 
-Give your AI agent persistent trading memory. TradeMemory records every trade decision, discovers patterns across sessions, uses AI to reflect on your trading behavior, and automatically adjusts risk recommendations. It works with MT5, Binance, Alpaca, or any platform that outputs trade data.
+Give your AI agent persistent trading memory. TradeMemory records every trade, recalls past decisions weighted by outcome quality, discovers behavioral patterns, and autonomously evolves new strategies from raw price data.
 
-Built on MCP (Model Context Protocol). 203 tests passing. MIT licensed.
+**Outcome-Weighted Memory (OWM)** — 5 memory types (episodic, semantic, procedural, affective, prospective) that score recall by P&L outcome, context similarity, recency, and confidence. Winning trades surface first.
+
+**Evolution Engine** — LLM-powered strategy discovery. Feed it OHLCV data from any exchange, it generates candidate patterns, backtests them vectorized, validates out-of-sample, and graduates survivors. No manual rule writing.
+
+**Platform-agnostic** — works with MT5, Binance, Alpaca, or any broker that outputs trade data. 1,055 tests passing. MIT licensed.
 
 ## Installation
 
@@ -37,187 +37,158 @@ Built on MCP (Model Context Protocol). 203 tests passing. MIT licensed.
 pip install tradememory-protocol
 ```
 
-Verify installation:
+Verify:
 
 ```bash
 python -c "import tradememory; print('TradeMemory ready')"
 ```
 
-## Setup for MT5 Users
+## Setup
 
-If you trade on MetaTrader 5, TradeMemory can auto-sync your closed trades every 60 seconds — zero modifications to your EA.
+### Claude Desktop (via uvx)
 
-```bash
-# 1. Install MT5 Python API
-pip install MetaTrader5 python-dotenv requests
+Add to your Claude Desktop MCP config:
 
-# 2. Clone repo for sync scripts
-git clone https://github.com/mnemox-ai/tradememory-protocol.git
-cd tradememory-protocol
-
-# 3. Configure credentials
-cp .env.example .env
-# Edit .env with your MT5 login, password, server
-
-# 4. Start the TradeMemory server
-python -m src.tradememory.server
-# Runs on http://localhost:8000
-
-# 5. Start MT5 sync (in a second terminal)
-python scripts/mt5_sync.py
-# Polls MT5 every 60 seconds for closed trades
+```json
+{
+  "mcpServers": {
+    "tradememory": {
+      "command": "uvx",
+      "args": ["tradememory-protocol"]
+    }
+  }
+}
 ```
 
-See [MT5_SYNC_SETUP.md](https://github.com/mnemox-ai/tradememory-protocol/blob/master/docs/MT5_SYNC_SETUP.md) for the full setup guide, auto-start configuration, and troubleshooting.
+### Claude Code
 
-## Security & Permissions
+```bash
+claude mcp add tradememory -- uvx tradememory-protocol
+```
 
-**Network access during install:** `install.sh` and `setup_mt5.sh` run `pip install` (downloads from PyPI) and `git clone` (downloads from GitHub). These are standard Python project install steps — review the scripts before running.
+### Manual (local server)
 
-**Network access at runtime:** The TradeMemory server runs on `localhost:8000` by default and does not make outbound network requests. If you set `TRADEMEMORY_API` to a remote URL, trade data will be sent to that endpoint — only do this with endpoints you control. If `ANTHROPIC_API_KEY` is set, the reflection engine sends anonymized trade patterns to the Claude API for analysis.
+```bash
+python -m tradememory
+```
 
-**Environment variables:** All environment variables are optional. MT5 credentials (`MT5_LOGIN`, `MT5_PASSWORD`, `MT5_SERVER`) are only needed for MT5 sync. They are stored in your local `.env` file and read by `mt5_sync.py` to connect to your MT5 terminal. They are not logged or sent to any external service.
+Runs the MCP server on stdio. For the REST API server:
 
-**File system access:** TradeMemory writes to a single SQLite database file (`tradememory.db`) in the project directory. No files are created or modified outside the project.
+```bash
+python -m tradememory.server
+# Runs on http://localhost:8000
+```
 
-**No implicit permissions:** This skill does not auto-install dependencies, modify system files, or require elevated privileges. All setup steps are explicit and user-initiated.
+## MCP Tools Reference
+
+### Core Memory (4 tools)
+
+| Tool | Purpose |
+|------|---------|
+| `store_trade_memory` | Store a trade with full context (symbol, direction, price, strategy, market context, reflection) |
+| `recall_similar_trades` | Find past trades matching current market context for pattern recognition |
+| `get_strategy_performance` | Aggregate stats per strategy: win rate, PnL, profit factor, best/worst trades |
+| `get_trade_reflection` | Deep-dive into a specific trade's reasoning and lessons learned |
+
+### OWM Cognitive Memory (6 tools)
+
+| Tool | Purpose |
+|------|---------|
+| `remember_trade` | Store a trade into all 5 OWM memory layers with automatic behavioral updates |
+| `recall_memories` | Outcome-weighted recall — scores memories by P&L, context similarity, recency, confidence |
+| `get_behavioral_analysis` | Procedural memory stats: hold times, disposition ratio, lot variance, Kelly criterion |
+| `get_agent_state` | Current affective state: confidence level, drawdown %, win/loss streaks, risk appetite |
+| `create_trading_plan` | Create a prospective trading plan with entry/exit conditions and risk parameters |
+| `check_active_plans` | Check status of active trading plans, evaluate against current market conditions |
+
+### Evolution Engine (5 tools)
+
+| Tool | Purpose |
+|------|---------|
+| `evolution_fetch_market_data` | Fetch OHLCV data from Binance for backtesting and pattern discovery |
+| `evolution_discover_patterns` | LLM-powered pattern discovery from price data — generates candidate trading rules |
+| `evolution_run_backtest` | Vectorized backtest of a candidate pattern — returns Sharpe, win rate, max drawdown |
+| `evolution_evolve_strategy` | Full evolution loop: generate → backtest → select → eliminate across generations |
+| `evolution_get_log` | Get log of past evolution runs with graduated strategies and graveyard |
 
 ## Available Commands
 
-Tell your agent these things in natural language. TradeMemory will handle the rest.
+Tell your agent these things in natural language.
 
 ### Record a Trade
 
-> "Record my trade: XAUUSD long 0.05 lots, entry 2847, exit 2855, profit $40"
+> "Record my trade: XAUUSD long 0.05 lots, entry 5180, exit 5210, profit $150"
 
-Calls `store_trade_memory`. Stores the trade in L1 (raw trade layer) with full context. You can add market conditions and reflections:
+> "Remember my XAUUSD short trade, entry 5200, exit 5165, profit $175. London session breakout, high volume, confidence 0.8."
 
-> "Record my XAUUSD short trade, entry 5180, exit 5165, profit $75. London session breakout, high volume. I noticed the pullback confirmed before entry."
+### Recall with OWM
+
+> "What trades have I taken in similar market conditions? Current context: ranging market, low volatility, Asian session."
+
+Returns memories ranked by outcome-weighted score — winning trades in similar contexts surface first.
 
 ### Check Performance
 
 > "Show my trading performance this week"
 
-Calls `get_strategy_performance`. Returns per-strategy stats: win rate, profit factor, average winner/loser, max drawdown, best and worst trades.
+> "Compare my VolBreakout vs IntradayMomentum strategy performance"
 
-> "Compare my VolBreakout vs Pullback strategy performance"
+### Behavioral Analysis
 
-### Recall Past Trades
+> "Show my behavioral analysis — am I cutting winners short?"
 
-> "Show my XAUUSD trades from last month"
+Returns disposition ratio, hold time asymmetry, lot sizing variance vs Kelly criterion.
 
-Calls `recall_similar_trades` with symbol and date filter. Returns trades with their context, outcomes, and lessons.
+### Agent State
 
-> "What were my last 5 losing trades? What went wrong?"
+> "What's my current confidence level and drawdown?"
 
-### Run AI Reflection
+> "Am I on tilt? Check my affective state."
+
+### Trading Plans
+
+> "Create a trading plan for XAUUSD long if price breaks above 5200 with ATR confirmation"
+
+> "Check my active trading plans against current market conditions"
+
+### Evolution Engine
+
+> "Evolve a strategy for BTCUSDT on the 1h timeframe — 3 generations, 10 candidates each"
+
+> "Discover 5 trading patterns from ETHUSDT 4h data over the last 90 days"
+
+> "Backtest this pattern against BTCUSDT 1h data"
+
+> "Show me the evolution log — which strategies graduated?"
+
+### AI Reflection
 
 > "Run a reflection on my last 20 trades"
 
-Calls the reflection engine to analyze patterns across your trades. Discovers session-based edges (London vs Asian), strategy performance gaps, confidence-outcome correlations, and drawdown sequences.
-
 > "What patterns have you found in my London session trades?"
 
-### Compare Time Periods
+## Security & Permissions
 
-> "How am I doing compared to last week?"
+**Network access during install:** `pip install` downloads from PyPI. Standard Python package installation.
 
-Calls `get_strategy_performance` for both periods and compares. Shows whether your win rate, profit factor, and risk management are improving or declining.
+**Network access at runtime:** The MCP server runs on stdio by default — no network access. The REST server runs on `localhost:8000` and does not make outbound requests. If `ANTHROPIC_API_KEY` is set, the reflection engine and Evolution Engine send data to the Claude API. Evolution Engine fetches OHLCV data from the Binance public API.
 
-### Deep-Dive a Specific Trade
+**Environment variables:** All environment variables are optional. They are stored in your local `.env` file and never logged or sent to external services (except `ANTHROPIC_API_KEY` which authenticates with the Anthropic API).
 
-> "Tell me about trade MT5-2350547759"
+**File system access:** TradeMemory writes to a single SQLite database file (`tradememory.db`) in the project directory. No files are created or modified outside the project.
 
-Calls `get_trade_reflection`. Returns the full context: entry reasoning, market conditions, exit reasoning, P&L, lessons learned, and grade.
-
-## MCP Tools Reference
-
-| Tool | Purpose |
-|------|---------|
-| `store_trade_memory` | Store a trade decision with full context (symbol, direction, price, strategy, market context, reflection) |
-| `recall_similar_trades` | Find past trades with similar market context for pattern matching |
-| `get_strategy_performance` | Aggregate stats per strategy: win rate, PnL, profit factor, best/worst trades |
-| `get_trade_reflection` | Deep-dive into a specific trade's reasoning and lessons |
-
-## 3-Layer Memory Architecture
-
-TradeMemory organizes your trading data into three layers:
-
-**L1 — Raw Trades (Hot)**
-Every trade recorded with: symbol, direction, lot size, entry/exit price, P&L, timestamps, strategy name, confidence score, reasoning, market context, and post-trade reflection.
-
-**L2 — Discovered Patterns (Warm)**
-The reflection engine runs daily and discovers patterns from L1 data:
-- Session performance (London 78% WR vs Asian 31% WR)
-- Strategy edges (VolBreakout PF 1.89 vs MeanReversion PF 0.72)
-- Confidence correlation (high confidence trades: 85% WR, low confidence: 20% WR)
-- Drawdown sequences and recovery patterns
-
-**L3 — Strategy Adjustments (Cold)**
-Rule-based tuning generated from L2 patterns:
-- Disable losing strategies automatically
-- Increase lot size for proven edges
-- Restrict direction in trending markets
-- Adjust confidence thresholds based on historical correlation
-
-## Daily Reflection Setup
-
-Set up a cron job so your agent sends you a daily trading summary:
-
-```bash
-# OpenClaw cron: run reflection every day at 23:55
-openclaw cron add --name "Daily Trade Reflection" \
-  --cron "55 23 * * *" \
-  --session isolated \
-  --message "Run a reflection on today's trades and send me a summary" \
-  --announce
-```
-
-Weekly and monthly reflections are also supported:
-
-```bash
-# Weekly reflection (every Sunday at 23:55)
-openclaw cron add --name "Weekly Trade Reflection" \
-  --cron "55 23 * * 0" \
-  --session isolated \
-  --message "Run a weekly reflection on my trading performance and compare to last week" \
-  --announce
-
-# Monthly reflection (1st of each month at 00:00)
-openclaw cron add --name "Monthly Trade Reflection" \
-  --cron "0 0 1 * *" \
-  --session isolated \
-  --message "Run a monthly reflection on my trading. Summarize wins, losses, pattern changes, and strategy adjustments." \
-  --announce
-```
-
-> **Note:** Add `--channel whatsapp` or `--channel slack` to the `--announce` flag to route notifications to a specific channel. Channel availability depends on your OpenClaw configuration.
-
-## Hosted API (Coming Soon)
-
-The current version runs locally on your machine. A hosted version at **mcp.mnemox.ai** is planned, which will include:
-
-- Cloud-based reflection engine (no local API key needed)
-- Cross-session pattern analysis with persistent storage
-- Multi-account monitoring (run multiple EAs, one memory)
-- Webhook alerts when the system detects behavioral drift
-
-Free tier: local install (this version). Pro tier: hosted API with cloud reflections and multi-account support. Pricing TBD.
+**No implicit permissions:** This skill does not auto-install dependencies, modify system files, or require elevated privileges.
 
 ## Environment Variables
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `ANTHROPIC_API_KEY` | No | Enables LLM-powered reflections (Claude). Without it, reflections use rule-based analysis. |
-| `MT5_LOGIN` | MT5 only | MetaTrader 5 account number |
-| `MT5_PASSWORD` | MT5 only | MetaTrader 5 password |
-| `MT5_SERVER` | MT5 only | Broker server name (e.g. "ForexTimeFXTM-Demo01") |
-| `TRADEMEMORY_API` | No | API endpoint, defaults to `http://localhost:8000` |
-| `SYNC_INTERVAL` | No | MT5 sync polling interval in seconds, defaults to `60` |
+| `ANTHROPIC_API_KEY` | No | Enables LLM reflections and Evolution Engine. Without it, reflections use rule-based analysis; Evolution is unavailable. |
+| `TRADEMEMORY_API` | No | REST API endpoint, defaults to `http://localhost:8000` |
 
 ## Links
 
 - GitHub: https://github.com/mnemox-ai/tradememory-protocol
 - PyPI: https://pypi.org/project/tradememory-protocol/
-- Documentation: https://github.com/mnemox-ai/tradememory-protocol/blob/master/docs/TUTORIAL.md
-- Demo: `python scripts/demo.py` (30 simulated trades, no API key needed)
+- Tutorial: https://github.com/mnemox-ai/tradememory-protocol/blob/master/docs/TUTORIAL.md
+- Demo: `python scripts/demo.py` (30 simulated trades, full L1→L2→L3 pipeline)
