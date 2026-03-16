@@ -40,7 +40,7 @@ MT5_SERVER=YourBroker-Server
 ## 3. Start the MCP Server
 
 ```bash
-python -m src.tradememory.server
+python -m tradememory
 ```
 
 The server starts on `http://localhost:8000`. Your AI agent can now connect via MCP.

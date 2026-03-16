@@ -52,7 +52,7 @@ notepad .env
 確保 MCP Server 正在運行：
 
 ```bash
-python -m src.tradememory.server
+python -m tradememory
 ```
 
 應該看到：

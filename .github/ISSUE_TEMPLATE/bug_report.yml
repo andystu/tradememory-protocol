@@ -23,7 +23,7 @@ body:
       label: Steps to Reproduce
       description: Steps to reproduce the behavior
       placeholder: |
-        1. Start MCP server with `python -m src.tradememory.server`
+        1. Start MCP server with `python -m tradememory`
         2. Run mt5_sync.py
         3. Execute a trade on MT5
         4. See error in console

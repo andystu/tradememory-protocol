@@ -168,7 +168,7 @@ You can also run each step individually:
 Start the MCP server:
 
 ```bash
-python -m src.tradememory.server
+python -m tradememory
 # Server runs on http://localhost:8000
 ```
 

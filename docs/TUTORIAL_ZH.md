@@ -168,7 +168,7 @@ TradeMemory v0.5 新增了 **OWM（Outcome-Weighted Memory）** — 五層記憶
 啟動 MCP server：
 
 ```bash
-python -m src.tradememory.server
+python -m tradememory
 # Server 在 http://localhost:8000 運行
 ```
 
