@@ -41,7 +41,7 @@ cp .env.example .env
 
 ```bash
 python -m pytest tests/ -q
-# 預期結果：36 passed
+# 預期結果：1,055 passed
 ```
 
 ---
@@ -82,7 +82,88 @@ TradeMemory 使用三層架構：
 
 ---
 
-## 第四步：記錄你自己的交易（1 分鐘）
+## 第四步：OWM 認知記憶
+
+TradeMemory v0.5 新增了 **OWM（Outcome-Weighted Memory）** — 五層記憶架構，模擬交易員的大腦運作方式：
+
+| 記憶層 | 功能 |
+|--------|------|
+| **情景記憶（Episodic）** | 儲存每筆交易的完整上下文（價格、市場狀態、反思） |
+| **語義記憶（Semantic）** | 貝葉斯信念，每筆交易後更新（「趨勢市場 VolBreakout：72% 優勢」） |
+| **程序記憶（Procedural）** | 每個策略的滾動績效統計 — 什麼真正有效 |
+| **情感記憶（Affective）** | EWMA 信心追蹤、連勝/連虧、回撤狀態 |
+| **前瞻記憶（Prospective）** | 交易計畫，含進出場條件與到期時間 |
+
+### 透過 MCP 記錄交易
+
+對你的 Claude agent 說：
+
+> 「記錄我的 XAUUSD 做多交易：5180 進場，5210 出場，賺了 $90，用 VolBreakout 策略。市場趨勢向上，倫敦盤動能強勁。ATR 是 $155。信心度 0.8。」
+
+這會呼叫 `remember_trade`，同時寫入五層記憶。
+
+### 透過 MCP 回憶記憶
+
+進場前，問你的 agent：
+
+> 「我的記憶對在趨勢市場交易 XAUUSD 有什麼看法？我在考慮 VolBreakout。」
+
+這會呼叫 `recall_memories`，使用結果加權評分 — 績效更好、上下文匹配、信心更高的交易排名更前。
+
+### 其他 OWM 工具
+
+- `get_behavioral_analysis` — 「顯示我的行為模式」→ 各市場狀態勝率、過度交易偵測、信心校準
+- `get_agent_state` — 「我目前的狀態如何？」→ 情感狀態、回撤、連勝/連虧資訊
+- `create_trading_plan` — 「建立計畫：如果 XAUUSD 回調到 20 EMA，在 5150 做多」
+- `check_active_plans` — 「我有沒有進行中的交易計畫？」
+
+---
+
+## 第五步：進化引擎
+
+進化引擎使用 Claude 從**原始價格數據中發現交易策略**，然後回測並在多代之間篩選存活者。
+
+### 執行完整進化
+
+對你的 Claude agent 說：
+
+> 「用 BTCUSDT 1 小時數據跑 3 代進化，每代 10 個候選策略。」
+
+這會呼叫 `evolution_evolve_strategy`，執行流程：
+1. 從 Binance 抓取 OHLCV 數據
+2. 使用 Claude 生成候選交易模式
+3. 回測每個模式（向量化，不需 API 呼叫）
+4. 淘汰弱假設（Sharpe < 門檻值）
+5. 重複 N 代
+6. 用樣本外數據驗證存活者
+
+### 逐步執行
+
+你也可以一步一步跑：
+
+```
+# 1. 抓取數據
+> 「抓取 90 天的 BTCUSDT 1 小時數據來做進化」
+# 呼叫：evolution_fetch_market_data
+
+# 2. 發現模式
+> 「從 BTCUSDT 數據中發現 5 個交易模式」
+# 呼叫：evolution_discover_patterns
+
+# 3. 回測模式
+> 「回測第一個模式」
+# 呼叫：evolution_run_backtest
+
+# 4. 查看紀錄
+> 「顯示進化紀錄」
+# 呼叫：evolution_get_log
+```
+
+**需要：** `.env` 中設定 `ANTHROPIC_API_KEY`（Claude 負責生成模式假設）。
+
+---
+
+## 第六步：記錄你自己的交易（1 分鐘）
 
 啟動 MCP server：
 
@@ -123,7 +204,7 @@ curl -X POST http://localhost:8000/trade/record_outcome \
 
 ---
 
-## 第五步：啟動反思引擎（2 分鐘）
+## 第七步：啟動反思引擎（2 分鐘）
 
 記錄幾筆交易後，觸發反思引擎：
 
@@ -144,7 +225,7 @@ ANTHROPIC_API_KEY=sk-ant-...
 
 ---
 
-## 第六步：在下一筆交易中使用記憶
+## 第八步：在下一筆交易中使用記憶
 
 Agent 下次啟動時，會載入它的狀態：
 
@@ -179,6 +260,42 @@ Agent 現在知道：
 | 不知道自己的勝率 | 按時段、策略、時間知道勝率 |
 | 固定倉位大小 | 根據績效動態調整倉位 |
 | session 之間沒有上下文 | 完整的跨 session 記憶持久化 |
+
+---
+
+## MCP 工具參考
+
+TradeMemory 提供 15 個 MCP 工具，分為三大類：
+
+### 核心記憶（4 個工具）
+
+| 工具 | 說明 |
+|------|------|
+| `store_trade_memory` | 記錄交易決策，含策略、信心度、推理 |
+| `recall_similar_trades` | 根據標的、策略或上下文查找過去交易 |
+| `get_strategy_performance` | 各策略的勝率、平均盈虧、交易次數 |
+| `get_trade_reflection` | 取得 AI 生成的近期交易反思 |
+
+### OWM 認知記憶（6 個工具）
+
+| 工具 | 說明 |
+|------|------|
+| `remember_trade` | 將交易寫入 5 層 OWM 記憶（情景 → 語義 → 程序 → 情感） |
+| `recall_memories` | 結果加權回憶，含上下文匹配與時間衰減評分 |
+| `get_behavioral_analysis` | 各市場狀態勝率、過度交易偵測、信心校準 |
+| `get_agent_state` | 目前情感狀態 — 信心、回撤、連勝/連虧 |
+| `create_trading_plan` | 建立前瞻計畫，含進出場條件與到期時間 |
+| `check_active_plans` | 列出進行中的計畫，檢查是否觸發 |
+
+### 進化引擎（5 個工具）
+
+| 工具 | 說明 |
+|------|------|
+| `evolution_fetch_market_data` | 從 Binance 抓取 OHLCV 數據用於回測 |
+| `evolution_discover_patterns` | LLM 驅動的交易模式生成 |
+| `evolution_run_backtest` | 候選模式的向量化回測 |
+| `evolution_evolve_strategy` | 完整進化循環 — 生成、回測、篩選、重複 |
+| `evolution_get_log` | 查看歷史進化紀錄與畢業策略 |
 
 ---
 
