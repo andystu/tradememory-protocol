@@ -70,8 +70,7 @@ def reflection_scheduler():
 
 # Start tradememory FastAPI server
 server_pid = start_detached(
-    [PYTHON, "-c",
-     "import sys; sys.path.insert(0, 'src'); from tradememory.server import main; main()"],
+    [PYTHON, "-m", "tradememory"],
     "server.log"
 )
 log(f"Server started, PID={server_pid}")

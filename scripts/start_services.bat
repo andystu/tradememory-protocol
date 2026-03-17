@@ -21,7 +21,8 @@ echo [%date% %time%] Starting TradeMemory services... >> "%LOG_DIR%\startup.log"
 
 REM --- Start tradememory FastAPI server (background) ---
 echo Starting tradememory server on port 8000...
-start /B "" "%PYTHON%" -c "import sys; sys.path.insert(0, 'src'); from tradememory.server import main; main()" >> "%LOG_DIR%\server.log" 2>&1
+cd /d "%PROJECT_DIR%"
+start /B "" "%PYTHON%" -m tradememory >> "%LOG_DIR%\server.log" 2>&1
 
 REM --- Wait for server to be ready ---
 timeout /t 5 /nobreak > nul
