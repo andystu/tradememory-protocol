@@ -154,7 +154,7 @@ async def main():
 
     # 1. Fetch data
     start = datetime(2024, 6, 1, tzinfo=timezone.utc)
-    end = datetime(2026, 3, 18, tzinfo=timezone.utc)
+    end = datetime.now(timezone.utc)
     symbol = "BTCUSDT"
     timeframe = Timeframe.H1
 
