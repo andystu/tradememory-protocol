@@ -63,6 +63,7 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - Use UTC for all timestamps
 
 ## Recent Changes
+- [2026-03-18] GH Actions live executor WORKING: 5 iterations to fix (editable install, Binance US geo-restriction, env var strip, supabase-py maybe_single compat). Cron hourly at :05.
 - [2026-03-18] Code health fixes: shared strategy_definitions.py, ruff auto-fix (43 lint), batch seed insert, live_executor tests, backtester public API, GH Actions cache+notify
 - [2026-03-18] refactor: make backtester _check_exit/_force_close/_open_position public API with backward compat aliases
 - [2026-03-18] test: 14 unit tests for live_executor check_exit (SL/TP/timeout/boundary/priority/PnL), 1087 tests passing
@@ -86,6 +87,7 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 
 ## Current Status
 - **v0.5.0**, 1087 tests passing, 2 skipped
+- **Live Dashboard Session 1 COMPLETE**: executor + export + seed + GH Actions all working
 - **Phase 13 COMPLETE** -- 4 steps done. E has real edge in 2024-2026 (P100%, walk-forward 3.24). Both FAIL extended OOS (regime-specific). Conclusion: Evolution Engine finds real patterns, but they need periodic re-evolution.
 - **Phase 13 Step 1 PASS** -- Strategy C (Sharpe=3.40, P96.9%) and E (Sharpe=4.42, P100%) beat 1000 random strategies
 - **All 12 phases complete** — P1: 42/42, P2: 20/20, total 62/62 tasks
