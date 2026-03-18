@@ -65,12 +65,10 @@ def main():
     deleted = len(result.data) if result.data else 0
     print(f"  Deleted {deleted} existing rows")
 
-    # 4. INSERT trades (override strategy_id to match live system)
-    print(f"\nInserting {len(trades)} trades...")
-    inserted = 0
-    errors = 0
-
-    for i, trade in enumerate(trades):
+    # 4. INSERT trades (batch insert, override strategy_id to match live system)
+    print(f"\nPreparing {len(trades)} trades for batch insert...")
+    rows = []
+    for trade in trades:
         row = {
             "strategy_id": STRATEGY_ID,
             "symbol": trade["symbol"],
@@ -91,16 +89,27 @@ def main():
             row["atr_at_entry"] = trade["atr_at_entry"]
         if trade.get("trend_12h_pct") is not None:
             row["trend_12h_pct"] = trade["trend_12h_pct"]
+        rows.append(row)
 
+    # Batch insert (chunks of 100 if > 500 rows)
+    BATCH_SIZE = 100
+    inserted = 0
+    errors = 0
+
+    if len(rows) <= 500:
+        batches = [rows]
+    else:
+        batches = [rows[i : i + BATCH_SIZE] for i in range(0, len(rows), BATCH_SIZE)]
+
+    for batch_idx, batch in enumerate(batches):
         try:
-            sb.table("live_trades").insert(row).execute()
-            inserted += 1
+            sb.table("live_trades").insert(batch).execute()
+            inserted += len(batch)
+            if len(batches) > 1:
+                print(f"  Batch {batch_idx + 1}/{len(batches)}: {len(batch)} rows inserted")
         except Exception as e:
-            errors += 1
-            if errors <= 3:
-                print(f"  ERROR on trade {i}: {e}")
-            elif errors == 4:
-                print("  ... suppressing further errors")
+            errors += len(batch)
+            print(f"  ERROR on batch {batch_idx + 1}: {e}")
 
     # 5. Summary
     print(f"\n--- Summary ---")
