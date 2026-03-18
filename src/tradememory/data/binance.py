@@ -72,7 +72,9 @@ class BinanceDataSource:
         cache_dir: Optional[Path] = None,
         requests_per_minute: int = 600,  # conservative: half of 1200 limit
         client: Optional[httpx.AsyncClient] = None,
+        base_url: Optional[str] = None,
     ):
+        self._base_url = base_url or BASE_URL
         self._cache_dir = cache_dir or DEFAULT_CACHE_DIR
         self._min_interval = 60.0 / requests_per_minute  # seconds between requests
         self._last_request_time = 0.0
@@ -86,7 +88,7 @@ class BinanceDataSource:
     async def _get_client(self) -> httpx.AsyncClient:
         if self._client is None:
             self._client = httpx.AsyncClient(
-                base_url=BASE_URL,
+                base_url=self._base_url,
                 timeout=30.0,
                 headers={"Accept": "application/json"},
             )

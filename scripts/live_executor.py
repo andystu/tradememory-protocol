@@ -45,7 +45,7 @@ def get_supabase():
 
 async def fetch_bars():
     """Fetch last 30 BTCUSDT 1H bars from Binance."""
-    source = BinanceDataSource()
+    source = BinanceDataSource(base_url=os.environ.get("BINANCE_BASE_URL"))
     try:
         now = datetime.now(timezone.utc)
         start = now - timedelta(hours=35)  # extra buffer for ATR(14)
