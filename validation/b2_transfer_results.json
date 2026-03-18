@@ -1,0 +1,138 @@
+{
+  "timestamp": "2026-03-18T18:42:19.982116+00:00",
+  "test": "B2_cross_asset_transfer",
+  "source_asset": "BTCUSDT",
+  "target_asset": "ETHUSDT",
+  "data_period": "2024-06-01 to 2026-03-18",
+  "bars": 15739,
+  "full_period": {
+    "sharpe": 8.4771,
+    "expectancy": 4.2366,
+    "trades": 310,
+    "win_rate": 0.4258,
+    "pf": 1.3092,
+    "total_pnl": 1313.3493,
+    "max_dd": 210.5186,
+    "avg_hold": 3.22
+  },
+  "walk_forward": {
+    "window_size_bars": 2160,
+    "n_windows": 8,
+    "windows": [
+      {
+        "window": 1,
+        "period": "2024-06-01 to 2024-08-29",
+        "start_idx": 0,
+        "end_idx": 2160,
+        "bars": 2160,
+        "sharpe": -2.5048,
+        "trades": 41,
+        "win_rate": 0.4634,
+        "pf": 0.9237,
+        "total_pnl": -39.9469,
+        "max_dd": 210.5186
+      },
+      {
+        "window": 2,
+        "period": "2024-08-30 to 2024-11-27",
+        "start_idx": 2160,
+        "end_idx": 4320,
+        "bars": 2160,
+        "sharpe": 2.0247,
+        "trades": 41,
+        "win_rate": 0.3659,
+        "pf": 1.0679,
+        "total_pnl": 35.616,
+        "max_dd": 117.6117
+      },
+      {
+        "window": 3,
+        "period": "2024-11-28 to 2025-02-25",
+        "start_idx": 4320,
+        "end_idx": 6480,
+        "bars": 2160,
+        "sharpe": 10.2306,
+        "trades": 46,
+        "win_rate": 0.4348,
+        "pf": 1.3502,
+        "total_pnl": 278.1308,
+        "max_dd": 363.4947
+      },
+      {
+        "window": 4,
+        "period": "2025-02-26 to 2025-05-26",
+        "start_idx": 6480,
+        "end_idx": 8640,
+        "bars": 2160,
+        "sharpe": 14.1251,
+        "trades": 39,
+        "win_rate": 0.4359,
+        "pf": 1.6,
+        "total_pnl": 252.2627,
+        "max_dd": 73.0699
+      },
+      {
+        "window": 5,
+        "period": "2025-05-27 to 2025-08-24",
+        "start_idx": 8640,
+        "end_idx": 10800,
+        "bars": 2160,
+        "sharpe": 16.5159,
+        "trades": 51,
+        "win_rate": 0.4902,
+        "pf": 1.6926,
+        "total_pnl": 494.19,
+        "max_dd": 382.9624
+      },
+      {
+        "window": 6,
+        "period": "2025-08-25 to 2025-11-22",
+        "start_idx": 10800,
+        "end_idx": 12960,
+        "bars": 2160,
+        "sharpe": 9.4674,
+        "trades": 39,
+        "win_rate": 0.4103,
+        "pf": 1.3579,
+        "total_pnl": 216.3243,
+        "max_dd": 834.178
+      },
+      {
+        "window": 7,
+        "period": "2025-11-23 to 2026-02-20",
+        "start_idx": 12960,
+        "end_idx": 15120,
+        "bars": 2160,
+        "sharpe": -2.0661,
+        "trades": 39,
+        "win_rate": 0.3333,
+        "pf": 0.9365,
+        "total_pnl": -33.7227,
+        "max_dd": 179.0244
+      },
+      {
+        "window": 8,
+        "period": "2026-02-21 to 2026-03-18",
+        "start_idx": 15120,
+        "end_idx": 15739,
+        "bars": 619,
+        "sharpe": 20.2044,
+        "trades": 12,
+        "win_rate": 0.5,
+        "pf": 1.8771,
+        "total_pnl": 111.852,
+        "max_dd": 60.5982
+      }
+    ],
+    "positive_windows": 6,
+    "avg_sharpe": 8.4996
+  },
+  "baseline": {
+    "n_random": 100,
+    "seed": 42,
+    "mean_sharpe": 0.1339,
+    "std_sharpe": 3.1263,
+    "percentile_rank": 100.0
+  },
+  "verdict": "PASS"
+}

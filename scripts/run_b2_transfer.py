@@ -255,7 +255,7 @@ Strategy E {transfer_label} to ETHUSDT (P{percentile:.0f} vs 100 random strategi
 | Total PnL | {full_metrics['total_pnl']:.2f} |
 | Max drawdown | {full_metrics['max_dd']:.1%} |
 | Avg holding | {full_metrics['avg_hold']:.1f} bars |
-| Fitness | {full_metrics['fitness']:.4f} |
+| Expectancy | {full_metrics['expectancy']:.4f} |
 
 ## Walk-Forward Results (3-month windows, no re-fitting)
 | Window | Period | Sharpe | Trades | Win Rate | PnL |
@@ -385,7 +385,7 @@ async def main():
     full_metrics = fast_backtest(bars, contexts, atrs, pattern, timeframe="1h")
     full_results = {
         "sharpe": full_metrics.sharpe_ratio,
-        "fitness": full_metrics.fitness,
+        "expectancy": full_metrics.expectancy,
         "trades": full_metrics.trade_count,
         "win_rate": full_metrics.win_rate,
         "pf": full_metrics.profit_factor,
@@ -395,7 +395,7 @@ async def main():
     }
     print(f"  Sharpe={full_metrics.sharpe_ratio:.4f}, trades={full_metrics.trade_count}, "
           f"WR={full_metrics.win_rate:.1%}, PF={full_metrics.profit_factor:.2f}, "
-          f"fitness={full_metrics.fitness:.4f}")
+          f"expectancy={full_metrics.expectancy:.4f}")
 
     # --- Step 4: Walk-forward (3-month windows) ---
     print("\n[4/5] Walk-forward: 3-month windows...")
