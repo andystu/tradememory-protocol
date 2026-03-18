@@ -14,7 +14,6 @@ from dataclasses import dataclass, field
 from typing import List, Optional
 
 from tradememory.evolution.models import (
-    FitnessMetrics,
     Hypothesis,
     HypothesisStatus,
 )

@@ -5,7 +5,6 @@ Override the system prompt via ReplayConfig.system_prompt to inject
 your own strategy rules (e.g. from a private strategy package).
 """
 
-from datetime import datetime
 from typing import Dict, List, Optional
 
 from .models import Bar, IndicatorSnapshot, Position

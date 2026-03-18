@@ -1028,9 +1028,10 @@ async def owm_recall(req: RecallMemoriesRequest):
 
         # Log recall event to PostgreSQL for Intelligence page (side effect)
         try:
-            from .database import get_async_session
+
             from sqlalchemy import text as sa_text
-            import asyncio
+
+            from .database import get_async_session
 
             if results:
                 components_list = [r.get("components", {}) for r in results]

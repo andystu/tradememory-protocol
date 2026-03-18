@@ -7,7 +7,7 @@ Supports both tab and comma delimiters (auto-detected).
 import logging
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 from tradememory.data.models import OHLCV, OHLCVSeries, Timeframe
 from tradememory.data.protocol import DataSourceError, SymbolNotFoundError

@@ -5,7 +5,7 @@ Tries PostgreSQL first, falls back to SQLite.
 """
 
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List, Optional
 
 from ..db import Database

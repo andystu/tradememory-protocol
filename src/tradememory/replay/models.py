@@ -2,10 +2,9 @@
 
 from datetime import datetime
 from enum import Enum
-from typing import Any, Optional, List
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field, field_validator
-
 
 VALID_STRATEGIES = ["VolBreakout", "IntradayMomentum", "PullbackEntry", "NONE"]
 

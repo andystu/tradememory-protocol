@@ -16,14 +16,12 @@ Key design:
 
 from __future__ import annotations
 
-import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import List, Optional, Sequence
+from typing import Optional, Sequence
 
 from tradememory.data.models import OHLCV, OHLCVSeries
-
 
 # --- Enums ---
 

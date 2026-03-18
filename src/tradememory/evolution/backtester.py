@@ -15,9 +15,8 @@ from __future__ import annotations
 
 import logging
 import math
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import List, Optional, Sequence
+from dataclasses import dataclass
+from typing import List, Optional
 
 from tradememory.data.context_builder import (
     ContextConfig,
@@ -29,7 +28,6 @@ from tradememory.data.models import OHLCV, OHLCVSeries
 from tradememory.evolution.models import (
     CandidatePattern,
     ConditionOperator,
-    ExitCondition,
     FitnessMetrics,
     RuleCondition,
 )

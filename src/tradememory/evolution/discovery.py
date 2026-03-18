@@ -8,14 +8,13 @@ Uses Phase 9 data layer for input, LLM Protocol for generation.
 
 from __future__ import annotations
 
-import json
 import logging
 from datetime import timezone
 from typing import List, Optional, Sequence
 
-from tradememory.data.context_builder import MarketContext, build_context, ContextConfig
+from tradememory.data.context_builder import MarketContext, build_context
 from tradememory.data.models import OHLCV, OHLCVSeries
-from tradememory.evolution.llm import LLMClient, LLMError, LLMMessage, LLMResponse
+from tradememory.evolution.llm import LLMClient, LLMMessage, LLMResponse
 from tradememory.evolution.models import (
     CandidatePattern,
     EntryCondition,

@@ -13,9 +13,8 @@ from collections import defaultdict
 from pathlib import Path
 from typing import List, Optional
 
-from ..exceptions import DatabaseConnectionError, DatabaseQueryError
 from ..exceptions import StrategyNotFoundError
-from ..repositories.trade import TradeRepository, TradeRow, MemoryRegimeRow
+from ..repositories.trade import TradeRepository, TradeRow
 
 logger = logging.getLogger(__name__)
 

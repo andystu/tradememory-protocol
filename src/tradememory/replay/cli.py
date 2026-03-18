@@ -8,7 +8,7 @@ from typing import Any, Dict, List, Optional
 
 import yaml
 
-from tradememory.replay.engine import ReplayEngine, run_replay
+from tradememory.replay.engine import run_replay
 from tradememory.replay.models import ReplayConfig
 
 

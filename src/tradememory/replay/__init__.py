@@ -4,6 +4,7 @@ Replays historical XAUUSD M15 K-line data through an LLM agent,
 producing structured trading decisions with reasoning traces.
 """
 
+from .engine import ReplayEngine, run_replay
 from .models import (
     AgentDecision,
     Bar,
@@ -13,7 +14,6 @@ from .models import (
     PositionState,
     ReplayConfig,
 )
-from .engine import ReplayEngine, run_replay
 
 __all__ = [
     "AgentDecision",

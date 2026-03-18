@@ -3,7 +3,7 @@
 All functions accept lists of Bar and return None when insufficient data.
 """
 
-from datetime import date, timedelta
+from datetime import date
 from typing import Dict, List, Optional, Tuple
 
 from tradememory.replay.models import Bar, IndicatorSnapshot

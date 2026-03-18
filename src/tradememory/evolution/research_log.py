@@ -6,11 +6,10 @@ from EvolutionRun results.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-from tradememory.evolution.models import EvolutionRun, Hypothesis, HypothesisStatus
+from tradememory.evolution.models import EvolutionRun, Hypothesis
 
 
 def _next_experiment_id(log_path: str) -> str:

@@ -17,8 +17,8 @@ from .dashboard_models import (
     DreamSession,
     EquityPoint,
     MemoryGrowthPoint,
-    OWMScorePoint,
     OverviewResponse,
+    OWMScorePoint,
     ReflectionSummary,
     RollingMetricPoint,
     StrategyDetailResponse,
@@ -141,8 +141,9 @@ async def owm_score_trend():
     until Task 8 hybrid recall is live.
     """
     try:
-        from .database import get_async_session
         from sqlalchemy import text
+
+        from .database import get_async_session
 
         async with get_async_session() as session:
             result = await session.execute(text("""

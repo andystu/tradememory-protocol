@@ -11,7 +11,7 @@ Five tools:
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, List, Optional
 
 from tradememory.data.binance import BinanceDataSource
@@ -22,10 +22,8 @@ from tradememory.evolution.generator import GenerationConfig, HypothesisGenerato
 from tradememory.evolution.llm import LLMClient
 from tradememory.evolution.models import (
     CandidatePattern,
-    EntryCondition,
     EvolutionConfig,
     EvolutionRun,
-    ExitCondition,
 )
 
 logger = logging.getLogger(__name__)
