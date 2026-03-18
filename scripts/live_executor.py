@@ -173,10 +173,10 @@ async def main():
         .select("*")
         .eq("strategy_id", STRATEGY_ID)
         .eq("status", "open")
-        .maybe_single()
+        .limit(1)
         .execute()
     )
-    pos = result.data
+    pos = result.data[0] if result.data else None
 
     if pos:
         print(f"Open position: entry={pos['entry_price']} sl={pos['stop_loss']} tp={pos['take_profit']}")
