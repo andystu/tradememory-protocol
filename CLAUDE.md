@@ -64,6 +64,7 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - Use UTC for all timestamps
 
 ## Recent Changes
+- [2026-03-19] fix: datetime.utcnow() → datetime.now(timezone.utc)，12 處，消除 Python 3.12 deprecation warning
 - [2026-03-19] 視覺完善：schema 白底、文字加粗加深、5 張中文版 PNG、README_ZH 重寫（News+架構圖）
 - [2026-03-19] README 視覺大升級：5 張 HTML→PNG 圖表（header/schema/L1L2L3/OWM/Evolution），透明背景，News 區塊，Playwright 自動生成，學 TradingAgents DX 設計
 - [2026-03-19] Repo 大改造：根目錄從 31 files 降到 ~20，scripts/ 分為 user-facing + research/，文件重組到 docs/ 和 .github/，README 291→139 行
@@ -93,7 +94,7 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - [2026-03-15] 建立 Jarvis 系統：/morning 每日掃描、/wrap-up session handoff
 
 ## Current Status
-- **v0.5.0**, 1087 tests passing, 2 skipped
+- **v0.5.0**, 1087 tests passing, 2 skipped, 0 warnings
 - **Phase 14 Validation COMPLETE**: B1 semantic stability CONDITIONAL PASS (100% theme overlap, 0% parametric match), B2 cross-asset PASS (P100 on ETHUSDT), analyze_trader.py product-grade prototype
 - **First revenue path identified**: analyze_trader.py → web API (CSV upload → fingerprint report, zero LLM cost, 100% margin)
 - **Live Dashboard Session 1 COMPLETE**: executor + export + seed + GH Actions all working
