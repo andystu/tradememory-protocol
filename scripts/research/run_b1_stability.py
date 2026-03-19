@@ -27,7 +27,7 @@ from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from tradememory.data.binance import BinanceDataSource
 from tradememory.data.models import OHLCVSeries, Timeframe
@@ -37,7 +37,7 @@ from tradememory.evolution.llm import AnthropicClient
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
-VALIDATION_DIR = Path(__file__).parent.parent / "validation"
+VALIDATION_DIR = Path(__file__).parent.parent.parent / "validation"
 VALIDATION_DIR.mkdir(exist_ok=True)
 
 

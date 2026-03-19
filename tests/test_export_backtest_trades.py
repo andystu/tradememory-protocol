@@ -1,4 +1,4 @@
-"""Tests for scripts/export_backtest_trades.py."""
+"""Tests for scripts/research/export_backtest_trades.py."""
 
 import json
 from datetime import datetime, timezone

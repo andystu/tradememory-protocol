@@ -24,7 +24,9 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 # Add project root to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+# Add scripts/research dir for run_real_baseline
+sys.path.insert(0, str(Path(__file__).parent))
 
 from tradememory.data.binance import BinanceDataSource
 from tradememory.data.context_builder import ContextConfig

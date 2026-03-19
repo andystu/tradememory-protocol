@@ -67,7 +67,7 @@ Internal architecture of TradeMemory Protocol: module structure, data flow, SQLi
 | **Trade Adapter** | `scripts/trade_adapter.py` | MT5 deal → TradeRecord conversion (standalone script) |
 | **MT5 Sync** | `scripts/mt5_sync.py` | Standalone MT5 polling service (60s interval) |
 | **Daily Reflection** | `scripts/daily_reflection.py` | Scheduled reflection runner (cron/Task Scheduler) |
-| **Dashboard** | `scripts/dashboard.py` | Streamlit monitoring UI |
+| **Dashboard** | `scripts/research/dashboard.py` | Streamlit monitoring UI |
 
 ---
 

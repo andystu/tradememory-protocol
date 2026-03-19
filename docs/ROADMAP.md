@@ -18,7 +18,7 @@
 - Commit: `feat: add OpenClaw skill packaging (SKILL.md)` → `6e13532`
 
 ### Task 1.2：建立安裝腳本 ✅
-- `.skills/tradememory/scripts/install.sh`：自動安裝 tradememory-protocol + 依賴
+- `.skills/tradememory/scripts/platform/install.sh`：自動安裝 tradememory-protocol + 依賴
 - `.skills/tradememory/scripts/setup_mt5.sh`：互動式引導 MT5 同步設定
 - Commit: 同 `6e13532`（與 Task 1.1 合併 commit）
 
@@ -395,7 +395,7 @@
 確保 Evolution Engine 發現的策略有真正的 edge，不是隨機噪音。
 
 ### Task 13.1：Random Baseline Generator ✅
-- `scripts/random_baseline_demo.py`：合成 OHLCV + 200 random strategies + percentile ranking
+- `scripts/research/random_baseline_demo.py`：合成 OHLCV + 200 random strategies + percentile ranking
 - 函數：generate_random_ohlcv, compute_sharpe, random_strategy_sharpe, run_random_baseline, percentile_rank
 - Demo：Strategy C (Sharpe 2.0) vs random distribution
 
@@ -409,7 +409,7 @@
 - Placeholder for real Binance data results
 
 ### Task 13.4：Demo Script ✅
-- `scripts/random_baseline_demo.py` with `if __name__=="__main__"`
+- `scripts/research/random_baseline_demo.py` with `if __name__=="__main__"`
 - Prints distribution stats (mean, std, p5, p50, p95) + Strategy C ranking + pass/fail
 
 ---

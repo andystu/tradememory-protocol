@@ -22,7 +22,7 @@ from collections import defaultdict
 sys.stdout.reconfigure(encoding="utf-8")
 
 # Add project root to path
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from dotenv import load_dotenv

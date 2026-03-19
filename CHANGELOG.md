@@ -86,7 +86,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 ## [0.3.1] - 2026-03-03
 
 ### Added
-- `scripts/generate_screenshots.py` — generates demo output for documentation
+- `scripts/research/generate_screenshots.py` — generates demo output for documentation
 - `ROADMAP.md` — 5-phase development roadmap
 - OpenClaw Skill (`.skills/tradememory/SKILL.md`) with env var declarations and security section
 - Hosted API server (`hosted/server.py`) with account isolation and API key auth
@@ -116,7 +116,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
   - 21 new tests (CRUD, 5 rules, edge cases, integration)
   - `demo.py` Step 6: production L1→L2→L3 pipeline
 - GitHub Actions CI — Python 3.10/3.11/3.12 matrix testing on push/PR
-- `scripts/record_demo.py` — Rich-formatted demo for terminal recording
+- `scripts/research/record_demo.py` — Rich-formatted demo for terminal recording
 - `docs/AWESOME_LISTS.md` — Awesome list submission tracker
 - `SECURITY.md` — Vulnerability reporting policy
 - GitHub Discussions templates (Ideas, Show & Tell, Q&A)

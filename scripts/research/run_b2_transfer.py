@@ -28,7 +28,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Optional
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent))  # scripts/ for strategy_definitions
 
 from tradememory.data.binance import BinanceDataSource
 from tradememory.data.context_builder import ContextConfig, build_context, compute_atr
@@ -48,7 +49,7 @@ from tradememory.evolution.random_baseline import (
 
 from strategy_definitions import build_strategy_e
 
-VALIDATION_DIR = Path(__file__).parent.parent / "validation"
+VALIDATION_DIR = Path(__file__).parent.parent.parent / "validation"
 VALIDATION_DIR.mkdir(exist_ok=True)
 
 

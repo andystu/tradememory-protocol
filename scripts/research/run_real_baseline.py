@@ -20,7 +20,8 @@ from pathlib import Path
 from typing import List, Optional
 
 # Add project root to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent))  # scripts/ for strategy_definitions
 
 from tradememory.data.binance import BinanceDataSource
 from tradememory.data.context_builder import ContextConfig, MarketContext, build_context, compute_atr

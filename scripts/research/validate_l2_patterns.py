@@ -13,7 +13,7 @@ Default db_path: data/backtest_v1.db
 import sys
 import os
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 sys.stdout.reconfigure(encoding='utf-8')
 
 from tradememory.db import Database

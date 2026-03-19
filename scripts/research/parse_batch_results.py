@@ -11,7 +11,7 @@ import os
 import json
 
 # Add project root to path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 sys.stdout.reconfigure(encoding='utf-8')
 
 from tradememory.backtest_importer import (

@@ -239,7 +239,7 @@
 - 自動化 pipeline 端到端可運行 ✓
 - **但不能直接用於真實數據**，需先修 P0 parser + P2 Sharpe guard
 - Mock data 驗證了架構正確性，不驗證策略品質
-- **產出檔案**：`scripts/evolution_live_test.py`
+- **產出檔案**：`scripts/research/evolution_live_test.py`
 
 ### EXP-009: Evolution Engine — Binance 真實數據測試（Post-Fix）✅ REAL DATA
 
@@ -289,7 +289,7 @@
 - $0.016/run 成本極度划算，適合大量探索
 - **主要瓶頸不是引擎，是 LLM 的 prompt**：需要引導生成更廣泛的條件組合，而非每次都鎖定單一時段
 - 畢業策略需要更嚴格的最低交易數門檻（建議 ≥10 筆）
-- **產出檔案**：`scripts/evolution_binance_test.py`
+- **產出檔案**：`scripts/research/evolution_binance_test.py`
 
 ### EXP-010: Evolution Engine — Sonnet 模型對比測試 ✅ REAL DATA
 
@@ -344,7 +344,7 @@
 - 兩個模型都有相同的「過度具體化」問題，**瓶頸在 prompt 設計，不在模型能力**
 - 對於 evolution pipeline 這種高迭代低精度任務，**Haiku 是更好的選擇**（更快、token 更多但成本差不多）
 - 03:00 UTC 做多是新發現（Haiku 未產出此時段），但 n=2 無統計意義
-- **產出檔案**：`scripts/evolution_binance_test.py`（同 EXP-009）
+- **產出檔案**：`scripts/research/evolution_binance_test.py`（同 EXP-009）
 
 ### EXP-011: Evolution Engine — Opus 模型對比測試 ✅ REAL DATA
 
@@ -397,7 +397,7 @@
 - 三個模型核心瓶頸完全一致：**過度具體化 + n 不足**，與模型能力無關
 - Opus 的高推理能力在 pattern discovery 這種高創造性低精度任務中**沒有優勢**
 - **確認結論：Haiku 是 evolution pipeline 的最佳選擇**
-- **產出檔案**：`scripts/evolution_binance_test.py`（同 EXP-009/010）
+- **產出檔案**：`scripts/research/evolution_binance_test.py`（同 EXP-009/010）
 
 ---
 

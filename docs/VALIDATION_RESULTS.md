@@ -268,13 +268,13 @@ exactly what an Evolution Engine should find. The value is in continuous re-evol
 python
 # Step 1: Random Baseline
 cd tradememory-protocol
-python scripts/run_real_baseline.py
+python scripts/research/run_real_baseline.py
 
 # Step 2: Walk-Forward
-python scripts/run_walk_forward.py
+python scripts/research/run_walk_forward.py
 
 # Regenerate charts
-python scripts/generate_validation_charts.py
+python scripts/research/generate_validation_charts.py
 
 
 ## Raw Data

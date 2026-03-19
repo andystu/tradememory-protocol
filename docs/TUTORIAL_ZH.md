@@ -19,7 +19,7 @@
 ### 方案 A：一行安裝
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/mnemox-ai/tradememory-protocol/master/scripts/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/mnemox-ai/tradememory-protocol/master/scripts/platform/install.sh | bash
 cd tradememory-protocol
 ```
 

@@ -23,8 +23,8 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 # Add project root to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
-# Also add scripts dir so we can import from run_real_baseline
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+# Also add scripts/research dir so we can import from run_real_baseline
 sys.path.insert(0, str(Path(__file__).parent))
 
 from tradememory.data.binance import BinanceDataSource
