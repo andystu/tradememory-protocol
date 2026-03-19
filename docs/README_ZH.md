@@ -1,58 +1,41 @@
 <!-- mcp-name: io.github.mnemox-ai/tradememory-protocol -->
 
+<p align="center">
+  <img src="../assets/header-zh.png" alt="TradeMemory Protocol" width="600">
+</p>
+
 <div align="center">
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/hero-zh-dark.png">
-  <img src="assets/hero-zh-light.png" alt="TradeMemory Protocol" width="720">
-</picture>
-
-**如果你的交易機器人能從每次失敗中學習，還能自己發明更好的策略呢？**
-
-200 多個交易 MCP Server 都在執行交易，沒有一個記得發生了什麼。
-
-TradeMemory 是改變這一切的記憶層。
 
 [![PyPI](https://img.shields.io/pypi/v/tradememory-protocol?style=flat-square&color=blue)](https://pypi.org/project/tradememory-protocol/)
-[![Tests](https://img.shields.io/badge/tests-1%2C055_passed-brightgreen?style=flat-square)](https://github.com/mnemox-ai/tradememory-protocol/actions)
+[![Tests](https://img.shields.io/badge/tests-1%2C087_passed-brightgreen?style=flat-square)](https://github.com/mnemox-ai/tradememory-protocol/actions)
 [![MCP Tools](https://img.shields.io/badge/MCP_tools-15-blueviolet?style=flat-square)](https://smithery.ai/server/io.github.mnemox-ai/tradememory-protocol)
-[![License: MIT](https://img.shields.io/badge/license-MIT-yellow?style=flat-square)](https://opensource.org/licenses/MIT)
 [![Smithery](https://img.shields.io/badge/Smithery-listed-orange?style=flat-square)](https://smithery.ai/server/io.github.mnemox-ai/tradememory-protocol)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow?style=flat-square)](https://opensource.org/licenses/MIT)
+
+[Tutorial](TUTORIAL.md) | [API Reference](API.md) | [OWM Framework](OWM_FRAMEWORK.md) | [English](../README.md)
 
 </div>
 
 ---
 
-<div align="center">
+## 最新消息
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/before-after-zh-dark.png">
-  <img src="assets/before-after-zh-light.png" alt="使用前後對比" width="720">
-</picture>
+- [2026-03] **v0.5.0** — Evolution Engine + OWM 5 種記憶類型。1,087 測試通過。[Release Notes](https://github.com/mnemox-ai/tradememory-protocol/releases/tag/v0.5.0)
+- [2026-03] **統計驗證** — 策略 E 通過 P100% 隨機基線，Walk-forward Sharpe 3.24
+- [2026-03] **實盤模擬交易** — 策略 E 透過 GitHub Actions 每小時在 Binance 執行
+- [2026-02] **v0.4.0** — OWM 框架、15 個 MCP 工具、Smithery + Glama 上架
 
-</div>
+## 架構
 
----
+<p align="center">
+  <img src="../assets/schema-zh.png" alt="架構" width="900">
+</p>
 
-## 為什麼需要 TradeMemory？
+## 三層記憶
 
-**「為什麼我的機器人一直犯同樣的錯？」**
-
-持久記憶完整記錄每筆交易的上下文 — 進場理由、市場環境、信心水準、最終結果。模式發現引擎能找到你肉眼看不到的規律。
-
-**「我的策略跑了好幾個月，突然就失效了。」**
-
-結果加權回憶會自動降低舊市場環境下的模式權重。你的機器人能自動適應，不需要你重寫任何規則。
-
-**「怎麼知道它不是在過擬合？」**
-
-每個模式都帶有貝氏信心度和樣本數量。內建樣本外驗證機制。可疑模式會被標記，不會盲目跟隨。
-
-**「我只想讓它自己找出什麼有效。」**
-
-Evolution Engine：只需餵入原始價格數據。不用指標，不用手寫規則。它會自動發現、回測、淘汰、進化。
-
-> 22 個月 BTC 數據。**Sharpe 3.84。** 477 筆交易。91% 月份正報酬。零人工策略輸入。
+<p align="center">
+  <img src="../assets/memory-pipeline-zh.png" alt="L1 L2 L3 記憶流程" width="900">
+</p>
 
 ---
 
@@ -130,28 +113,21 @@ docker compose up -d
 
 ---
 
-## 架構
+## OWM — 結果加權記憶
 
-<div align="center">
+<p align="center">
+  <img src="../assets/owm-factors-zh.png" alt="OWM 五因子" width="900">
+</p>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/owm-architecture-zh-dark.png">
-  <img src="assets/owm-architecture-zh-light.png" alt="OWM 架構" width="720">
-</picture>
+> 完整理論基礎：[OWM Framework](OWM_FRAMEWORK.md)
 
-</div>
+## Evolution Engine
 
-每筆記憶被回憶時，透過五個因子評分：
+<p align="center">
+  <img src="../assets/evolution-zh.png" alt="Evolution Engine" width="900">
+</p>
 
-| 因子 | 功能 |
-|------|------|
-| **Q** — 品質 | 將交易結果映射到 (0,1)。+3R 的贏家得 0.98。-3R 的輸家得 0.02 — 但永遠不為零，因為虧損記憶會作為警告被召回。 |
-| **Sim** — 相似度 | 當前市場環境和記憶形成時有多相似？不相關的記憶會被抑制。 |
-| **Rec** — 時效性 | 冪律衰減。30 天前的記憶保留 71% 強度。1 年前保留 28%。比指數衰減更溫和 — 與當前環境相關的舊記憶仍可檢索。 |
-| **Conf** — 信心度 | 高信心狀態下形成的記憶得分更高。最低 0.5，避免早期記憶被忽略。 |
-| **Aff** — 情緒 | 回撤期間，警示記憶會浮現。連勝期間，過度自信檢查會啟動。 |
-
-> 理論基礎：ACT-R (Anderson 2007)、Kelly 準則 (1956)、Tulving 記憶分類法 (1972)、Damasio 體感標記假說 (1994)。完整規格：[OWM_FRAMEWORK.md](docs/OWM_FRAMEWORK.md)
+> 方法論與數據：[Research Log](RESEARCH_LOG.md)
 
 ---
 
@@ -219,7 +195,7 @@ Evolution Engine 從原始價格數據中發現交易策略。不用指標，不
 
 交易記錄、結果登記、歷史查詢、日/週/月反思、風險約束、MT5 同步、OWM CRUD、進化引擎調度等。
 
-完整參考：[docs/API.md](docs/API.md)
+完整參考：[docs/API.md](API.md)
 
 </details>
 
@@ -250,11 +226,11 @@ Evolution Engine 從原始價格數據中發現交易策略。不用指標，不
 
 | 文件 | 說明 |
 |------|------|
-| [OWM 框架](docs/OWM_FRAMEWORK.md) | 完整理論基礎（1,875 行） |
-| [Tutorial (EN)](docs/TUTORIAL.md) | 英文教學 |
-| [教學 (中文)](docs/TUTORIAL_ZH.md) | 完整中文教學指南 |
-| [API 參考](docs/API.md) | 所有 REST 端點 |
-| [MT5 設定](docs/MT5_SYNC_SETUP.md) | MetaTrader 5 整合 |
+| [OWM 框架](OWM_FRAMEWORK.md) | 完整理論基礎（1,875 行） |
+| [Tutorial (EN)](TUTORIAL.md) | 英文教學 |
+| [教學 (中文)](TUTORIAL_ZH.md) | 完整中文教學指南 |
+| [API 參考](API.md) | 所有 REST 端點 |
+| [MT5 設定](MT5_SYNC_SETUP.md) | MetaTrader 5 整合 |
 | [研究日誌](RESEARCH_LOG.md) | 11 項進化實驗的完整數據 |
 
 ---

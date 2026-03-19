@@ -1,0 +1,151 @@
+<!--
+  Evolution Engine — 4-Step Pipeline + Results
+  Chrome DevTools → Ctrl+Shift+P → "Capture full size screenshot" → save as assets/evolution-zh.png
+  Size: 1000x480
+-->
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 1000px; height: 480px; background: transparent;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  color: #000000; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 20px;
+  overflow: hidden; padding: 32px;
+}
+h2 { font-size: 18px; font-weight: 600; color: #424a53; text-transform: uppercase; letter-spacing: 2px; }
+h2 span { color: #a371f7; }
+
+.pipeline { display: flex; align-items: center; gap: 8px; }
+.step {
+  width: 200px; border-radius: 12px; padding: 18px 16px;
+  background: #ffffff; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border: 1.5px solid #c0c8d0;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.step-num {
+  display: flex; align-items: center; gap: 8px;
+}
+.step-badge {
+  width: 28px; height: 28px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: #0d1117;
+}
+.step-title { font-size: 14px; font-weight: 700; }
+.step-desc { font-size: 12px; color: #424a53; line-height: 1.5; font-weight: 500; }
+
+.b1 .step-badge { background: #a371f7; }
+.b2 .step-badge { background: #00b4ff; }
+.b3 .step-badge { background: #3fb950; }
+.b4 .step-badge { background: #f0b90b; }
+.b1 { border-color: rgba(163,113,247,0.3); }
+.b2 { border-color: rgba(0,180,255,0.3); }
+.b3 { border-color: rgba(63,185,80,0.3); }
+.b4 { border-color: rgba(240,185,11,0.3); }
+
+.arrow { color: #1f2328; font-size: 24px; font-weight: 700; flex-shrink: 0; }
+.loop-arrow {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 2px;
+}
+.loop-arrow svg { width: 700px; height: 28px; }
+.loop-label {
+  font-size: 11px; font-weight: 600; color: #424a53;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* Results card */
+.results {
+  display: flex; gap: 16px; align-items: stretch;
+  width: 100%;
+}
+.result-box {
+  flex: 1; background: #ffffff; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border: 1.5px solid #c0c8d0;
+  border-radius: 10px; padding: 14px 18px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.result-label { font-size: 10px; color: #424a53; text-transform: uppercase; letter-spacing: 1px; }
+.result-value { font-size: 28px; font-weight: 800; }
+.result-detail { font-size: 11px; color: #424a53; }
+.v-blue { color: #00b4ff; }
+.v-green { color: #3fb950; }
+.v-purple { color: #a371f7; }
+.v-gold { color: #f0b90b; }
+
+.tag {
+  display: inline-block; font-size: 9px; padding: 2px 8px;
+  border-radius: 10px; background: rgba(63,185,80,0.15);
+  color: #3fb950; font-weight: 600; margin-top: 4px;
+}
+
+.disclaimer { font-size: 9px; color: #656d76; text-align: center; }
+</style></head>
+<body>
+
+<h2><span>Evolution Engine</span> — 自主策略發現</h2>
+
+<div class="pipeline">
+  <div class="step b1">
+    <div class="step-num">
+      <div class="step-badge">1</div>
+      <div class="step-title">發現</div>
+    </div>
+    <div class="step-desc">LLM 分析原始 K 線。 提出候選策略 包含進出場規則。</div>
+  </div>
+  <div class="arrow">→</div>
+  <div class="step b2">
+    <div class="step-num">
+      <div class="step-badge">2</div>
+      <div class="step-title">回測</div>
+    </div>
+    <div class="step-desc">向量化引擎測試每個 候選。基於 ATR 的止損/止盈， 時間止損。</div>
+  </div>
+  <div class="arrow">→</div>
+  <div class="step b3">
+    <div class="step-num">
+      <div class="step-badge">3</div>
+      <div class="step-title">篩選</div>
+    </div>
+    <div class="step-desc">樣本內排名 → 樣本外驗證。Sharpe > 1.0，n > 30 筆交易。</div>
+  </div>
+  <div class="arrow">→</div>
+  <div class="step b4">
+    <div class="step-num">
+      <div class="step-badge">4</div>
+      <div class="step-title">進化</div>
+    </div>
+    <div class="step-desc">存活者發生變異。下一 代開始。達爾文式 選擇循環。</div>
+  </div>
+</div>
+
+<div class="loop-arrow">
+  <svg viewBox="0 0 680 20"><path d="M 680 4 C 680 16, 340 20, 0 4" stroke="#30363d" stroke-width="1.5" fill="none" stroke-dasharray="6,4"/><polygon points="2,8 0,2 6,4" fill="#30363d"/></svg>
+</div>
+
+<div class="results">
+  <div class="result-box">
+    <div class="result-label">Sharpe Ratio</div>
+    <div class="result-value v-blue">3.84</div>
+    <div class="result-detail">C+E 組合策略</div>
+  </div>
+  <div class="result-box">
+    <div class="result-label">Total Trades</div>
+    <div class="result-value v-purple">477</div>
+    <div class="result-detail">22 個月 · BTC/USDT 1H</div>
+  </div>
+  <div class="result-box">
+    <div class="result-label">Positive Months</div>
+    <div class="result-value v-green">91%</div>
+    <div class="result-detail">20 of 22 個月 profitable</div>
+  </div>
+  <div class="result-box">
+    <div class="result-label">Max Drawdown</div>
+    <div class="result-value v-gold">0.22%</div>
+    <div class="result-detail">低於任一單獨策略</div>
+    <span class="tag">零人工策略輸入</span>
+  </div>
+</div>
+
+<div class="disclaimer">BTC/USDT 1H backtest 2024-06 to 2026-03 · 過去績效不代表未來表現</div>
+
+</body></html>

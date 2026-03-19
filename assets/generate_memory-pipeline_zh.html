@@ -1,0 +1,120 @@
+<!--
+  L1 → L2 → L3 Memory Pipeline Detail Cards
+  Chrome DevTools → Ctrl+Shift+P → "Capture full size screenshot" → save as assets/memory-pipeline-zh.png
+  Size: 1000x360
+-->
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 1000px; height: 360px; background: transparent;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  color: #000000; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 24px;
+  overflow: hidden; padding: 32px;
+}
+h2 { font-size: 16px; font-weight: 600; color: #424a53; text-transform: uppercase; letter-spacing: 2px; }
+
+.pipeline { display: flex; align-items: stretch; gap: 12px; }
+
+.layer-card {
+  width: 280px; border-radius: 14px; padding: 22px 20px;
+  background: #ffffff; box-shadow: 0 1px 4px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 12px;
+}
+
+.layer-header { display: flex; align-items: center; gap: 12px; }
+.layer-badge {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 800; color: #0d1117;
+}
+.layer-name { font-size: 16px; font-weight: 700; }
+.layer-subtitle { font-size: 11px; color: #424a53; font-weight: 500; }
+.layer-desc { font-size: 12px; color: #424a53; line-height: 1.6; }
+
+.layer-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-size: 10px; padding: 3px 10px; border-radius: 12px;
+  font-weight: 500;
+}
+
+/* L1 - Blue */
+.l1 { border: 1px solid rgba(0,180,255,0.3); }
+.l1 .layer-badge { background: #00b4ff; }
+.l1 .tag { background: rgba(0,180,255,0.1); color: #00b4ff; border: 1px solid rgba(0,180,255,0.2); }
+
+/* L2 - Purple */
+.l2 { border: 1px solid rgba(163,113,247,0.3); }
+.l2 .layer-badge { background: #a371f7; }
+.l2 .tag { background: rgba(163,113,247,0.1); color: #a371f7; border: 1px solid rgba(163,113,247,0.2); }
+
+/* L3 - Green */
+.l3 { border: 1px solid rgba(63,185,80,0.3); }
+.l3 .layer-badge { background: #3fb950; }
+.l3 .tag { background: rgba(63,185,80,0.1); color: #3fb950; border: 1px solid rgba(63,185,80,0.2); }
+
+.arrow { color: #1f2328; font-size: 32px; font-weight: 700; display: flex; align-items: center; flex-shrink: 0; }
+</style></head>
+<body>
+
+<h2>三層記憶架構</h2>
+
+<div class="pipeline">
+  <div class="layer-card l1">
+    <div class="layer-header">
+      <div class="layer-badge">L1</div>
+      <div>
+        <div class="layer-name">交易記錄</div>
+        <div class="layer-subtitle">原始記憶</div>
+      </div>
+    </div>
+    <div class="layer-desc">每筆交易儲存完整上下文 — 不只是進出場價格，還包括推理、 市場狀態、信心度和結果。</div>
+    <div class="layer-tags">
+      <span class="tag">進場推理</span>
+      <span class="tag">市場狀態</span>
+      <span class="tag">信心度</span>
+      <span class="tag">結果</span>
+    </div>
+  </div>
+
+  <div class="arrow">→</div>
+
+  <div class="layer-card l2">
+    <div class="layer-header">
+      <div class="layer-badge">L2</div>
+      <div>
+        <div class="layer-name">模式發現</div>
+        <div class="layer-subtitle">學習層</div>
+      </div>
+    </div>
+    <div class="layer-desc">LLM 驅動假設生成 + 向量化回測。統計驗證 搭配樣本外測試防止過擬合。</div>
+    <div class="layer-tags">
+      <span class="tag">LLM 分析</span>
+      <span class="tag">回測</span>
+      <span class="tag">OOS 驗證</span>
+      <span class="tag">貝氏信心度</span>
+    </div>
+  </div>
+
+  <div class="arrow">→</div>
+
+  <div class="layer-card l3">
+    <div class="layer-header">
+      <div class="layer-badge">L3</div>
+      <div>
+        <div class="layer-name">策略調整</div>
+        <div class="layer-subtitle">適應層</div>
+      </div>
+    </div>
+    <div class="layer-desc">基於證據的參數調整。 結果-weighted memory auto-降低過期市場狀態的權重。 你的機器人自我調適。</div>
+    <div class="layer-tags">
+      <span class="tag">自動適應</span>
+      <span class="tag">狀態感知</span>
+      <span class="tag">Kelly 倉位</span>
+      <span class="tag">風險控制</span>
+    </div>
+  </div>
+</div>
+
+</body></html>
