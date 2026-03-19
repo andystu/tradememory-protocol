@@ -11,8 +11,7 @@
 [![MCP Tools](https://img.shields.io/badge/MCP_tools-15-blueviolet?style=flat-square)](https://smithery.ai/server/io.github.mnemox-ai/tradememory-protocol)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow?style=flat-square)](https://opensource.org/licenses/MIT)
 
-<!-- TODO: Replace with assets/schema.png after screenshotting assets/generate_schema.html -->
-<!-- Open generate_schema.html in Chrome, DevTools, Ctrl+Shift+P, Capture full size screenshot, save as assets/schema.png -->
+![Architecture](assets/schema.png)
 
 </div>
 
