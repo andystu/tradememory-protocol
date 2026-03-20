@@ -1,0 +1,566 @@
+{
+  "meta": {
+    "wallet": "0xb99a2c (Abraxas Capital)",
+    "total_trades": 1945,
+    "date_range": {
+      "start": "2024-05-22",
+      "end": "2025-07-01"
+    },
+    "generated_at": "2026-03-20T06:57:37.855418+00:00"
+  },
+  "fund_flow": {
+    "total_aave_txs": 595,
+    "deposits": 364,
+    "withdrawals": 231,
+    "deposit_amount_stats": {
+      "count": 364,
+      "total": 3076814905.73,
+      "mean": 8452788.2,
+      "median": 3000000.0,
+      "min": 0.15,
+      "max": 72200000.0,
+      "stdev": 11830763.1
+    },
+    "withdraw_amount_stats": {
+      "count": 231,
+      "total": 3077029328.91,
+      "mean": 13320473.29,
+      "median": 4000000.0,
+      "min": 14.0,
+      "max": 152277740.73,
+      "stdev": 25112777.0
+    },
+    "deposit_tokens": {
+      "aEthUSDT": 187,
+      "aEthwstETH": 87,
+      "aEthWETH": 64,
+      "aEthLBTC": 22,
+      "aEthUSDC": 4
+    },
+    "withdraw_tokens": {
+      "aEthUSDT": 144,
+      "aEthwstETH": 65,
+      "aEthLBTC": 14,
+      "aEthUSDC": 8
+    },
+    "sample_timeline": [
+      {
+        "timestamp": "2024-06-11T07:10:59+00:00",
+        "action": "deposit",
+        "token": "aEthUSDT",
+        "source_token": "USDT",
+        "amount_raw": 6000000.0,
+        "usd_estimate": 6000000.0,
+        "hour": 7,
+        "weekday": 1
+      },
+      {
+        "timestamp": "2024-06-11T15:43:35+00:00",
+        "action": "withdraw",
+        "token": "aEthUSDT",
+        "source_token": "USDT",
+        "amount_raw": 2000000.0,
+        "usd_estimate": 2000000.0,
+        "hour": 15,
+        "weekday": 1
+      },
+      {
+        "timestamp": "2024-06-11T17:02:59+00:00",
+        "action": "withdraw",
+        "token": "aEthUSDT",
+        "source_token": "USDT",
+        "amount_raw": 4000452.5216,
+        "usd_estimate": 4000452.5216,
+        "hour": 17,
+        "weekday": 1
+      },
+      {
+        "timestamp": "2024-06-12T17:46:59+00:00",
+        "action": "deposit",
+        "token": "aEthWETH",
+        "source_token": "WETH",
+        "amount_raw": 4253.1326,
+        "usd_estimate": 4253.1326,
+        "hour": 17,
+        "weekday": 2
+      },
+      {
+        "timestamp": "2024-06-12T19:59:23+00:00",
+        "action": "deposit",
+        "token": "aEthWETH",
+        "source_token": "aEthWETH",
+        "amount_raw": 4253.0,
+        "usd_estimate": 4253.0,
+        "hour": 19,
+        "weekday": 2
+      },
+      {
+        "timestamp": "2024-06-13T06:46:59+00:00",
+        "action": "deposit",
+        "token": "aEthUSDT",
+        "source_token": "USDT",
+        "amount_raw": 15999996.2504,
+        "usd_estimate": 15999996.2504,
+        "hour": 6,
+        "weekday": 3
+      },
+      {
+        "timestamp": "2024-06-14T09:13:59+00:00",
+        "action": "withdraw",
+        "token": "aEthUSDT",
+        "source_token": "USDT",
+        "amount_raw": 4000000.0,
+        "usd_estimate": 4000000.0,
+        "hour": 9,
+        "weekday": 4
+      },
+      {
+        "timestamp": "2024-06-16T11:16:23+00:00",
+        "action": "withdraw",
+        "token": "aEthUSDT",
+        "source_token": "USDT",
+        "amount_raw": 5000000.0,
+        "usd_estimate": 5000000.0,
+        "hour": 11,
+        "weekday": 6
+      },
+      {
+        "timestamp": "2024-06-17T18:40:47+00:00",
+        "action": "withdraw",
+        "token": "aEthUSDT",
+        "source_token": "USDT",
+        "amount_raw": 7009766.8064,
+        "usd_estimate": 7009766.8064,
+        "hour": 18,
+        "weekday": 0
+      },
+      {
+        "timestamp": "2024-06-19T05:18:11+00:00",
+        "action": "deposit",
+        "token": "aEthUSDT",
+        "source_token": "USDT",
+        "amount_raw": 10000007.0098,
+        "usd_estimate": 10000007.0098,
+        "hour": 5,
+        "weekday": 2
+      }
+    ]
+  },
+  "token_shifts": {
+    "top_transitions": {
+      "other→other": 384,
+      "stablecoin→stablecoin": 279,
+      "stablecoin→aave": 191,
+      "other→stablecoin": 160,
+      "aave→stablecoin": 152,
+      "stablecoin→other": 143,
+      "yield→other": 130,
+      "LST→aave": 109,
+      "aave→LST": 79,
+      "LST→other": 77,
+      "aave→aave": 59,
+      "stablecoin→yield": 43,
+      "other→LST": 38,
+      "LST→LST": 27,
+      "other→ETH": 21
+    },
+    "top_sold_tokens": {
+      "USDT": 357,
+      "wstETH": 147,
+      "aEthUSDT": 144,
+      "USDC": 130,
+      "sUSDe": 130,
+      "weETH": 105,
+      "USDe": 88,
+      "USDS": 82,
+      "DAI": 79,
+      "aEthweETH": 73,
+      "aEthwstETH": 65,
+      "aEthWETH": 59,
+      "LBTC": 46,
+      "cbBTC": 39,
+      "spWETH": 36
+    },
+    "top_bought_tokens": {
+      "USDT": 256,
+      "aEthUSDT": 187,
+      "USDC": 153,
+      "USDe": 131,
+      "wstETH": 120,
+      "USDS": 93,
+      "aEthweETH": 92,
+      "aEthwstETH": 87,
+      "weETH": 81,
+      "DAI": 69,
+      "aEthWETH": 64,
+      "sUSDe": 49,
+      "spwstETH": 38,
+      "PT-sUSDE-27MAR2025": 38,
+      "spWETH": 35
+    },
+    "monthly_flow_summary": {
+      "2024-05": {
+        "stablecoin→stablecoin": 58,
+        "stablecoin→yield": 13,
+        "yield→stablecoin": 6,
+        "LST→LST": 1,
+        "stablecoin→other": 1
+      },
+      "2024-06": {
+        "stablecoin→other": 11,
+        "aave→stablecoin": 9,
+        "other→stablecoin": 6,
+        "stablecoin→stablecoin": 5,
+        "stablecoin→aave": 5
+      },
+      "2024-07": {
+        "yield→other": 25,
+        "stablecoin→stablecoin": 12,
+        "aave→stablecoin": 9,
+        "stablecoin→aave": 7,
+        "stablecoin→other": 4
+      },
+      "2024-08": {
+        "stablecoin→stablecoin": 13,
+        "stablecoin→aave": 5,
+        "aave→stablecoin": 5,
+        "other→stablecoin": 3,
+        "stablecoin→other": 2
+      },
+      "2024-09": {
+        "stablecoin→stablecoin": 51,
+        "other→other": 12,
+        "LST→aave": 7,
+        "other→stablecoin": 6,
+        "aave→LST": 5
+      },
+      "2024-10": {
+        "stablecoin→stablecoin": 56,
+        "yield→other": 50,
+        "other→other": 20,
+        "stablecoin→yield": 19,
+        "other→stablecoin": 14
+      },
+      "2024-11": {
+        "other→other": 35,
+        "other→stablecoin": 31,
+        "stablecoin→other": 30,
+        "aave→stablecoin": 14,
+        "stablecoin→stablecoin": 13
+      },
+      "2024-12": {
+        "other→other": 20,
+        "stablecoin→aave": 18,
+        "other→stablecoin": 18,
+        "aave→stablecoin": 16,
+        "stablecoin→other": 15
+      },
+      "2025-01": {
+        "yield→other": 29,
+        "other→other": 27,
+        "aave→stablecoin": 21,
+        "stablecoin→aave": 18,
+        "stablecoin→other": 16
+      },
+      "2025-02": {
+        "stablecoin→aave": 81,
+        "aave→stablecoin": 34,
+        "other→other": 30,
+        "LST→other": 21,
+        "aave→aave": 14
+      },
+      "2025-03": {
+        "other→other": 45,
+        "stablecoin→stablecoin": 17,
+        "stablecoin→other": 17,
+        "LST→aave": 13,
+        "other→stablecoin": 12
+      },
+      "2025-04": {
+        "other→other": 69,
+        "stablecoin→aave": 20,
+        "LST→aave": 20,
+        "stablecoin→stablecoin": 15,
+        "aave→stablecoin": 14
+      },
+      "2025-05": {
+        "other→other": 79,
+        "LST→aave": 23,
+        "other→stablecoin": 21,
+        "aave→LST": 11,
+        "stablecoin→other": 11
+      },
+      "2025-06": {
+        "other→other": 44,
+        "stablecoin→stablecoin": 21,
+        "LST→aave": 15,
+        "other→stablecoin": 13,
+        "aave→aave": 12
+      },
+      "2025-07": {
+        "stablecoin→stablecoin": 1,
+        "LST→stablecoin": 1,
+        "aave→aave": 1,
+        "aave→LST": 1
+      }
+    }
+  },
+  "tempo": {
+    "total_active_days": 314,
+    "total_txs": 1945,
+    "txs_per_active_day": {
+      "mean": 6.2,
+      "median": 5.0,
+      "max": 27,
+      "stdev": 5.2
+    },
+    "daily_histogram": {
+      "1-5 txs": 179,
+      "6-10 txs": 82,
+      "11-20 txs": 46,
+      "21-50 txs": 7,
+      "50+ txs": 0
+    },
+    "burst_days_count": 66,
+    "burst_threshold": 10.0,
+    "top_burst_days": [
+      {
+        "date": "2024-09-16",
+        "txs": 27
+      },
+      {
+        "date": "2024-10-19",
+        "txs": 26
+      },
+      {
+        "date": "2024-05-23",
+        "txs": 25
+      },
+      {
+        "date": "2024-05-24",
+        "txs": 25
+      },
+      {
+        "date": "2025-03-31",
+        "txs": 24
+      },
+      {
+        "date": "2025-02-25",
+        "txs": 21
+      },
+      {
+        "date": "2025-04-02",
+        "txs": 21
+      },
+      {
+        "date": "2024-09-02",
+        "txs": 20
+      },
+      {
+        "date": "2024-11-07",
+        "txs": 20
+      },
+      {
+        "date": "2025-03-08",
+        "txs": 20
+      }
+    ],
+    "inactive_gaps_7d_plus": []
+  },
+  "time_preference": {
+    "session_breakdown": {
+      "Asia (00-08 UTC)": {
+        "count": 319,
+        "pct": 16.4
+      },
+      "London (08-13 UTC)": {
+        "count": 628,
+        "pct": 32.3
+      },
+      "New York (13-21 UTC)": {
+        "count": 857,
+        "pct": 44.1
+      },
+      "Off-hours (21-24 UTC)": {
+        "count": 141,
+        "pct": 7.2
+      }
+    },
+    "day_of_week": {
+      "Mon": {
+        "count": 410,
+        "pct": 21.1
+      },
+      "Tue": {
+        "count": 335,
+        "pct": 17.2
+      },
+      "Wed": {
+        "count": 332,
+        "pct": 17.1
+      },
+      "Thu": {
+        "count": 310,
+        "pct": 15.9
+      },
+      "Fri": {
+        "count": 299,
+        "pct": 15.4
+      },
+      "Sat": {
+        "count": 167,
+        "pct": 8.6
+      },
+      "Sun": {
+        "count": 92,
+        "pct": 4.7
+      }
+    },
+    "hour_histogram": {
+      "00:00": {
+        "count": 16,
+        "pct": 0.8,
+        "bar": "█"
+      },
+      "01:00": {
+        "count": 16,
+        "pct": 0.8,
+        "bar": "█"
+      },
+      "02:00": {
+        "count": 24,
+        "pct": 1.2,
+        "bar": "██"
+      },
+      "03:00": {
+        "count": 35,
+        "pct": 1.8,
+        "bar": "███"
+      },
+      "04:00": {
+        "count": 17,
+        "pct": 0.9,
+        "bar": "█"
+      },
+      "05:00": {
+        "count": 18,
+        "pct": 0.9,
+        "bar": "█"
+      },
+      "06:00": {
+        "count": 32,
+        "pct": 1.6,
+        "bar": "███"
+      },
+      "07:00": {
+        "count": 161,
+        "pct": 8.3,
+        "bar": "████████████████"
+      },
+      "08:00": {
+        "count": 205,
+        "pct": 10.5,
+        "bar": "█████████████████████"
+      },
+      "09:00": {
+        "count": 154,
+        "pct": 7.9,
+        "bar": "███████████████"
+      },
+      "10:00": {
+        "count": 101,
+        "pct": 5.2,
+        "bar": "██████████"
+      },
+      "11:00": {
+        "count": 84,
+        "pct": 4.3,
+        "bar": "████████"
+      },
+      "12:00": {
+        "count": 84,
+        "pct": 4.3,
+        "bar": "████████"
+      },
+      "13:00": {
+        "count": 133,
+        "pct": 6.8,
+        "bar": "█████████████"
+      },
+      "14:00": {
+        "count": 138,
+        "pct": 7.1,
+        "bar": "██████████████"
+      },
+      "15:00": {
+        "count": 155,
+        "pct": 8.0,
+        "bar": "███████████████"
+      },
+      "16:00": {
+        "count": 134,
+        "pct": 6.9,
+        "bar": "█████████████"
+      },
+      "17:00": {
+        "count": 75,
+        "pct": 3.9,
+        "bar": "███████"
+      },
+      "18:00": {
+        "count": 66,
+        "pct": 3.4,
+        "bar": "██████"
+      },
+      "19:00": {
+        "count": 64,
+        "pct": 3.3,
+        "bar": "██████"
+      },
+      "20:00": {
+        "count": 92,
+        "pct": 4.7,
+        "bar": "█████████"
+      },
+      "21:00": {
+        "count": 85,
+        "pct": 4.4,
+        "bar": "████████"
+      },
+      "22:00": {
+        "count": 28,
+        "pct": 1.4,
+        "bar": "██"
+      },
+      "23:00": {
+        "count": 28,
+        "pct": 1.4,
+        "bar": "██"
+      }
+    },
+    "peak_hour_utc": 8,
+    "peak_day": "Mon"
+  },
+  "gas_sensitivity": {
+    "gas_cost_eth_stats": {
+      "mean": 0.002628,
+      "median": 0.001083,
+      "q1": 0.000291,
+      "q3": 0.003235,
+      "min": 2.9e-05,
+      "max": 0.047732,
+      "total": 5.1119
+    },
+    "activity_by_gas_level": {
+      "low_gas_days": {
+        "count": 158,
+        "avg_txs_per_day": 6.1
+      },
+      "high_gas_days": {
+        "count": 156,
+        "avg_txs_per_day": 6.3
+      },
+      "gas_sensitive": false
+    }
+  }
+}
