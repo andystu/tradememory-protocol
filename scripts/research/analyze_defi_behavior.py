@@ -48,6 +48,119 @@ ETHENA = {"USDe", "sUSDe", "ENA"}
 SPARK_TOKENS = {"spWETH", "spwstETH", "spcbBTC", "spweETH"}
 WRAPPED_ETH = {"WETH", "ETH"}
 
+# --- USD price lookup by half-year period ---
+
+ETH_PRICES = {
+    "2024-H1": 3200,
+    "2024-H2": 3500,
+    "2025-H1": 4000,
+    "2025-H2": 4500,
+    "2026-H1": 5000,
+    "2026-H2": 5000,
+}
+
+BTC_PRICES = {
+    "2024-H1": 65000,
+    "2024-H2": 90000,
+    "2025-H1": 100000,
+    "2025-H2": 110000,
+    "2026-H1": 105000,
+    "2026-H2": 105000,
+}
+
+# Tokens whose raw amount IS USD (1:1)
+USD_PEGGED_TOKENS = STABLECOINS | {"USDe", "sUSDe", "DOLA", "crvUSD", "GHO"}
+
+# Tokens denominated in ETH
+ETH_DENOMINATED_TOKENS = {
+    "WETH", "ETH", "stETH", "eETH", "rETH", "cbETH", "weETH", "rsETH",
+    "aEthWETH", "AWETH", "aEthweETH", "spWETH",
+    "farmdWETHV3",
+}
+
+# wstETH trades at ~1.15x ETH
+WSETH_TOKENS = {"wstETH", "aEthwstETH", "AWSTETH", "spwstETH"}
+
+# BTC-denominated tokens
+BTC_DENOMINATED_TOKENS = WRAPPED_BTC | {"aEthLBTC", "aEthcbBTC", "spcbBTC"}
+
+# Aave/farming tokens that wrap a stablecoin (face value = USD)
+AAVE_STABLECOIN_TOKENS = {
+    "aEthUSDT", "aEthUSDC", "aEthDAI", "aEthsUSDe",
+    "cDAI", "cUSDC", "cUSDTv3", "yvUSDC", "yvDAI",
+    "farmdUSDCV3", "farmdDAIV3", "farmdUSDTV3",
+}
+
+
+def _get_half_year(dt: datetime) -> str:
+    """Return period key like '2024-H1' or '2025-H2'."""
+    half = "H1" if dt.month <= 6 else "H2"
+    return f"{dt.year}-{half}"
+
+
+def _get_eth_price(dt: datetime) -> float:
+    key = _get_half_year(dt)
+    return ETH_PRICES.get(key, 4000)
+
+
+def _get_btc_price(dt: datetime) -> float:
+    key = _get_half_year(dt)
+    return BTC_PRICES.get(key, 100000)
+
+
+def estimate_usd_value(token: str, amount: float, dt: datetime) -> float | None:
+    """Estimate USD value for a token amount at a given time.
+
+    Returns None if token is unrecognized (governance, pendle, etc.).
+    """
+    if amount <= 0:
+        return None
+
+    # Stablecoins = face value
+    if token in USD_PEGGED_TOKENS or token in AAVE_STABLECOIN_TOKENS:
+        return amount
+
+    # ETH-denominated
+    if token in ETH_DENOMINATED_TOKENS:
+        return amount * _get_eth_price(dt)
+
+    # wstETH = 1.15x ETH
+    if token in WSETH_TOKENS:
+        return amount * _get_eth_price(dt) * 1.15
+
+    # BTC-denominated
+    if token in BTC_DENOMINATED_TOKENS:
+        return amount * _get_btc_price(dt)
+
+    # Pendle PT/YT — skip, too complex without oracle
+    # Governance tokens — skip, volatile and low volume
+    return None
+
+
+def estimate_tx_usd(trade: dict) -> float | None:
+    """Estimate USD value of a swap from the most reliable side.
+
+    Priority: stablecoin side > ETH/BTC side > None.
+    """
+    dt = trade["timestamp"]
+    sold_usd = estimate_usd_value(trade["sold_token"], trade["sold_amount"], dt)
+    bought_usd = estimate_usd_value(trade["bought_token"], trade["bought_amount"], dt)
+
+    # Prefer the stablecoin side (most accurate)
+    sold_is_stable = trade["sold_token"] in (USD_PEGGED_TOKENS | AAVE_STABLECOIN_TOKENS)
+    bought_is_stable = trade["bought_token"] in (USD_PEGGED_TOKENS | AAVE_STABLECOIN_TOKENS)
+
+    if sold_is_stable and sold_usd is not None:
+        return sold_usd
+    if bought_is_stable and bought_usd is not None:
+        return bought_usd
+
+    # Fall back to whichever side we can estimate
+    if sold_usd is not None and bought_usd is not None:
+        return max(sold_usd, bought_usd)  # take the larger (more conservative)
+    return sold_usd or bought_usd
+
+
 SESSION_RANGES = {
     "Asia (00-08 UTC)": (0, 8),
     "London (08-13 UTC)": (8, 13),
@@ -107,7 +220,7 @@ def load_trades(csv_path: str) -> list[dict]:
             sold_amount = float(sold_raw.split(":")[1]) if ":" in sold_raw else 0
             bought_amount = float(bought_raw.split(":")[1]) if ":" in bought_raw else 0
 
-            trades.append({
+            trade = {
                 "timestamp": ts,
                 "symbol": row.get("symbol", ""),
                 "side": row.get("side", ""),
@@ -120,7 +233,9 @@ def load_trades(csv_path: str) -> list[dict]:
                 "bought_amount": bought_amount,
                 "sold_category": classify_token(sold_token),
                 "bought_category": classify_token(bought_token),
-            })
+            }
+            trade["usd_value"] = estimate_tx_usd(trade)
+            trades.append(trade)
     return trades
 
 
@@ -423,6 +538,57 @@ def analyze_gas_sensitivity(trades: list[dict]) -> dict:
 
 
 # =============================================================================
+# Dimension 6: USD Volume Estimation
+# =============================================================================
+
+def analyze_usd_volume(trades: list[dict]) -> dict:
+    """Estimate total USD volume from token amounts and approximate prices."""
+    valued_txs = [(t, t["usd_value"]) for t in trades if t.get("usd_value") is not None]
+
+    if not valued_txs:
+        return {"note": "No USD-estimable transactions found", "coverage_pct": 0}
+
+    usd_values = [v for _, v in valued_txs]
+    coverage_pct = round(len(valued_txs) / len(trades) * 100, 1)
+
+    # Volume by category (use sold_category as the flow direction)
+    volume_by_category: dict[str, float] = defaultdict(float)
+    for t, usd in valued_txs:
+        # Attribute to the category of the token we could price
+        sold_usd = estimate_usd_value(t["sold_token"], t["sold_amount"], t["timestamp"])
+        if sold_usd is not None:
+            volume_by_category[t["sold_category"]] += sold_usd
+        else:
+            volume_by_category[t["bought_category"]] += usd
+
+    # Monthly volume
+    monthly_volume: dict[str, float] = defaultdict(float)
+    for t, usd in valued_txs:
+        month_key = t["timestamp"].strftime("%Y-%m")
+        monthly_volume[month_key] += usd
+
+    total_volume = sum(usd_values)
+
+    return {
+        "total_volume_usd": round(total_volume, 2),
+        "avg_tx_size_usd": round(mean(usd_values), 2),
+        "median_tx_size_usd": round(median(usd_values), 2),
+        "max_tx_size_usd": round(max(usd_values), 2),
+        "min_tx_size_usd": round(min(usd_values), 2),
+        "stdev_tx_size_usd": round(stdev(usd_values), 2) if len(usd_values) > 1 else 0,
+        "coverage_pct": coverage_pct,
+        "valued_txs": len(valued_txs),
+        "total_txs": len(trades),
+        "volume_by_category_usd": {
+            k: round(v, 2) for k, v in sorted(volume_by_category.items(), key=lambda x: -x[1])
+        },
+        "monthly_volume_usd": {
+            k: round(v, 2) for k, v in sorted(monthly_volume.items())
+        },
+    }
+
+
+# =============================================================================
 # Terminal Output
 # =============================================================================
 
@@ -500,6 +666,23 @@ def print_summary(report: dict):
         print(f"  High-gas days: {agl['high_gas_days']['count']} days, avg {agl['high_gas_days']['avg_txs_per_day']} txs/day")
         sensitive = agl["gas_sensitive"]
         print(f"  Gas sensitive:  {'YES — reduces activity in high gas' if sensitive else 'NO — activity unaffected by gas'}")
+    # USD volume
+    uv = report.get("usd_volume", {})
+    if uv.get("total_volume_usd"):
+        print(f"  ── USD VOLUME ESTIMATION ──")
+        print(f"  Total volume:    ${uv['total_volume_usd']:,.0f}")
+        print(f"  Avg tx size:     ${uv['avg_tx_size_usd']:,.0f}")
+        print(f"  Median tx size:  ${uv['median_tx_size_usd']:,.0f}")
+        print(f"  Max tx size:     ${uv['max_tx_size_usd']:,.0f}")
+        print(f"  Coverage:        {uv['coverage_pct']}% ({uv['valued_txs']}/{uv['total_txs']} txs)")
+        print(f"  By category:")
+        for cat, vol in list(uv["volume_by_category_usd"].items())[:8]:
+            pct = round(vol / uv["total_volume_usd"] * 100, 1)
+            print(f"    {cat:15s}  ${vol:>15,.0f}  ({pct}%)")
+        print(f"  Monthly volume:")
+        for month, vol in uv["monthly_volume_usd"].items():
+            bar = "█" * max(1, int(vol / max(uv["monthly_volume_usd"].values()) * 30))
+            print(f"    {month}  ${vol:>15,.0f}  {bar}")
     print()
     print(f"{'='*70}")
 
@@ -526,6 +709,7 @@ def build_report(trades: list[dict], wallet_label: str = "unknown") -> dict:
         "tempo": analyze_tempo(trades),
         "time_preference": analyze_time_preference(trades),
         "gas_sensitivity": analyze_gas_sensitivity(trades),
+        "usd_volume": analyze_usd_volume(trades),
     }
 
 
