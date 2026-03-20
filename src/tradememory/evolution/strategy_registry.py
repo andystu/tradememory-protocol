@@ -112,7 +112,8 @@ class StrategyRegistry:
             "versions": [v.to_dict() for v in self._versions],
         }
         self._path.write_text(
-            json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8"
+            json.dumps(data, indent=2, ensure_ascii=False, default=str),
+            encoding="utf-8",
         )
         logger.info(f"Saved {len(self._versions)} versions to {self._path}")
 
