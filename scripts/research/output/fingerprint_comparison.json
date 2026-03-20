@@ -1,0 +1,68 @@
+{
+  "generated_at": "2026-03-20T07:35:32.711626+00:00",
+  "wallet_count": 2,
+  "wallets": [
+    {
+      "wallet": "Abraxas Capital",
+      "total_trades": 1945,
+      "date_range": {
+        "start": "2024-05-22",
+        "end": "2025-07-01"
+      },
+      "tempo_class": "steady",
+      "tempo_cv": 0.8387,
+      "aave_usage_pct": 41.95,
+      "gas_sensitive": false,
+      "usd_volume": {
+        "total_volume_usd": 40503223026.85,
+        "avg_tx_size_usd": 21228104.31,
+        "median_tx_size_usd": 10000000.0,
+        "coverage_pct": 98.1
+      },
+      "peak_hour_utc": 8,
+      "peak_day": "Mon"
+    },
+    {
+      "wallet": "0x7a16fF",
+      "total_trades": 1663,
+      "date_range": {
+        "start": "2020-12-08",
+        "end": "2023-04-09"
+      },
+      "tempo_class": "burst",
+      "tempo_cv": 1.4872,
+      "aave_usage_pct": 0.24,
+      "gas_sensitive": false,
+      "usd_volume": {
+        "total_volume_usd": 770493906.91,
+        "avg_tx_size_usd": 903275.39,
+        "median_tx_size_usd": 133312.29,
+        "coverage_pct": 51.3
+      },
+      "peak_hour_utc": 12,
+      "peak_day": "Sun"
+    }
+  ],
+  "pairwise": [
+    {
+      "wallet_a": "Abraxas Capital",
+      "wallet_b": "0x7a16fF",
+      "session_overlap_cosine": 0.8712,
+      "token_divergence": {
+        "sold_jaccard_distance": 0.8889,
+        "bought_jaccard_distance": 0.8889,
+        "sold_overlap": [
+          "USDC",
+          "USDT"
+        ],
+        "bought_overlap": [
+          "USDC",
+          "USDT"
+        ]
+      },
+      "same_tempo_class": false,
+      "both_gas_sensitive": false,
+      "neither_gas_sensitive": true
+    }
+  ]
+}
