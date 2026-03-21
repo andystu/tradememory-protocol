@@ -91,6 +91,7 @@ def fast_backtest(
     pattern: CandidatePattern,
     config: Optional[ContextConfig] = None,
     timeframe: str = "1h",
+    annualize: bool = True,
 ) -> FitnessMetrics:
     """Backtest using precomputed contexts and ATRs (avoids redundant computation)."""
     if not bars or len(bars) < 30:
@@ -122,7 +123,7 @@ def fast_backtest(
         trade = force_close_position(position, last_bar, len(bars) - 1, "end")
         trades.append(trade)
 
-    return _compute_fitness(trades, timeframe=timeframe)
+    return _compute_fitness(trades, timeframe=timeframe, annualize=annualize)
 
 
 def fast_run_baseline(

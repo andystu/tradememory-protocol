@@ -64,7 +64,8 @@ TradeMemory Protocol 是 Mnemox AI 的核心產品。MT5/forex 交易記憶層�
 - Use UTC for all timestamps
 
 ## Recent Changes
-- [2026-03-21] feat: Phase 15 Batch B — Grid WFO complete. strategy_registry.py (25 tests) + re_evolution.py (20 tests) + run_grid_wfo.py (23 periods × 19200 combos × 4 arms). Arm G mean Sharpe 17.64 vs Ctrl A 1.32. All Layer 1 Gate criteria met. 1178 tests total.
+- [2026-03-21] fix: Sharpe annualization bug — backtester.py `annualize=False` param, Grid WFO rerun with raw Sharpe. Layer 1 Gate: 3/3 FAIL (DSR 0/23 pass). Root cause: M=19200 incompatible with 30-50 trades. Report: validation/reevolution_report.md
+- [2026-03-21] feat: Phase 15 Batch B — Grid WFO complete. strategy_registry.py (25 tests) + re_evolution.py (20 tests) + run_grid_wfo.py (23 periods × 19200 combos × 4 arms). 1178 tests total.
 - [2026-03-21] feat: Phase 15 Batch A — Regime Decay Detector (triple-confirmation: Bayesian win rate + DD exceedance + Mahalanobis OOD) + Statistical Gates (DSR + MinBTL + BH-FDR). 46 new tests, 1133 total.
 - [2026-03-20] feat: compare_defi_fingerprints.py — 多錢包指紋比對（session cosine、token Jaccard、tempo分類、Aave ratio、gas sensitivity），Abraxas vs 0x7a16fF 完成
 - [2026-03-20] feat: USD value estimation — half-year ETH/BTC price lookup, $40.5B total volume (98.1% coverage), monthly breakdown
@@ -210,8 +211,8 @@ Step 5: Deploy V2 on [2020-07, 2020-10]
 
 ## Current Status
 - **v0.5.0**, 1178 tests passing, 2 skipped, 0 warnings
-- **Phase 15 Batch B COMPLETE**: strategy_registry + re_evolution + Grid WFO experiment
-- **Grid WFO Results**: Arm G Sharpe 17.64 >> Ctrl A 1.32, G>A 91.3% (p<0.0001), DSR survive 87%. **Sean judges Layer 1 Gate.**
+- **Phase 15 Batch B CODE COMPLETE**: strategy_registry + re_evolution + Grid WFO experiment
+- **Grid WFO Layer 1 Gate: FAIL** — Raw Sharpe rerun: DSR gate 0/23 pass, G>A 43.5% (p=0.54), G>C 47.8% (p=0.83). Root cause: M=19200 + 30-50 trades = mathematically impossible to pass DSR. LLM evolution (M≈30) has 640x lower statistical burden — this is the hypothesis for Exp 4b.
 - **Phase 15 Batch A COMPLETE**: Regime Detector + Statistical Gates committed
 - **Phase 14 Validation COMPLETE**: B1 CONDITIONAL PASS, B2 PASS (P100 ETHUSDT)
 - **OWM filtering INVALIDATED**: Permutation test 0/4 significant

@@ -1,86 +1,86 @@
 {
   "experiment": "Phase 15 Exp 4a: Grid WFO Baseline",
-  "timestamp": "2026-03-20T20:30:37.178870+00:00",
+  "timestamp": "2026-03-21T07:07:55.118163+00:00",
   "data_period": "2020-01-01 to 2026-03-01",
   "bars": 53993,
   "is_months": 3,
   "oos_months": 3,
   "n_periods": 23,
   "grid_combinations": 19200,
-  "cumulative_trials": 384000,
+  "cumulative_trials": 0,
   "arms": {
     "arm_g": [
       {
         "period": 1,
         "is_period": "2020-01 to 2020-04",
         "oos_period": "2020-04 to 2020-07",
-        "oos_sharpe": 18.9498,
-        "oos_trades": 34,
-        "oos_pnl": 675.3367,
-        "dsr": 7.811357,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 10071
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -2.46247,
+        "dsr_pvalue": 0.993101,
+        "passed_dsr": false,
+        "num_viable": 10067
       },
       {
         "period": 2,
         "is_period": "2020-04 to 2020-07",
         "oos_period": "2020-07 to 2020-10",
-        "oos_sharpe": 22.1942,
-        "oos_trades": 39,
-        "oos_pnl": 823.5506,
-        "dsr": 8.441792,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 9389
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -2.097112,
+        "dsr_pvalue": 0.982008,
+        "passed_dsr": false,
+        "num_viable": 9387
       },
       {
         "period": 3,
         "is_period": "2020-07 to 2020-10",
         "oos_period": "2020-10 to 2021-01",
-        "oos_sharpe": 18.6073,
-        "oos_trades": 34,
-        "oos_pnl": 3414.2153,
-        "dsr": 7.785701,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 9048
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -2.488664,
+        "dsr_pvalue": 0.993589,
+        "passed_dsr": false,
+        "num_viable": 9044
       },
       {
         "period": 4,
         "is_period": "2020-10 to 2021-01",
         "oos_period": "2021-01 to 2021-04",
-        "oos_sharpe": 15.7592,
-        "oos_trades": 35,
-        "oos_pnl": 4936.4603,
-        "dsr": 7.835912,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 8856
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -2.689901,
+        "dsr_pvalue": 0.996426,
+        "passed_dsr": false,
+        "num_viable": 8851
       },
       {
         "period": 5,
         "is_period": "2021-01 to 2021-04",
         "oos_period": "2021-04 to 2021-07",
-        "oos_sharpe": 17.4765,
-        "oos_trades": 56,
-        "oos_pnl": 8685.0658,
-        "dsr": 10.10942,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 10248
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -2.20464,
+        "dsr_pvalue": 0.98626,
+        "passed_dsr": false,
+        "num_viable": 10247
       },
       {
         "period": 6,
         "is_period": "2021-04 to 2021-07",
         "oos_period": "2021-07 to 2021-10",
-        "oos_sharpe": 18.4835,
-        "oos_trades": 34,
-        "oos_pnl": 3497.833,
-        "dsr": 7.771443,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 10531
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -2.49819,
+        "dsr_pvalue": 0.993759,
+        "passed_dsr": false,
+        "num_viable": 10530
       },
       {
         "period": 7,
@@ -92,42 +92,42 @@
         "dsr": null,
         "dsr_pvalue": null,
         "passed_dsr": false,
-        "num_viable": 8675
+        "num_viable": 8673
       },
       {
         "period": 8,
         "is_period": "2021-10 to 2022-01",
         "oos_period": "2022-01 to 2022-04",
-        "oos_sharpe": 12.0159,
-        "oos_trades": 39,
-        "oos_pnl": 3195.3424,
-        "dsr": 8.150119,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -2.928886,
+        "dsr_pvalue": 0.998299,
+        "passed_dsr": false,
         "num_viable": 5169
       },
       {
         "period": 9,
         "is_period": "2022-01 to 2022-04",
         "oos_period": "2022-04 to 2022-07",
-        "oos_sharpe": 2.2775,
-        "oos_trades": 35,
-        "oos_pnl": 444.5579,
-        "dsr": 4.697865,
-        "dsr_pvalue": 1e-06,
-        "passed_dsr": true,
-        "num_viable": 7770
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -3.727067,
+        "dsr_pvalue": 0.999903,
+        "passed_dsr": false,
+        "num_viable": 7768
       },
       {
         "period": 10,
         "is_period": "2022-04 to 2022-07",
         "oos_period": "2022-07 to 2022-10",
-        "oos_sharpe": 9.1274,
-        "oos_trades": 36,
-        "oos_pnl": 788.0928,
-        "dsr": 7.594238,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -3.193183,
+        "dsr_pvalue": 0.999296,
+        "passed_dsr": false,
         "num_viable": 10275
       },
       {
@@ -146,13 +146,13 @@
         "period": 12,
         "is_period": "2022-10 to 2023-01",
         "oos_period": "2023-01 to 2023-04",
-        "oos_sharpe": 32.8902,
-        "oos_trades": 21,
-        "oos_pnl": 3245.476,
-        "dsr": 6.128722,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 11804
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -1.923296,
+        "dsr_pvalue": 0.972779,
+        "passed_dsr": false,
+        "num_viable": 11802
       },
       {
         "period": 13,
@@ -161,291 +161,291 @@
         "oos_sharpe": 0.0,
         "oos_trades": 0,
         "oos_pnl": 0.0,
-        "dsr": -1.687054,
-        "dsr_pvalue": 0.954204,
+        "dsr": -3.864749,
+        "dsr_pvalue": 0.999944,
         "passed_dsr": false,
-        "num_viable": 9630
+        "num_viable": 9627
       },
       {
         "period": 14,
         "is_period": "2023-04 to 2023-07",
         "oos_period": "2023-07 to 2023-10",
-        "oos_sharpe": 39.4666,
-        "oos_trades": 14,
-        "oos_pnl": 1516.577,
-        "dsr": 4.936636,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 10561
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -1.947308,
+        "dsr_pvalue": 0.974251,
+        "passed_dsr": false,
+        "num_viable": 10559
       },
       {
         "period": 15,
         "is_period": "2023-07 to 2023-10",
         "oos_period": "2023-10 to 2024-01",
-        "oos_sharpe": 16.3279,
-        "oos_trades": 23,
-        "oos_pnl": 1399.9525,
-        "dsr": 6.223492,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 9687
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -2.882125,
+        "dsr_pvalue": 0.998025,
+        "passed_dsr": false,
+        "num_viable": 9684
       },
       {
         "period": 16,
         "is_period": "2023-10 to 2024-01",
         "oos_period": "2024-01 to 2024-04",
-        "oos_sharpe": 26.2513,
-        "oos_trades": 37,
-        "oos_pnl": 8166.0028,
-        "dsr": 8.232054,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 10321
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -1.821921,
+        "dsr_pvalue": 0.965766,
+        "passed_dsr": false,
+        "num_viable": 10317
       },
       {
         "period": 17,
         "is_period": "2024-01 to 2024-04",
         "oos_period": "2024-04 to 2024-07",
-        "oos_sharpe": 27.2881,
-        "oos_trades": 31,
-        "oos_pnl": 3568.1608,
-        "dsr": 7.502959,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 9697
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -1.918579,
+        "dsr_pvalue": 0.972481,
+        "passed_dsr": false,
+        "num_viable": 9695
       },
       {
         "period": 18,
         "is_period": "2024-04 to 2024-07",
         "oos_period": "2024-07 to 2024-10",
-        "oos_sharpe": 18.913,
-        "oos_trades": 30,
-        "oos_pnl": 4216.7884,
-        "dsr": 7.258328,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 9509
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -2.551588,
+        "dsr_pvalue": 0.994638,
+        "passed_dsr": false,
+        "num_viable": 9507
       },
       {
         "period": 19,
         "is_period": "2024-07 to 2024-10",
         "oos_period": "2024-10 to 2025-01",
-        "oos_sharpe": 20.0474,
-        "oos_trades": 27,
-        "oos_pnl": 5275.9615,
-        "dsr": 6.874953,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 11223
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -2.542291,
+        "dsr_pvalue": 0.994494,
+        "passed_dsr": false,
+        "num_viable": 11218
       },
       {
         "period": 20,
         "is_period": "2024-10 to 2025-01",
         "oos_period": "2025-01 to 2025-04",
-        "oos_sharpe": 11.4904,
-        "oos_trades": 42,
-        "oos_pnl": 3599.032,
-        "dsr": 8.433502,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 8767
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -2.93634,
+        "dsr_pvalue": 0.998339,
+        "passed_dsr": false,
+        "num_viable": 8764
       },
       {
         "period": 21,
         "is_period": "2025-01 to 2025-04",
         "oos_period": "2025-04 to 2025-07",
-        "oos_sharpe": 7.6035,
-        "oos_trades": 33,
-        "oos_pnl": 1563.5267,
-        "dsr": 7.033518,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 8378
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -3.337503,
+        "dsr_pvalue": 0.999577,
+        "passed_dsr": false,
+        "num_viable": 8375
       },
       {
         "period": 22,
         "is_period": "2025-04 to 2025-07",
         "oos_period": "2025-07 to 2025-10",
-        "oos_sharpe": 41.0503,
-        "oos_trades": 21,
-        "oos_pnl": 5296.2091,
-        "dsr": 6.163835,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 9475
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -1.440768,
+        "dsr_pvalue": 0.925175,
+        "passed_dsr": false,
+        "num_viable": 9473
       },
       {
         "period": 23,
         "is_period": "2025-07 to 2025-10",
         "oos_period": "2025-10 to 2026-01",
-        "oos_sharpe": 29.4654,
-        "oos_trades": 25,
-        "oos_pnl": 9975.0568,
-        "dsr": 6.701158,
-        "dsr_pvalue": 0.0,
-        "passed_dsr": true,
-        "num_viable": 7307
+        "oos_sharpe": 0.0,
+        "oos_trades": 0,
+        "oos_pnl": 0.0,
+        "dsr": -1.972908,
+        "dsr_pvalue": 0.975747,
+        "passed_dsr": false,
+        "num_viable": 7306
       }
     ],
     "ctrl_a": [
       {
         "period": 1,
         "oos_period": "2020-04 to 2020-07",
-        "oos_sharpe": -7.6495,
+        "oos_sharpe": -0.0984,
         "oos_trades": 48,
         "oos_pnl": -388.6019
       },
       {
         "period": 2,
         "oos_period": "2020-07 to 2020-10",
-        "oos_sharpe": 15.1678,
+        "oos_sharpe": 0.195,
         "oos_trades": 42,
         "oos_pnl": 779.7264
       },
       {
         "period": 3,
         "oos_period": "2020-10 to 2021-01",
-        "oos_sharpe": 10.9381,
+        "oos_sharpe": 0.1406,
         "oos_trades": 57,
         "oos_pnl": 2029.2218
       },
       {
         "period": 4,
         "oos_period": "2021-01 to 2021-04",
-        "oos_sharpe": -4.3812,
+        "oos_sharpe": -0.0563,
         "oos_trades": 50,
         "oos_pnl": -2388.53
       },
       {
         "period": 5,
         "oos_period": "2021-04 to 2021-07",
-        "oos_sharpe": -6.1497,
+        "oos_sharpe": -0.0791,
         "oos_trades": 41,
         "oos_pnl": -2524.6632
       },
       {
         "period": 6,
         "oos_period": "2021-07 to 2021-10",
-        "oos_sharpe": 14.2696,
+        "oos_sharpe": 0.1835,
         "oos_trades": 44,
         "oos_pnl": 4442.581
       },
       {
         "period": 7,
         "oos_period": "2021-10 to 2022-01",
-        "oos_sharpe": -14.1594,
+        "oos_sharpe": -0.1821,
         "oos_trades": 41,
         "oos_pnl": -4810.4019
       },
       {
         "period": 8,
         "oos_period": "2022-01 to 2022-04",
-        "oos_sharpe": -8.3549,
+        "oos_sharpe": -0.1074,
         "oos_trades": 47,
         "oos_pnl": -2460.5127
       },
       {
         "period": 9,
         "oos_period": "2022-04 to 2022-07",
-        "oos_sharpe": -15.8785,
+        "oos_sharpe": -0.2042,
         "oos_trades": 45,
         "oos_pnl": -3994.939
       },
       {
         "period": 10,
         "oos_period": "2022-07 to 2022-10",
-        "oos_sharpe": -5.3042,
+        "oos_sharpe": -0.0682,
         "oos_trades": 46,
         "oos_pnl": -793.7712
       },
       {
         "period": 11,
         "oos_period": "2022-10 to 2023-01",
-        "oos_sharpe": -19.6209,
+        "oos_sharpe": -0.2523,
         "oos_trades": 39,
         "oos_pnl": -1231.7151
       },
       {
         "period": 12,
         "oos_period": "2023-01 to 2023-04",
-        "oos_sharpe": 14.6321,
+        "oos_sharpe": 0.1881,
         "oos_trades": 47,
         "oos_pnl": 2220.1138
       },
       {
         "period": 13,
         "oos_period": "2023-04 to 2023-07",
-        "oos_sharpe": 2.8708,
+        "oos_sharpe": 0.0369,
         "oos_trades": 42,
         "oos_pnl": 317.4854
       },
       {
         "period": 14,
         "oos_period": "2023-07 to 2023-10",
-        "oos_sharpe": -0.507,
+        "oos_sharpe": -0.0065,
         "oos_trades": 41,
         "oos_pnl": -40.1314
       },
       {
         "period": 15,
         "oos_period": "2023-10 to 2024-01",
-        "oos_sharpe": 10.1016,
+        "oos_sharpe": 0.1299,
         "oos_trades": 51,
         "oos_pnl": 1774.3998
       },
       {
         "period": 16,
         "oos_period": "2024-01 to 2024-04",
-        "oos_sharpe": 1.4378,
+        "oos_sharpe": 0.0185,
         "oos_trades": 48,
         "oos_pnl": 526.2526
       },
       {
         "period": 17,
         "oos_period": "2024-04 to 2024-07",
-        "oos_sharpe": 10.0217,
+        "oos_sharpe": 0.1289,
         "oos_trades": 48,
         "oos_pnl": 3426.3237
       },
       {
         "period": 18,
         "oos_period": "2024-07 to 2024-10",
-        "oos_sharpe": 22.3072,
+        "oos_sharpe": 0.2868,
         "oos_trades": 40,
         "oos_pnl": 5782.1718
       },
       {
         "period": 19,
         "oos_period": "2024-10 to 2025-01",
-        "oos_sharpe": 0.6811,
+        "oos_sharpe": 0.0088,
         "oos_trades": 48,
         "oos_pnl": 359.2102
       },
       {
         "period": 20,
         "oos_period": "2025-01 to 2025-04",
-        "oos_sharpe": 3.8596,
+        "oos_sharpe": 0.0496,
         "oos_trades": 44,
         "oos_pnl": 2609.657
       },
       {
         "period": 21,
         "oos_period": "2025-04 to 2025-07",
-        "oos_sharpe": 3.9749,
+        "oos_sharpe": 0.0511,
         "oos_trades": 46,
         "oos_pnl": 1751.1457
       },
       {
         "period": 22,
         "oos_period": "2025-07 to 2025-10",
-        "oos_sharpe": -8.2521,
+        "oos_sharpe": -0.1061,
         "oos_trades": 50,
         "oos_pnl": -3251.9521
       },
       {
         "period": 23,
         "oos_period": "2025-10 to 2026-01",
-        "oos_sharpe": 10.4455,
+        "oos_sharpe": 0.1343,
         "oos_trades": 39,
         "oos_pnl": 4331.9962
       }
@@ -454,278 +454,278 @@
       {
         "period": 1,
         "oos_period": "2020-04 to 2020-07",
-        "oos_sharpe": 2.2138
+        "oos_sharpe": 0.0285
       },
       {
         "period": 2,
         "oos_period": "2020-07 to 2020-10",
-        "oos_sharpe": 1.4164
+        "oos_sharpe": 0.0182
       },
       {
         "period": 3,
         "oos_period": "2020-10 to 2021-01",
-        "oos_sharpe": 5.5295
+        "oos_sharpe": 0.0711
       },
       {
         "period": 4,
         "oos_period": "2021-01 to 2021-04",
-        "oos_sharpe": 2.6706
+        "oos_sharpe": 0.0343
       },
       {
         "period": 5,
         "oos_period": "2021-04 to 2021-07",
-        "oos_sharpe": -1.3373
+        "oos_sharpe": -0.0172
       },
       {
         "period": 6,
         "oos_period": "2021-07 to 2021-10",
-        "oos_sharpe": 1.4258
+        "oos_sharpe": 0.0183
       },
       {
         "period": 7,
         "oos_period": "2021-10 to 2022-01",
-        "oos_sharpe": 0.5557
+        "oos_sharpe": 0.0071
       },
       {
         "period": 8,
         "oos_period": "2022-01 to 2022-04",
-        "oos_sharpe": 0.1521
+        "oos_sharpe": 0.002
       },
       {
         "period": 9,
         "oos_period": "2022-04 to 2022-07",
-        "oos_sharpe": -3.2625
+        "oos_sharpe": -0.042
       },
       {
         "period": 10,
         "oos_period": "2022-07 to 2022-10",
-        "oos_sharpe": 0.0166
+        "oos_sharpe": 0.0002
       },
       {
         "period": 11,
         "oos_period": "2022-10 to 2023-01",
-        "oos_sharpe": -0.9347
+        "oos_sharpe": -0.012
       },
       {
         "period": 12,
         "oos_period": "2023-01 to 2023-04",
-        "oos_sharpe": 3.6549
+        "oos_sharpe": 0.047
       },
       {
         "period": 13,
         "oos_period": "2023-04 to 2023-07",
-        "oos_sharpe": 0.7252
+        "oos_sharpe": 0.0093
       },
       {
         "period": 14,
         "oos_period": "2023-07 to 2023-10",
-        "oos_sharpe": -1.1363
+        "oos_sharpe": -0.0146
       },
       {
         "period": 15,
         "oos_period": "2023-10 to 2024-01",
-        "oos_sharpe": 3.8241
+        "oos_sharpe": 0.0492
       },
       {
         "period": 16,
         "oos_period": "2024-01 to 2024-04",
-        "oos_sharpe": 3.3333
+        "oos_sharpe": 0.0429
       },
       {
         "period": 17,
         "oos_period": "2024-04 to 2024-07",
-        "oos_sharpe": -0.6637
+        "oos_sharpe": -0.0085
       },
       {
         "period": 18,
         "oos_period": "2024-07 to 2024-10",
-        "oos_sharpe": 0.2667
+        "oos_sharpe": 0.0034
       },
       {
         "period": 19,
         "oos_period": "2024-10 to 2025-01",
-        "oos_sharpe": 2.7284
+        "oos_sharpe": 0.0351
       },
       {
         "period": 20,
         "oos_period": "2025-01 to 2025-04",
-        "oos_sharpe": -0.5731
+        "oos_sharpe": -0.0074
       },
       {
         "period": 21,
         "oos_period": "2025-04 to 2025-07",
-        "oos_sharpe": 2.2554
+        "oos_sharpe": 0.029
       },
       {
         "period": 22,
         "oos_period": "2025-07 to 2025-10",
-        "oos_sharpe": 0.7782
+        "oos_sharpe": 0.01
       },
       {
         "period": 23,
         "oos_period": "2025-10 to 2026-01",
-        "oos_sharpe": -1.7073
+        "oos_sharpe": -0.022
       }
     ],
     "ctrl_c": [
       {
         "period": 1,
         "oos_period": "2020-04 to 2020-07",
-        "oos_sharpe": 9.6612,
+        "oos_sharpe": 0.1242,
         "oos_trades": 28,
         "oos_pnl": 376.1159
       },
       {
         "period": 2,
         "oos_period": "2020-07 to 2020-10",
-        "oos_sharpe": 5.0417,
+        "oos_sharpe": 0.0648,
         "oos_trades": 49,
         "oos_pnl": 339.2705
       },
       {
         "period": 3,
         "oos_period": "2020-10 to 2021-01",
-        "oos_sharpe": -1.385,
+        "oos_sharpe": -0.0178,
         "oos_trades": 50,
         "oos_pnl": -175.7268
       },
       {
         "period": 4,
         "oos_period": "2021-01 to 2021-04",
-        "oos_sharpe": 4.5586,
+        "oos_sharpe": 0.0586,
         "oos_trades": 35,
         "oos_pnl": 2435.9464
       },
       {
         "period": 5,
         "oos_period": "2021-04 to 2021-07",
-        "oos_sharpe": -16.8605,
+        "oos_sharpe": -0.2168,
         "oos_trades": 45,
         "oos_pnl": -10416.8086
       },
       {
         "period": 6,
         "oos_period": "2021-07 to 2021-10",
-        "oos_sharpe": -13.3528,
+        "oos_sharpe": -0.1717,
         "oos_trades": 41,
         "oos_pnl": -4252.6769
       },
       {
         "period": 7,
         "oos_period": "2021-10 to 2022-01",
-        "oos_sharpe": 11.1959,
+        "oos_sharpe": 0.144,
         "oos_trades": 56,
         "oos_pnl": 3868.2727
       },
       {
         "period": 8,
         "oos_period": "2022-01 to 2022-04",
-        "oos_sharpe": 2.9956,
+        "oos_sharpe": 0.0385,
         "oos_trades": 36,
         "oos_pnl": 886.2931
       },
       {
         "period": 9,
         "oos_period": "2022-04 to 2022-07",
-        "oos_sharpe": -2.9598,
+        "oos_sharpe": -0.0381,
         "oos_trades": 59,
         "oos_pnl": -944.7373
       },
       {
         "period": 10,
         "oos_period": "2022-07 to 2022-10",
-        "oos_sharpe": -16.9637,
+        "oos_sharpe": -0.2181,
         "oos_trades": 34,
         "oos_pnl": -2576.58
       },
       {
         "period": 11,
         "oos_period": "2022-10 to 2023-01",
-        "oos_sharpe": 10.6512,
+        "oos_sharpe": 0.137,
         "oos_trades": 27,
         "oos_pnl": 704.9252
       },
       {
         "period": 12,
         "oos_period": "2023-01 to 2023-04",
-        "oos_sharpe": -17.8328,
+        "oos_sharpe": -0.2293,
         "oos_trades": 51,
         "oos_pnl": -3236.0175
       },
       {
         "period": 13,
         "oos_period": "2023-04 to 2023-07",
-        "oos_sharpe": -0.0611,
+        "oos_sharpe": -0.0008,
         "oos_trades": 58,
         "oos_pnl": -6.5519
       },
       {
         "period": 14,
         "oos_period": "2023-07 to 2023-10",
-        "oos_sharpe": -7.5364,
+        "oos_sharpe": -0.0969,
         "oos_trades": 26,
         "oos_pnl": -551.9048
       },
       {
         "period": 15,
         "oos_period": "2023-10 to 2024-01",
-        "oos_sharpe": -0.0808,
+        "oos_sharpe": -0.001,
         "oos_trades": 59,
         "oos_pnl": -10.8273
       },
       {
         "period": 16,
         "oos_period": "2024-01 to 2024-04",
-        "oos_sharpe": -9.9751,
+        "oos_sharpe": -0.1283,
         "oos_trades": 59,
         "oos_pnl": -3655.7658
       },
       {
         "period": 17,
         "oos_period": "2024-04 to 2024-07",
-        "oos_sharpe": 9.4082,
+        "oos_sharpe": 0.121,
         "oos_trades": 42,
         "oos_pnl": 2167.6069
       },
       {
         "period": 18,
         "oos_period": "2024-07 to 2024-10",
-        "oos_sharpe": 3.7293,
+        "oos_sharpe": 0.048,
         "oos_trades": 60,
         "oos_pnl": 1977.3863
       },
       {
         "period": 19,
         "oos_period": "2024-10 to 2025-01",
-        "oos_sharpe": 13.9565,
+        "oos_sharpe": 0.1795,
         "oos_trades": 35,
         "oos_pnl": 5495.0444
       },
       {
         "period": 20,
         "oos_period": "2025-01 to 2025-04",
-        "oos_sharpe": 1.1387,
+        "oos_sharpe": 0.0146,
         "oos_trades": 55,
         "oos_pnl": 722.7641
       },
       {
         "period": 21,
         "oos_period": "2025-04 to 2025-07",
-        "oos_sharpe": 6.7818,
+        "oos_sharpe": 0.0872,
         "oos_trades": 44,
         "oos_pnl": 3063.3911
       },
       {
         "period": 22,
         "oos_period": "2025-07 to 2025-10",
-        "oos_sharpe": 16.3932,
+        "oos_sharpe": 0.2108,
         "oos_trades": 27,
         "oos_pnl": 3543.1449
       },
       {
         "period": 23,
         "oos_period": "2025-10 to 2026-01",
-        "oos_sharpe": -3.9134,
+        "oos_sharpe": -0.0503,
         "oos_trades": 42,
         "oos_pnl": -2272.3955
       }
@@ -734,51 +734,51 @@
   "dsr_gate_results": [
     {
       "period": 1,
-      "passed": true,
-      "dsr": 7.811357,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -2.46247,
+      "dsr_pvalue": 0.993101,
       "num_tested": 19200,
-      "num_viable": 10071
+      "num_viable": 10067
     },
     {
       "period": 2,
-      "passed": true,
-      "dsr": 8.441792,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -2.097112,
+      "dsr_pvalue": 0.982008,
       "num_tested": 19200,
-      "num_viable": 9389
+      "num_viable": 9387
     },
     {
       "period": 3,
-      "passed": true,
-      "dsr": 7.785701,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -2.488664,
+      "dsr_pvalue": 0.993589,
       "num_tested": 19200,
-      "num_viable": 9048
+      "num_viable": 9044
     },
     {
       "period": 4,
-      "passed": true,
-      "dsr": 7.835912,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -2.689901,
+      "dsr_pvalue": 0.996426,
       "num_tested": 19200,
-      "num_viable": 8856
+      "num_viable": 8851
     },
     {
       "period": 5,
-      "passed": true,
-      "dsr": 10.10942,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -2.20464,
+      "dsr_pvalue": 0.98626,
       "num_tested": 19200,
-      "num_viable": 10248
+      "num_viable": 10247
     },
     {
       "period": 6,
-      "passed": true,
-      "dsr": 7.771443,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -2.49819,
+      "dsr_pvalue": 0.993759,
       "num_tested": 19200,
-      "num_viable": 10531
+      "num_viable": 10530
     },
     {
       "period": 7,
@@ -786,29 +786,29 @@
       "dsr": null,
       "dsr_pvalue": null,
       "num_tested": 19200,
-      "num_viable": 8675
+      "num_viable": 8673
     },
     {
       "period": 8,
-      "passed": true,
-      "dsr": 8.150119,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -2.928886,
+      "dsr_pvalue": 0.998299,
       "num_tested": 19200,
       "num_viable": 5169
     },
     {
       "period": 9,
-      "passed": true,
-      "dsr": 4.697865,
-      "dsr_pvalue": 1e-06,
+      "passed": false,
+      "dsr": -3.727067,
+      "dsr_pvalue": 0.999903,
       "num_tested": 19200,
-      "num_viable": 7770
+      "num_viable": 7768
     },
     {
       "period": 10,
-      "passed": true,
-      "dsr": 7.594238,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -3.193183,
+      "dsr_pvalue": 0.999296,
       "num_tested": 19200,
       "num_viable": 10275
     },
@@ -822,300 +822,139 @@
     },
     {
       "period": 12,
-      "passed": true,
-      "dsr": 6.128722,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -1.923296,
+      "dsr_pvalue": 0.972779,
       "num_tested": 19200,
-      "num_viable": 11804
+      "num_viable": 11802
     },
     {
       "period": 13,
       "passed": false,
-      "dsr": -1.687054,
-      "dsr_pvalue": 0.954204,
+      "dsr": -3.864749,
+      "dsr_pvalue": 0.999944,
       "num_tested": 19200,
-      "num_viable": 9630
+      "num_viable": 9627
     },
     {
       "period": 14,
-      "passed": true,
-      "dsr": 4.936636,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -1.947308,
+      "dsr_pvalue": 0.974251,
       "num_tested": 19200,
-      "num_viable": 10561
+      "num_viable": 10559
     },
     {
       "period": 15,
-      "passed": true,
-      "dsr": 6.223492,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -2.882125,
+      "dsr_pvalue": 0.998025,
       "num_tested": 19200,
-      "num_viable": 9687
+      "num_viable": 9684
     },
     {
       "period": 16,
-      "passed": true,
-      "dsr": 8.232054,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -1.821921,
+      "dsr_pvalue": 0.965766,
       "num_tested": 19200,
-      "num_viable": 10321
+      "num_viable": 10317
     },
     {
       "period": 17,
-      "passed": true,
-      "dsr": 7.502959,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -1.918579,
+      "dsr_pvalue": 0.972481,
       "num_tested": 19200,
-      "num_viable": 9697
+      "num_viable": 9695
     },
     {
       "period": 18,
-      "passed": true,
-      "dsr": 7.258328,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -2.551588,
+      "dsr_pvalue": 0.994638,
       "num_tested": 19200,
-      "num_viable": 9509
+      "num_viable": 9507
     },
     {
       "period": 19,
-      "passed": true,
-      "dsr": 6.874953,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -2.542291,
+      "dsr_pvalue": 0.994494,
       "num_tested": 19200,
-      "num_viable": 11223
+      "num_viable": 11218
     },
     {
       "period": 20,
-      "passed": true,
-      "dsr": 8.433502,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -2.93634,
+      "dsr_pvalue": 0.998339,
       "num_tested": 19200,
-      "num_viable": 8767
+      "num_viable": 8764
     },
     {
       "period": 21,
-      "passed": true,
-      "dsr": 7.033518,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -3.337503,
+      "dsr_pvalue": 0.999577,
       "num_tested": 19200,
-      "num_viable": 8378
+      "num_viable": 8375
     },
     {
       "period": 22,
-      "passed": true,
-      "dsr": 6.163835,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -1.440768,
+      "dsr_pvalue": 0.925175,
       "num_tested": 19200,
-      "num_viable": 9475
+      "num_viable": 9473
     },
     {
       "period": 23,
-      "passed": true,
-      "dsr": 6.701158,
-      "dsr_pvalue": 0.0,
+      "passed": false,
+      "dsr": -1.972908,
+      "dsr_pvalue": 0.975747,
       "num_tested": 19200,
-      "num_viable": 7307
+      "num_viable": 7306
     }
   ],
   "statistics": {
     "mean_sharpe": {
-      "arm_g": 17.6385,
-      "ctrl_a": 1.3239,
-      "ctrl_b": 0.9536,
-      "ctrl_c": 0.1996
+      "arm_g": 0.0,
+      "ctrl_a": 0.017,
+      "ctrl_b": 0.0123,
+      "ctrl_c": 0.0026
     },
     "g_vs_a": {
-      "win_rate": 0.913,
-      "wilcoxon_p": 4e-05,
+      "win_rate": 0.4348,
+      "wilcoxon_p": 0.542989,
       "n_periods": 23
     },
     "g_vs_c": {
-      "win_rate": 0.913,
-      "wilcoxon_p": 0.000233,
+      "win_rate": 0.4783,
+      "wilcoxon_p": 0.831401,
       "n_periods": 23
     },
     "dsr_gate": {
-      "passed": 20,
+      "passed": 0,
       "total": 23,
-      "survive_rate": 0.8696
+      "survive_rate": 0.0
     }
   },
   "layer_1_gate": {
     "note": "Sean judges \u2014 DO NOT auto-evaluate",
     "criteria": {
-      "g_gt_a_60pct": true,
-      "g_gt_a_p_lt_010": true,
-      "g_gt_c_60pct": true,
-      "g_gt_c_p_lt_010": true,
-      "dsr_survive_50pct": true
+      "g_gt_a_60pct": false,
+      "g_gt_a_p_lt_010": false,
+      "g_gt_c_60pct": false,
+      "g_gt_c_p_lt_010": false,
+      "dsr_survive_50pct": false
     }
   },
   "registry_summary": {
-    "total_versions": 20,
-    "cumulative_trials": 384000,
-    "active_version": "V23",
-    "active_since": "2026-03-20T20:30:37.156529+00:00",
-    "versions": [
-      {
-        "id": "V1",
-        "active": false,
-        "deploy": "2026-03-20T20:18:14.467184+00:00",
-        "retire": "2026-03-20T20:18:48.068959+00:00",
-        "sharpe": 18.9498,
-        "dsr": 7.811357
-      },
-      {
-        "id": "V2",
-        "active": false,
-        "deploy": "2026-03-20T20:18:48.068959+00:00",
-        "retire": "2026-03-20T20:19:22.251404+00:00",
-        "sharpe": 22.1942,
-        "dsr": 8.441792
-      },
-      {
-        "id": "V3",
-        "active": false,
-        "deploy": "2026-03-20T20:19:22.251404+00:00",
-        "retire": "2026-03-20T20:19:56.329568+00:00",
-        "sharpe": 18.6073,
-        "dsr": 7.785701
-      },
-      {
-        "id": "V4",
-        "active": false,
-        "deploy": "2026-03-20T20:19:56.329568+00:00",
-        "retire": "2026-03-20T20:20:29.745963+00:00",
-        "sharpe": 15.7592,
-        "dsr": 7.835912
-      },
-      {
-        "id": "V5",
-        "active": false,
-        "deploy": "2026-03-20T20:20:29.745963+00:00",
-        "retire": "2026-03-20T20:21:03.507207+00:00",
-        "sharpe": 17.4765,
-        "dsr": 10.10942
-      },
-      {
-        "id": "V6",
-        "active": false,
-        "deploy": "2026-03-20T20:21:03.507207+00:00",
-        "retire": "2026-03-20T20:22:11.786216+00:00",
-        "sharpe": 18.4835,
-        "dsr": 7.771443
-      },
-      {
-        "id": "V8",
-        "active": false,
-        "deploy": "2026-03-20T20:22:11.786216+00:00",
-        "retire": "2026-03-20T20:22:45.338254+00:00",
-        "sharpe": 12.0159,
-        "dsr": 8.150119
-      },
-      {
-        "id": "V9",
-        "active": false,
-        "deploy": "2026-03-20T20:22:45.338254+00:00",
-        "retire": "2026-03-20T20:23:19.142491+00:00",
-        "sharpe": 2.2775,
-        "dsr": 4.697865
-      },
-      {
-        "id": "V10",
-        "active": false,
-        "deploy": "2026-03-20T20:23:19.142491+00:00",
-        "retire": "2026-03-20T20:24:26.564775+00:00",
-        "sharpe": 9.1274,
-        "dsr": 7.594238
-      },
-      {
-        "id": "V12",
-        "active": false,
-        "deploy": "2026-03-20T20:24:26.564775+00:00",
-        "retire": "2026-03-20T20:25:33.536695+00:00",
-        "sharpe": 32.8902,
-        "dsr": 6.128722
-      },
-      {
-        "id": "V14",
-        "active": false,
-        "deploy": "2026-03-20T20:25:33.536695+00:00",
-        "retire": "2026-03-20T20:26:07.746659+00:00",
-        "sharpe": 39.4666,
-        "dsr": 4.936636
-      },
-      {
-        "id": "V15",
-        "active": false,
-        "deploy": "2026-03-20T20:26:07.746659+00:00",
-        "retire": "2026-03-20T20:26:41.656788+00:00",
-        "sharpe": 16.3279,
-        "dsr": 6.223492
-      },
-      {
-        "id": "V16",
-        "active": false,
-        "deploy": "2026-03-20T20:26:41.656788+00:00",
-        "retire": "2026-03-20T20:27:15.001722+00:00",
-        "sharpe": 26.2513,
-        "dsr": 8.232054
-      },
-      {
-        "id": "V17",
-        "active": false,
-        "deploy": "2026-03-20T20:27:15.001722+00:00",
-        "retire": "2026-03-20T20:27:48.583466+00:00",
-        "sharpe": 27.2881,
-        "dsr": 7.502959
-      },
-      {
-        "id": "V18",
-        "active": false,
-        "deploy": "2026-03-20T20:27:48.583466+00:00",
-        "retire": "2026-03-20T20:28:22.502284+00:00",
-        "sharpe": 18.913,
-        "dsr": 7.258328
-      },
-      {
-        "id": "V19",
-        "active": false,
-        "deploy": "2026-03-20T20:28:22.502284+00:00",
-        "retire": "2026-03-20T20:28:56.452063+00:00",
-        "sharpe": 20.0474,
-        "dsr": 6.874953
-      },
-      {
-        "id": "V20",
-        "active": false,
-        "deploy": "2026-03-20T20:28:56.452063+00:00",
-        "retire": "2026-03-20T20:29:29.610607+00:00",
-        "sharpe": 11.4904,
-        "dsr": 8.433502
-      },
-      {
-        "id": "V21",
-        "active": false,
-        "deploy": "2026-03-20T20:29:29.610607+00:00",
-        "retire": "2026-03-20T20:30:03.191847+00:00",
-        "sharpe": 7.6035,
-        "dsr": 7.033518
-      },
-      {
-        "id": "V22",
-        "active": false,
-        "deploy": "2026-03-20T20:30:03.191847+00:00",
-        "retire": "2026-03-20T20:30:37.156529+00:00",
-        "sharpe": 41.0503,
-        "dsr": 6.163835
-      },
-      {
-        "id": "V23",
-        "active": true,
-        "deploy": "2026-03-20T20:30:37.156529+00:00",
-        "retire": null,
-        "sharpe": 29.4654,
-        "dsr": 6.701158
-      }
-    ]
+    "total_versions": 0,
+    "cumulative_trials": 0,
+    "active_version": null,
+    "active_since": null,
+    "versions": []
   }
 }

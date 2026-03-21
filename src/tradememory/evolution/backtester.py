@@ -183,6 +183,7 @@ def backtest(
     pattern: CandidatePattern,
     context_config: Optional[ContextConfig] = None,
     timeframe: str = "1h",
+    annualize: bool = True,
 ) -> FitnessMetrics:
     """Run bar-by-bar backtest of a pattern on OHLCV data.
 
@@ -238,7 +239,7 @@ def backtest(
         trade = force_close_position(position, last_bar, len(bars) - 1, "end")
         trades.append(trade)
 
-    return _compute_fitness(trades, timeframe=timeframe)
+    return _compute_fitness(trades, timeframe=timeframe, annualize=annualize)
 
 
 def open_position(
@@ -382,7 +383,7 @@ _force_close = force_close_position
 # --- Fitness computation ---
 
 
-def _compute_fitness(trades: List[Trade], timeframe: str = "1h") -> FitnessMetrics:
+def _compute_fitness(trades: List[Trade], timeframe: str = "1h", annualize: bool = True) -> FitnessMetrics:
     """Compute FitnessMetrics from trade log."""
     if not trades:
         return FitnessMetrics()
@@ -413,7 +414,7 @@ def _compute_fitness(trades: List[Trade], timeframe: str = "1h") -> FitnessMetri
         mean_pnl = total_pnl / len(pnls)
         var_pnl = sum((p - mean_pnl) ** 2 for p in pnls) / (len(pnls) - 1)
         std_pnl = math.sqrt(var_pnl) if var_pnl > 0 else 0
-        ann_factor = get_annualization_factor(timeframe)
+        ann_factor = get_annualization_factor(timeframe) if annualize else 1.0
         sharpe = (mean_pnl / std_pnl) * ann_factor if std_pnl > 0 else 0
     else:
         sharpe = 0.0

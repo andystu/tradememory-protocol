@@ -77,6 +77,7 @@ def backtest_on_window(
     start_idx: int,
     end_idx: int,
     timeframe: str = "1h",
+    annualize: bool = True,
 ) -> FitnessMetrics:
     """Run fast_backtest on a sub-window."""
     return fast_backtest(
@@ -85,6 +86,7 @@ def backtest_on_window(
         atrs[start_idx:end_idx],
         pattern,
         timeframe=timeframe,
+        annualize=annualize,
     )
 
 
@@ -92,9 +94,8 @@ def compute_buy_and_hold_sharpe(
     bars: List[OHLCV],
     start_idx: int,
     end_idx: int,
-    timeframe: str = "1h",
 ) -> float:
-    """Compute buy & hold Sharpe on a window of bars."""
+    """Compute buy & hold raw Sharpe on a window of bars (no annualization)."""
     window = bars[start_idx:end_idx]
     if len(window) < 5:
         return 0.0
@@ -112,9 +113,7 @@ def compute_buy_and_hold_sharpe(
     std_r = math.sqrt(var_r) if var_r > 0 else 0
     if std_r == 0:
         return 0.0
-    from tradememory.evolution.backtester import get_annualization_factor
-    ann = get_annualization_factor(timeframe)
-    return round((mean_r / std_r) * ann, 4)
+    return round(mean_r / std_r, 4)
 
 
 def pick_random_grid_pattern(seed: int) -> CandidatePattern:
@@ -224,7 +223,7 @@ async def main():
 
     # Wrapper for pipeline's backtest_fn
     def pipeline_backtest(b, c, a, pattern, tf="1h"):
-        return fast_backtest(b, c, a, pattern, timeframe=tf)
+        return fast_backtest(b, c, a, pattern, timeframe=tf, annualize=False)
 
     registry = StrategyRegistry()
     random_seed_base = 42
@@ -312,7 +311,7 @@ async def main():
 
         # ── Control A: Static Strategy E ──
         ctrl_a_metrics = backtest_on_window(
-            bars, contexts, atrs, strategy_e, oos_s, oos_e
+            bars, contexts, atrs, strategy_e, oos_s, oos_e, annualize=False
         )
         arm_results["ctrl_a"].append({
             "period": pid,
@@ -336,7 +335,7 @@ async def main():
         # ── Control C: Random ──
         ctrl_c_pattern = pick_random_grid_pattern(seed=random_seed_base + pid)
         ctrl_c_metrics = backtest_on_window(
-            bars, contexts, atrs, ctrl_c_pattern, oos_s, oos_e
+            bars, contexts, atrs, ctrl_c_pattern, oos_s, oos_e, annualize=False
         )
         arm_results["ctrl_c"].append({
             "period": pid,

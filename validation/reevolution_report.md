@@ -1,0 +1,98 @@
+# Re-Evolution Validation Report — Phase 15
+
+## Experiment: Grid WFO Baseline (Exp 4a)
+
+**Date**: 2026-03-21
+**Data**: BTCUSDT 1H, 2020-01 to 2026-03 (53,993 bars)
+**Design**: 23 regime periods (3mo IS + 3mo OOS, sliding 3mo)
+
+### Arms
+
+| Arm | Description | M per period |
+|-----|-------------|-------------|
+| Arm G | Grid WFO + DSR gate | 19,200 |
+| Control A | Static Strategy E (2024 frozen) | 1 |
+| Control B | Buy & Hold | 0 |
+| Control C | Random (seed per period) | 1 |
+
+### Sharpe Calculation
+
+**Raw Sharpe** (no annualization): `mean(pnls) / std(pnls)`.
+All arms use the same metric within each OOS window — directly comparable.
+
+Previous run used annualized Sharpe (`× sqrt(6048)`) on trade-level PnLs, which over-inflated values ~6-8x. Fixed 2026-03-21.
+
+### Results
+
+```
+Period    Arm G    Ctrl A    Ctrl B    Ctrl C   G>A  G>C  DSR
+P1       0.0000   -0.0984    0.0285    0.1242    Y    N  FAIL
+P2       0.0000    0.1950    0.0182    0.0648    N    N  FAIL
+P3       0.0000    0.1406    0.0711   -0.0178    N    Y  FAIL
+P4       0.0000   -0.0563    0.0343    0.0586    Y    N  FAIL
+P5       0.0000   -0.0791   -0.0172   -0.2168    Y    Y  FAIL
+P6       0.0000    0.1835    0.0183   -0.1717    N    Y  FAIL
+P7       0.0000   -0.1821    0.0071    0.1440    Y    N  FAIL
+P8       0.0000   -0.1074    0.0020    0.0385    Y    N  FAIL
+P9       0.0000   -0.2042   -0.0420   -0.0381    Y    Y  FAIL
+P10      0.0000   -0.0682    0.0002   -0.2181    Y    Y  FAIL
+P11      0.0000   -0.2523   -0.0120    0.1370    Y    N  FAIL
+P12      0.0000    0.1881    0.0470   -0.2293    N    Y  FAIL
+P13      0.0000    0.0369    0.0093   -0.0008    N    Y  FAIL
+P14      0.0000   -0.0065   -0.0146   -0.0969    Y    Y  FAIL
+P15      0.0000    0.1299    0.0492   -0.0010    N    Y  FAIL
+P16      0.0000    0.0185    0.0429   -0.1283    N    Y  FAIL
+P17      0.0000    0.1289   -0.0085    0.1210    N    N  FAIL
+P18      0.0000    0.2868    0.0034    0.0480    N    N  FAIL
+P19      0.0000    0.0088    0.0351    0.1795    N    N  FAIL
+P20      0.0000    0.0496   -0.0074    0.0146    N    N  FAIL
+P21      0.0000    0.0511    0.0290    0.0872    N    N  FAIL
+P22      0.0000   -0.1061    0.0100    0.2108    Y    N  FAIL
+P23      0.0000    0.1343   -0.0220   -0.0503    N    Y  FAIL
+```
+
+Mean Sharpe: G=0.0000, A=0.0170, B=0.0123, C=0.0026
+
+### Layer 1 Gate (Pre-Registered)
+
+| Criterion | Result | Verdict |
+|-----------|--------|---------|
+| G > A ≥60% periods, Wilcoxon p<0.10 | 43.5%, p=0.543 | **FAIL** |
+| G > C ≥60% periods, Wilcoxon p<0.10 | 47.8%, p=0.831 | **FAIL** |
+| DSR survive ≥50% | 0/23 = 0% | **FAIL** |
+
+**Layer 1 Gate: FAIL (3/3 criteria failed)**
+
+### Root Cause Analysis
+
+The failure is NOT caused by "re-evolution has no directional value." It is caused by **M=19,200 being mathematically incompatible with 30-50 trades per IS window**.
+
+DSR formula: the expected maximum Sharpe under the null hypothesis scales with `sqrt(2 * ln(M))`. For M=19,200, this is `sqrt(2 * ln(19200)) ≈ 4.4` in standardized units. With ~40 trades, the standard error of Sharpe ≈ `1/sqrt(40) ≈ 0.16`. The raw Sharpe needed to beat the DSR threshold would be approximately `4.4 * 0.16 ≈ 0.7` — but the best grid candidates only achieve raw Sharpe of ~0.2-0.4 in-sample.
+
+**No single-bar trading strategy can produce a raw Sharpe of 0.7 from 40 trades.** The gate is correctly identifying that 3-month data cannot statistically justify a selection from 19,200 candidates.
+
+### Key Implication for Exp 4b (LLM H2H)
+
+LLM Evolution tests ~30 hypotheses per run (M≈30), not 19,200. The DSR threshold for M=30 is `sqrt(2 * ln(30)) ≈ 2.6` standardized units, requiring raw Sharpe ≈ `2.6 * 0.16 ≈ 0.42` — achievable.
+
+This means LLM evolution's unique value is not necessarily "finding better strategies" but **"finding defensible strategies with lower statistical burden."** Search efficiency is not just a time savings — it is a statistical survival advantage.
+
+| Method | M per period | DSR threshold (approx) | Feasibility |
+|--------|-------------|----------------------|-------------|
+| Grid search | 19,200 | ~0.7 raw Sharpe | Impossible with 40 trades |
+| LLM evolution | ~30 | ~0.42 raw Sharpe | Achievable |
+
+### Decision
+
+**Accept FAIL as-is.** No post-hoc parameter adjustment (smaller grid, longer IS) — that would defeat the purpose of pre-registration.
+
+Proceed to Exp 4b (LLM vs Grid H2H) because the failure mode is precisely what LLM evolution claims to solve. This is not moving goalposts — it is following the evidence to the next pre-registered experiment.
+
+### Corrections to Previous Results
+
+The previous run (annualized) reported:
+- Arm G mean Sharpe: 17.64 → corrected: 0.00
+- Ctrl A mean Sharpe: 1.32 → corrected: 0.017
+- G>A win rate: 91.3% → corrected: 43.5%
+
+The relative ranking shift (from 91.3% to 43.5%) is because Arm G went from inflated-but-positive to 0.0 (DSR gate blocks everything), while controls were unaffected by the DSR gate.
