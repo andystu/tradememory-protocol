@@ -18,6 +18,26 @@
 
 ---
 
+TradeMemory Protocol 是一個 MCP server，讓 AI 交易 agent 擁有跨 session 的持久記憶。你的 agent 不再每次對話結束就忘記所有交易——它能儲存決策、發現規律、自動調整策略，透過三層架構實現，靈感源自 ACT-R 認知科學。
+
+**什麼時候用：** 你正在用 MT5、Binance、Alpaca 或任何平台開發 AI 交易 agent，而你希望它記住哪些做法有效、哪些無效、以及為什麼。
+
+## 運作方式
+
+1. **儲存** — Agent 透過 MCP 工具記錄每筆交易的完整上下文（策略、信心、市場環境）
+2. **回憶** — 下一次交易前，Agent 取回相似歷史交易，依結果加權排序（Outcome-Weighted Memory）
+3. **進化** — Evolution Engine 跨交易發現規律，產生新策略假設，用 Deflated Sharpe Ratio 驗證
+
+## TradeMemory vs 其他方案
+
+| | TradeMemory | 原生 Mem0/Qdrant | LangChain Memory | 自建 SQLite |
+|---|---|---|---|---|
+| **交易專用 schema** | ✅ L1→L2→L3 pipeline | ❌ 通用向量 | ❌ 對話導向 | ❌ 全部自己寫 |
+| **結果加權** | ✅ Kelly + ACT-R | ❌ 只有 cosine | ❌ 只有時間衰減 | ❌ 手動實作 |
+| **策略進化** | ✅ 內建引擎 | ❌ 不包含 | ❌ 不包含 | ❌ 不包含 |
+| **MCP 原生** | ✅ 15 個工具 | ❌ 需自己包裝 | ❌ 需自己包裝 | ❌ 需自己包裝 |
+| **統計驗證** | ✅ DSR + walk-forward | ❌ 無 | ❌ 無 | ❌ 無 |
+
 ## 最新消息
 
 - [2026-03] **v0.5.0** — Evolution Engine + OWM 5 種記憶類型。1,087 測試通過。[Release Notes](https://github.com/mnemox-ai/tradememory-protocol/releases/tag/v0.5.0)
