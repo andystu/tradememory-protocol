@@ -67,10 +67,12 @@ DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL", "")
 
 MAGIC_TO_STRATEGY = {
     0: "Manual",
-    260111: "NG_Gold",
-    260112: "VolBreakout",
-    260113: "IntradayMomentum",
-    20260217: "Pullback",
+    260111: "NG_Gold",             # Mode 0: Impulse-Retrace-Continuation
+    260112: "VolBreakout",         # Mode 2
+    260113: "MeanReversion",       # Mode 3 (DISABLED)
+    260115: "LondonMomentum",      # Mode 5 (DISABLED)
+    260118: "IntradayMomentum",    # Mode 8
+    20260217: "Pullback",          # Separate EA
 }
 
 MT5_API_TIMEOUT = 30

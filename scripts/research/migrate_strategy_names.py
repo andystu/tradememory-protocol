@@ -25,10 +25,12 @@ load_dotenv()
 # Magic number → strategy name mapping (same as mt5_sync.py)
 MAGIC_TO_STRATEGY = {
     0: "Manual",                   # Manual trades (MT5 default, no EA)
-    260111: "NG_Gold",             # Default legacy magic
-    260112: "VolBreakout",         # NG_Gold.mq5 Strategy_Mode=2
-    260113: "IntradayMomentum",    # NG_Gold.mq5 Strategy_Mode=8
-    20260217: "Pullback",          # NG_Pullback_Entry.mq5
+    260111: "NG_Gold",             # Mode 0: Impulse-Retrace-Continuation
+    260112: "VolBreakout",         # Mode 2
+    260113: "MeanReversion",       # Mode 3 (DISABLED)
+    260115: "LondonMomentum",      # Mode 5 (DISABLED)
+    260118: "IntradayMomentum",    # Mode 8
+    20260217: "Pullback",          # Separate EA
 }
 
 DB_PATH = os.getenv("TRADEMEMORY_DB", "data/tradememory.db")

@@ -31,10 +31,12 @@ load_dotenv(PROJECT_ROOT / ".env")
 # Magic number → strategy name mapping
 MAGIC_TO_STRATEGY = {
     0: "Manual",
-    260111: "NG_Gold",
-    260112: "VolBreakout",
-    260113: "IntradayMomentum",
-    20260217: "Pullback",
+    260111: "NG_Gold",             # Mode 0
+    260112: "VolBreakout",         # Mode 2
+    260113: "MeanReversion",       # Mode 3 (DISABLED)
+    260115: "LondonMomentum",      # Mode 5 (DISABLED)
+    260118: "IntradayMomentum",    # Mode 8
+    20260217: "Pullback",          # Separate EA
 }
 
 DB_PATH = PROJECT_ROOT / "data" / "tradememory.db"

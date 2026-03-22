@@ -86,9 +86,11 @@ SYNC_INTERVAL = int(os.getenv('SYNC_INTERVAL', '60'))  # seconds
 # Each EA instance on MT5 uses a unique MagicNumber to identify its trades
 MAGIC_TO_STRATEGY = {
     0: "Manual",                   # Manual trades (MT5 default, no EA)
-    260111: "NG_Gold",             # Default (legacy, before per-strategy magic)
+    260111: "NG_Gold",             # Default (Mode 0: Impulse-Retrace-Continuation)
     260112: "VolBreakout",         # NG_Gold.mq5 Strategy_Mode=2
-    260113: "IntradayMomentum",    # NG_Gold.mq5 Strategy_Mode=8
+    260113: "MeanReversion",       # NG_Gold.mq5 Strategy_Mode=3 (DISABLED)
+    260115: "LondonMomentum",      # NG_Gold.mq5 Strategy_Mode=5 (DISABLED)
+    260118: "IntradayMomentum",    # NG_Gold.mq5 Strategy_Mode=8
     20260217: "Pullback",          # NG_Pullback_Entry.mq5
 }
 
