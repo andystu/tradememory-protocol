@@ -18,6 +18,26 @@
 
 ---
 
+TradeMemory Protocol is an MCP server that gives AI trading agents persistent memory across sessions. Instead of forgetting every trade after each conversation, your agent stores decisions, discovers patterns, and adjusts strategy automatically — using a three-layer architecture inspired by ACT-R cognitive science.
+
+**When to use this:** You're building an AI agent that trades forex, crypto, or equities via MT5, Binance, Alpaca, or any platform — and you want it to remember what worked, what didn't, and why.
+
+## How it works
+
+1. **Store** — Your agent records trades with context (strategy, confidence, market regime) via MCP tools
+2. **Recall** — Before the next trade, the agent retrieves similar past trades weighted by outcome (Outcome-Weighted Memory)
+3. **Evolve** — The Evolution Engine discovers patterns across trades and generates new strategy hypotheses, validated with Deflated Sharpe Ratio
+
+## When to use TradeMemory vs alternatives
+
+| | TradeMemory | Raw Mem0/Qdrant | LangChain Memory | Custom SQLite |
+|---|---|---|---|---|
+| **Trade-specific schema** | ✅ L1→L2→L3 pipeline | ❌ Generic vectors | ❌ Chat-oriented | ❌ DIY everything |
+| **Outcome weighting** | ✅ Kelly + ACT-R | ❌ Cosine only | ❌ Recency only | ❌ Manual |
+| **Strategy evolution** | ✅ Built-in engine | ❌ Not included | ❌ Not included | ❌ Not included |
+| **MCP native** | ✅ 15 tools | ❌ Custom wrapper | ❌ Custom wrapper | ❌ Custom wrapper |
+| **Statistical validation** | ✅ DSR + walk-forward | ❌ None | ❌ None | ❌ None |
+
 ## News
 
 - [2026-03] **v0.5.0** — Evolution Engine + OWM 5 memory types. 1,087 tests. [Release Notes](https://github.com/mnemox-ai/tradememory-protocol/releases/tag/v0.5.0)
