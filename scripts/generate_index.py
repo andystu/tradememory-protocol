@@ -43,7 +43,7 @@ DATA_SOURCES = {
     },
     "ng_gold_memory": {
         "type": "file",
-        "path": Path("C:/OpenClawWork/repos/NG_Gold/.claude/memory/MEMORY.md"),
+        "path": Path("C:/Users/johns/projects/NG_Gold/.claude/memory/MEMORY.md"),
         "parser": "parse_ng_gold_memory",
     },
     "active_todos": {
@@ -374,7 +374,7 @@ GIT_PROJECTS = [
     },
     {
         "name": "NG_Gold",
-        "path": Path("C:/OpenClawWork/repos/NG_Gold"),
+        "path": Path("C:/Users/johns/projects/NG_Gold"),
         "version_source": "fixed",
     },
 ]
